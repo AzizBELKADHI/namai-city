@@ -14,9 +14,8 @@ public class JDBCConnectionPool {
 		String URL = Data.getDatabaseUrl();
 		String login = Data.getLogin();
 		String password = Data.getPassword();
-		
+		Connection con = null;
 		for(int i=0; i<10; i++) {
-			Connection con = null;
 			Class.forName (DRIVER_NAME);
 			con = DriverManager.getConnection (URL, login, password);
 			connections.add(con);

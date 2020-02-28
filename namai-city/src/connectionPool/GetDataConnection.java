@@ -1,10 +1,46 @@
 package connectionPool;
 
+import java.io.*;
+import java.util.Properties;
+
 public class GetDataConnection {
+	
 	private String DriverName;
 	private String DatabaseUrl;
 	private String login;
 	private String password;
+	final Properties prop;
+	InputStream input = null;
+	
+	public GetDataConnection() {
+		prop = new Properties();
+		try {
+
+			input = new FileInputStream("/namai-city/src/connectionPool/Data.properties");
+
+			// load a properties file
+			prop.load(input);
+
+			// get the property value and print it out
+			DatabaseUrl = prop.getProperty("url");
+			login = prop.getProperty("username");
+			password = prop.getProperty("password");
+			DriverName = prop.getProperty("DriverName");
+
+		} catch (final IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
 	public String getDriverName() {
 		return DriverName;
 	}
