@@ -1,5 +1,5 @@
 package connectionPool;
 
-public class dataSource {
+public class DataSource {
 
 }
