@@ -1,4 +1,4 @@
-package ConnectionPool;
+package connectionPool;
 
 public class JDBCConnectionPool {
 
