@@ -18,10 +18,10 @@ public class GetDataConnection {
 
 			input = new FileInputStream("/namai-city/src/connectionPool/Data.properties");
 
-			// load a properties file
+			// charge le fichier properties 
 			prop.load(input);
 
-			// get the property value and print it out
+			// récupere les valeurs des variables dans le fichier properties 
 			DatabaseUrl = prop.getProperty("url");
 			login = prop.getProperty("username");
 			password = prop.getProperty("password");
