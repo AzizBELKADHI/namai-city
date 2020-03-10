@@ -21,6 +21,10 @@ public class DataSource {
 	public static void closeConnections() throws SQLException {
 		connectionPool.closeConnections();
 	}
+
+	public static int getSize() {
+		return connectionPool.getSize();
+	}
 	
 
 }

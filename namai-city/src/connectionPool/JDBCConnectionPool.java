@@ -7,7 +7,7 @@ public class JDBCConnectionPool {
 	ArrayList<Connection> connections;
 	ArrayList<Connection> usedConnections;
 	GetDataConnection Data;
-	private int sizeMax = 2;
+	private int sizeMax = 3;
 	private int sizeMin =1;
 	private String DRIVER_NAME;
 	private String URL;
@@ -63,8 +63,8 @@ public class JDBCConnectionPool {
 				throw new RuntimeException("Maximum pool size reached, no available connections!");
 			}
 		}
-		Connection toGet = connections.get(0);
-		connections.remove(0);
+		Connection toGet = connections.remove(connections.size() -1);
+		usedConnections.add(toGet);
 		return toGet;
 	}
 
@@ -92,6 +92,11 @@ public class JDBCConnectionPool {
 			
 			connections.clear();
 		}
+
+
+	public int getSize() {
+		return connections.size() + usedConnections.size();
+	}
 		
 		
 	}

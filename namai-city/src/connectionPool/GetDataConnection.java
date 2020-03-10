@@ -16,7 +16,7 @@ public class GetDataConnection {
 		prop = new Properties();
 		try {
 
-			input = new FileInputStream("/namai-city/src/connectionPool/Data.properties");
+			input = new FileInputStream("./Ressources/Data.properties");
 
 			// charge le fichier properties 
 			prop.load(input);
