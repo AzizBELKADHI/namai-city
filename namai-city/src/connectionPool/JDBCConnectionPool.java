@@ -22,7 +22,7 @@ public class JDBCConnectionPool {
 		DRIVER_NAME = Data.getDriverName();
 		URL = Data.getDatabaseUrl();
 		login= Data.getLogin();
-		password = "";
+		password = ""; 
 		Connection con = null;
 		for(int i=0; i<sizeMax; i++) {
 			try {
