@@ -16,12 +16,12 @@ public class GetDataConnection {
 		prop = new Properties();
 		try {
 
-			input = new FileInputStream("./Ressources/Data.properties");
+			input = getClass().getClassLoader().getResourceAsStream("connectionPool/Data.properties");
 
 			// charge le fichier properties 
 			prop.load(input);
 
-			// récupere les valeurs des variables dans le fichier properties 
+			// rï¿½cupere les valeurs des variables dans le fichier properties 
 			DatabaseUrl = prop.getProperty("url");
 			login = prop.getProperty("username");
 			password = prop.getProperty("password");
