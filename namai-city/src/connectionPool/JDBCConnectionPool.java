@@ -31,7 +31,6 @@ public class JDBCConnectionPool {
 
 				e.printStackTrace();
 			}		
-
 		}
 
 	}
