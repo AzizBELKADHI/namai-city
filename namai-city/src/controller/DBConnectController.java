@@ -48,14 +48,15 @@ public class DBConnectController {
 					shsView.printScreen("Number of connection asked: "+co.size());
 					Connection c = DataSource.getConnection();
 					
-						PreparedStatement stmt = c.prepareStatement("select nom from utilisateurs where id_users = ?");
-						stmt.setInt(1,1);
+						PreparedStatement stmt = c.prepareStatement("select * from utilisateur;");
+						//stmt.setInt(1,1);
 						ResultSet rs = stmt.executeQuery();
 						
-						// boucle qui va afficher le nom 
+						// boucle qui va afficher le nom et le prenom 
 						while (rs.next()) {
-							String nom = rs.getString(1); 
-							System.out.println(nom);
+							String nom = rs.getString("nom"); 
+							String prenom = rs.getString("prenom"); 
+							System.out.println(nom + " " + prenom);
 						}
 						
 					break;
