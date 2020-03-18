@@ -1,6 +1,7 @@
 package controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,15 +47,17 @@ public class DBConnectController {
 					shsView.printScreen("Size of the pool: "+DataSource.getSize());
 					shsView.printScreen("Number of connection asked: "+co.size());
 					Connection c = DataSource.getConnection();
-					try {
-						PreparedStatement stmt = c.prepareStatement("Insert into Personne (id, name) values (?,?);");
-						stmt.setInt(1, 2020);
-						stmt.setString(2, "ING1");
-						co.add(c);
+					
+						PreparedStatement stmt = c.prepareStatement("select nom from utilisateurs where id_users = ?");
+						stmt.setInt(1,1);
+						ResultSet rs = stmt.executeQuery();
 						
-					} catch (Exception e) {
-						System.out.println("Impossible de se connecter a la base de donnée");
-					}
+						// boucle qui va afficher le nom 
+						while (rs.next()) {
+							String nom = rs.getString(1); 
+							System.out.println(nom);
+						}
+						
 					break;
 				case "2":
 					DataSource.releaseConnection(co.get(0));co.remove(0);
