@@ -68,6 +68,7 @@ public class DBConnectController {
 					System.out.println("Fonctionnalité bientôt disponible");
 					break;
 				case "5":
+					// requete affichage table 
 					PreparedStatement stmt1 = c.prepareStatement("select * from utilisateur;");
 					ResultSet rs2 = stmt1.executeQuery();
 					System.out.println("########################### Menu CRUD #########################");
@@ -84,6 +85,7 @@ public class DBConnectController {
 					}
 					break; 
 				case "6":
+					// requete insertion dans table utilisateur
 					System.out.println("########################### Menu CRUD #########################");
 					System.out.println("REQUETE INSERT");
 					System.out.println("nom:");
@@ -97,6 +99,7 @@ public class DBConnectController {
 					break; 
 					
 				case "7": 
+					// requete pour mettre à  jour la table utilisateur 
 					System.out.println("########################### Menu CRUD #########################");
 					System.out.println("REQUETE UPDATE");
 					System.out.println("quel est l'id à modifier?"); 
@@ -114,6 +117,7 @@ public class DBConnectController {
 					break; 
 					
 				case "8" : 
+					// crud requete delete de la table en BDD (NamaiDB / toto) 
 					System.out.println("########################### Menu CRUD #########################");
 					System.out.println("REQUETE DELETE");
 					System.out.println("Quel est l'id de la ligne à supprimer?");
@@ -127,19 +131,12 @@ public class DBConnectController {
 					System.exit(0);
 					break;
 					
-					
-					
-					
-					
-					
 				default:
 					shsView.printScreen("Unrocognized command");
 					break;
 					
 				}
 
-				// Remettre la connection dans le DataSource
-				//DataSource.releaseConnection(c); 
 			}
 
 			catch(Exception ex){
