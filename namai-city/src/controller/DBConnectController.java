@@ -69,7 +69,7 @@ public class DBConnectController {
 						server.stop();
 			    	}
 			    }
-			    
+			    // ne pas utiliser valuOff mais plutôt getString / getInt
 			    
 			    if(JsonRecu.get("demandType").equals("INSERT")) {
 			    	
@@ -107,7 +107,9 @@ public class DBConnectController {
 					stmt4.setInt(3, idJson);
 					stmt4.execute();
 					JSONObject obj=new JSONObject(); 
-					// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
+					
+					
+					// if (update  bien passé) => executer les lignes suivantes sinon dire erreur
 						obj.put("reponse",String.valueOf("insertion réussi"));
 						obj.put("nom",String.valueOf(nomUpdate));
 						obj.put("prenom",String.valueOf(prenomUpdate));
@@ -115,7 +117,30 @@ public class DBConnectController {
 					System.out.println(obj);
 					server.outJson.println(obj);
 					server.stop();
-		    	}}
+		    	}
+			    
+			    if(JsonRecu.get("demandType").equals("DELETE")) {
+			    	
+		    		long idcaste = (long) JsonRecu.get("Id");
+				    int idJson = (int) idcaste;
+				    System.out.println("bonjour voici l'ID à supprimer");
+				    System.out.println(idJson);
+				    PreparedStatement stmt5 = c.prepareStatement("delete from utilisateur where id_user = ?");
+					stmt5.setInt(1, idJson);
+					stmt5.execute();
+				
+					JSONObject obj=new JSONObject(); 
+					
+					obj.put("reponse",String.valueOf("suppression réussi"));
+					obj.put("Id",String.valueOf(idJson));
+					System.out.println(obj);
+					server.outJson.println(obj);
+					server.stop();
+					
+			    
+			
+			}
+			}
 		    /*
 				
 					

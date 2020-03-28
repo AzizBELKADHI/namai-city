@@ -114,15 +114,34 @@ public class Main {
 					client.stopConnection();
 					
 				    break; 
-			/*		
+				
 				case "4" : 
 					// crud requete delete de la table en BDD (NamaiDB / toto) 
+					
+					System.out.println("quel est l'id de l'utilisateur à modifier ?"); 
+					String id_delete = sc.nextLine();
+					Integer id_user_delete = Integer.parseInt(id_delete);
+				    
+					
+				    obj.put("demandType",String.valueOf("UPDATE"));
+					
+					obj.put("Id",String.valueOf(id_user_delete));
+					System.out.println(obj);
+					JSONObject reponseDelete = client.sendMessage(obj);
+					    String repServerDelete = (String) reponseDelete.get("reponse");  
+					    
+					    long idCasteDelete = (long) reponseDelete.get("Id");
+					    int idDelete = (int) idCasteDelete;
+					    System.out.println("Voici l'id de le l'utilisateur à supprimer : " + idDelete);  
+					client.stopConnection();
+					
+				    break; 
 
-					break; 
+					
 				case "5":
 					System.exit(0);
 					break;
-				*/	
+					
 				default:
 					System.out.println("Unrocognized command");
 					break;
