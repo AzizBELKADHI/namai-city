@@ -24,6 +24,8 @@ public class Main {
 				client.startConnection("172.31.249.49", 6666);
 				JSONObject obj=new JSONObject();
 				String rep = sc.nextLine();
+				
+				// ne pas oublier de fermer chaque connexion apres chaque type de demande et de la remettre dans la liste de connexion. 
 
 				switch (rep) {
 				case "1":
@@ -123,7 +125,7 @@ public class Main {
 					Integer id_user_delete = Integer.parseInt(id_delete);
 				    
 					
-				    obj.put("demandType",String.valueOf("UPDATE"));
+				    obj.put("demandType",String.valueOf("DELETE"));
 					
 					obj.put("Id",String.valueOf(id_user_delete));
 					System.out.println(obj);
@@ -139,6 +141,7 @@ public class Main {
 
 					
 				case "5":
+					// dans la partie exit fermeture de toutes les connexions et fermeture de la socket 
 					System.exit(0);
 					break;
 					
