@@ -120,7 +120,7 @@ public class Main {
 				case "4" : 
 					// crud requete delete de la table en BDD (NamaiDB / toto) 
 					
-					System.out.println("quel est l'id de l'utilisateur à modifier ?"); 
+					System.out.println("quel est l'id de l'utilisateur à supprimer ?"); 
 					String id_delete = sc.nextLine();
 					Integer id_user_delete = Integer.parseInt(id_delete);
 				    
