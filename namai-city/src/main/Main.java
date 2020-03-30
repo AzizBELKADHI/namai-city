@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.io.IOException;
 import java.sql.Connection;
 import controller.DBConnectController;
-import socketServeur.SocketServeur;
 import view.TestPoolView;
 
 public class Main {

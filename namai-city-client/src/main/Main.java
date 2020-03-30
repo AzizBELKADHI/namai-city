@@ -107,12 +107,13 @@ public class Main {
 					obj.put("Id",String.valueOf(id_user));
 					System.out.println(obj);
 					JSONObject reponseUdpade = client.sendMessage(obj);
-					    String repServerUpdate = (String) reponseUdpade.get("reponse");  
-					    String prenomUpdate2 = (String) reponseUdpade.get("prenom");  
-					    String nomupdate2 = (String) reponseUdpade.get("nom");
-					    long idCaste = (long) reponseUdpade.get("Id");
-					    int idUpdate = (int) idCaste;
-					    System.out.println(repServerUpdate +": \n" + prenomUpdate2 + ": \n " + nomupdate2  + ": \n" + idUpdate  + ": \n");  
+					   String repServerUpdate = (String) reponseUdpade.get("reponse");  
+					   String prenomUpdate2 = (String) reponseUdpade.get("prenom");  
+					   String nomupdate2 = (String) reponseUdpade.get("nom");
+					   long idCaste = (long) reponseUdpade.get("Id");
+					   int idUpdate = (int) idCaste;
+					  System.out.println(repServerUpdate +": \n" + prenomUpdate2 + ": \n " + nomupdate2  + ": \n" + idUpdate  + ": \n");  
+					   System.out.println(repServerUpdate); 
 					client.stopConnection();
 					
 				    break; 
@@ -142,6 +143,8 @@ public class Main {
 					
 				case "5":
 					// dans la partie exit fermeture de toutes les connexions et fermeture de la socket 
+					System.out.println("Merci de votre visite, A bientot!");
+					client.stopConnection();
 					System.exit(0);
 					break;
 					

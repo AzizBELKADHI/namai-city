@@ -95,7 +95,7 @@ public class JDBCConnectionPool {
 
 
 	public int getSize() {
-		return connections.size() + usedConnections.size();
+		return connections.size();
 	}
 		
 		
