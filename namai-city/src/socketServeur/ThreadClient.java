@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -61,14 +62,35 @@ public class ThreadClient extends Thread {
 	private Object crud(JSONObject JsonRecu) throws SQLException {
 
 		if(JsonRecu.get("demandType").equals("SELECT")) {
-			if((long)JsonRecu.get("Id") == 0) {
+			long idcaste = Long.valueOf(JsonRecu.get("Id").toString());
+			int idJson = (int) idcaste;
+			System.out.println("bonjour voici le ID recu apres traitement");
+			System.out.println(idJson);
+			if(idJson == 0) {
 				// à completer
+				PreparedStatement stmt1 = c.prepareStatement("select * from utilisateur;");
+				ResultSet rs2 = stmt1.executeQuery();
+				// boucle qui va afficher le nom et le prenom 
+				JSONObject obj=new JSONObject();
+				ArrayList<JSONObject> listUsers = new ArrayList<JSONObject>();
+				//int i = 0;
+				while (rs2.next()) {
+					JSONObject user=new JSONObject();
+					user.put("Id", rs2.getInt("id_user"));
+					user.put("nom", rs2.getString("nom"));
+					user.put("prenom", rs2.getString("prenom"));
+					listUsers.add(user);
+					//obj.put("user"+i, user);
+					//
+				}
+				System.out.println("voici l'arrayList : ");
+				System.out.println(listUsers);
+				obj.put("users", listUsers);
+				System.out.println("voici le json envoyé avec le select All: ");
+				System.out.println(obj);
+				return obj; 
 			}
 			else {
-				long idcaste = Long.valueOf(JsonRecu.get("Id").toString());
-				int idJson = (int) idcaste;
-				System.out.println("bonjour voici le ID recu apres traitement");
-				System.out.println(idJson);
 				PreparedStatement stmtJson = c.prepareStatement("select * from utilisateur where id_user = ?");
 				stmtJson.setInt(1, idJson);
 				ResultSet jsonResponse = stmtJson.executeQuery();

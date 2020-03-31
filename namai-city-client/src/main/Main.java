@@ -1,5 +1,7 @@
 package main;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import org.json.simple.*;
@@ -37,8 +39,19 @@ public class Main {
 				rep = choice.nextLine(); 
 					switch(rep) {
 					case "1":
-						
-				// a completer		
+						obj.put("demandType",String.valueOf("SELECT"));
+						obj.put("Id",Integer.valueOf(0)); 
+						System.out.println(obj);
+						JSONObject reponseAll = client.sendMessage(obj);
+						ArrayList<JSONObject> allUsers = new ArrayList<JSONObject>();
+						allUsers = (ArrayList<JSONObject>) reponseAll.get("users");
+						for(int i = 0; i<allUsers.size();i++) {
+							System.out.println("id: "+allUsers.get(i).get("Id")+
+											   " * nom: "+allUsers.get(i).get("nom")+
+											   " * prenom: "+allUsers.get(i).get("prenom"));
+						}			 
+						client.stopConnection();  
+						break;
 						
 					
 					case "2":
@@ -56,7 +69,8 @@ public class Main {
 						    long idCaste = (long) reponse.get("Id");
 						    int id = (int) idCaste;
 						    System.out.println(name +": \n" + prenom + ": \n "+id+ ": \n");  
-						client.stopConnection();   
+						client.stopConnection();  
+						break;
 					}
 					break;
 			
