@@ -29,7 +29,6 @@ public class DBConnectController {
 	public DBConnectController(TestPoolView v) throws SQLException, ClassNotFoundException {
 		userModel = new ModelTestPool();
 		shsView = v;
-
 	}
 
 	public void start() throws SQLException, IOException  {
@@ -43,13 +42,13 @@ public class DBConnectController {
 		socketServeur = new ServerSocket(6666);
 
 
-
-
 		while(true) {
 
 			try {
 				// Attente de la connexion du client
 				socketClient = socketServeur.accept();
+
+				// on attribue une connexion au client 
 
 				co.add(DataSource.getConnection());
 				//c = DataSource.getConnection();
@@ -58,12 +57,14 @@ public class DBConnectController {
 				c = co.get(0);
 				shsView.printScreen("Size of the pool: "+ DataSource.getSize());
 				System.out.println("bonjour je vais traiter votre demande");
-				
+
+
+				// instanciation du thread client (avec une socket et une connexion 
 				ThreadClient client = new ThreadClient(socketClient,c);
 				client.start(); 
-				
+
 			}
-		/*
+			/*
 
 
 				case "2":/*
@@ -168,16 +169,16 @@ public class DBConnectController {
 
 			} */
 
-		catch(Exception ex){
-			System.err.println(ex.getMessage());
-			// chemin de l'exception 
-			//ex.printStackTrace();
-		}
-		/*finally {
+			catch(Exception ex){
+				System.err.println(ex.getMessage());
+				// chemin de l'exception 
+				//ex.printStackTrace();
+			}
+			/*finally {
 DataSource.shutdown();
 shsView.printScreen("Size of the pool after shutdown: "+DataSource.getSize());
 }*/
+		}
 	}
-}
 
 }
