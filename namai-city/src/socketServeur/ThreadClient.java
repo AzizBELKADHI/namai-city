@@ -60,8 +60,6 @@ public class ThreadClient extends Thread {
 
 	private Object crud(JSONObject JsonRecu) throws SQLException {
 
-
-
 		if(JsonRecu.get("demandType").equals("SELECT")) {
 			if((long)JsonRecu.get("Id") == 0) {
 				// à completer
@@ -84,7 +82,6 @@ public class ThreadClient extends Thread {
 				return obj; 
 			}
 		}
-		// ne pas utiliser valuOff mais plutôt getString / getInt
 
 		if(JsonRecu.get("demandType").equals("INSERT")) {
 
@@ -153,9 +150,6 @@ public class ThreadClient extends Thread {
 			obj.put("Id", Integer.valueOf(idJson));
 			System.out.println(obj);
 			return obj; 
-
-
-
 		}
 		
 		// Cas où aucun if n'est vérifier

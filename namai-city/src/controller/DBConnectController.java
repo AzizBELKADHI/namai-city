@@ -16,7 +16,7 @@ import model.ModelTestPool;
 import socketServeur.ThreadClient;
 import view.TestPoolView;
 
-// Fais le lien entre la vue(print) et le model(getteur)
+
 
 public class DBConnectController {
 	private ModelTestPool userModel;

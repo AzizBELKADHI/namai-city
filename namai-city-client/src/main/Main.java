@@ -43,6 +43,7 @@ public class Main {
 					
 					case "2":
 						choice = new Scanner(System.in);
+						System.out.println("########################### SELECT #########################");
 						System.out.println("quel est l'id de l'utilisateur à afficher ? ");
 						rep = choice.nextLine();
 						Integer id_user = Integer.parseInt(rep);
@@ -58,23 +59,10 @@ public class Main {
 						client.stopConnection();   
 					}
 					break;
-			/*	SocketClient client = new SocketClient();	
-				client.startConnection("172.31.249.49", 6666);
-				JSONObject obj=new JSONObject();  */    
-			/*		
-				obj.put("Id",Integer.valueOf(0)); 
-				System.out.println(obj);
-				JSONObject reponse = client.sendMessage(obj);
-				
-				    String name = (String) reponse.get("nom");  
-				    String prenom = (String) reponse.get("prenom");  
-				    long idCaste = (long) reponse.get("Id");
-				    int id = (int) idCaste;
-				    System.out.println(name +" "+prenom+" "+id);  
-				client.stopConnection();   
-				*/
+			
 				case "2":
 					// requete insertion dans table utilisateur
+					System.out.println("########################### INSERT #########################");
 					System.out.println("saisissez les informations de l'utilisateur:");
 					System.out.println("nom:");
 					String nom = sc.nextLine();
@@ -94,6 +82,7 @@ public class Main {
 					
 				case "3": 
 					// requete pour mettre à  jour la table utilisateur 
+					System.out.println("########################### INSERT #########################");
 					System.out.println("quel est l'id à modifier?"); 
 					String id = sc.nextLine();
 					Integer id_user = Integer.parseInt(id);
@@ -120,7 +109,7 @@ public class Main {
 				
 				case "4" : 
 					// crud requete delete de la table en BDD (NamaiDB / toto) 
-					
+					System.out.println("########################### DELETE  #########################");
 					System.out.println("quel est l'id de l'utilisateur à supprimer ?"); 
 					String id_delete = sc.nextLine();
 					Integer id_user_delete = Integer.parseInt(id_delete);
@@ -143,6 +132,7 @@ public class Main {
 					
 				case "5":
 					// dans la partie exit fermeture de toutes les connexions et fermeture de la socket 
+					System.out.println("########################### EXIT #########################");
 					System.out.println("Merci de votre visite, A bientot!");
 					client.stopConnection();
 					System.exit(0);
