@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import connectionPool.DataSource;
+import controller.DBConnectController;
 
 import java.io.*; 
 import java.net.*;
@@ -30,9 +31,11 @@ public class ThreadClient extends Thread {
 	}
 
 	public void run()  {
+		
 		try {
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
-			inJson  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  
+			inJson  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
+			
 			
 			// processing part of Json 
 
@@ -56,12 +59,16 @@ public class ThreadClient extends Thread {
 			inJson.close();
 			outJson.close();
 			clientSocket.close();
-		} catch (IOException | SQLException e) {}
+		} catch (Exception e) {
+			System.out.println("Un client s'est déconnecté de manière précipitée !");
+			//e.printStackTrace();
+		}
+		DBConnectController.clientsState(false);
 	}
 	
 	
 // crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
-	private Object crud(JSONObject JsonRecu) throws SQLException {
+	private Object crud(JSONObject JsonRecu) throws SQLException, InterruptedException {
 
 		if(JsonRecu.get("demandType").equals("SELECT")) {
 			long idcaste = Long.valueOf(JsonRecu.get("Id").toString());
@@ -87,6 +94,7 @@ public class ThreadClient extends Thread {
 					// adding each user to the list already created
 					listUsers.add(user);
 					
+					
 				}
 				System.out.println("voici l'arrayList : ");
 				// displaying the list 
@@ -96,6 +104,7 @@ public class ThreadClient extends Thread {
 				System.out.println("voici le json envoyé avec le select All: ");
 				// displaying the Json
 				System.out.println(obj);
+				Thread.sleep(3000); 
 				return obj; 
 			}
 			else {
@@ -112,6 +121,7 @@ public class ThreadClient extends Thread {
 				}
 				// displaying the json 
 				System.out.println(obj);
+				Thread.sleep(3000); 
 				return obj; 
 			}
 		}

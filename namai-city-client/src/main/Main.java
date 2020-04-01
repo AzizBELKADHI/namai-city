@@ -1,7 +1,15 @@
 package main;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Scanner;
 
 import org.json.simple.*;
@@ -9,11 +17,26 @@ import org.json.simple.*;
 import socketClient.SocketClient;
 
 public class Main {
+	public static Connection c; 
+	private static String URL = "jdbc:postgresql://172.31.249.44:5432/NamaiDB";
+	private static String login = "toto" ;
+	private static String password = "toto";
 
 
-	public static void main(String[] args) throws IOException {
+	public static Connection createConnection() throws SQLException {
+		try {
+
+			return  DriverManager.getConnection (URL, login, password);
+		} catch (SQLException e) {
+			throw new SQLException("Can't create connection", e);
+		}
+
+	}
+
+	public static void main(String[] args) throws IOException, SQLException {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
+
 		while(true) {
 			System.out.println("########################### Menu Namai-city-client #########################");
 			System.out.println("1: Afficher");
@@ -21,6 +44,7 @@ public class Main {
 			System.out.println("3: Mettre à jour");
 			System.out.println("4: Supprimer");
 			System.out.println("5: Exit");
+			System.out.println("6: Tentative de connexion à la BDD depuis le client ");
 			System.out.println("########################### Menu Namai-city-client #########################");
 			SocketClient client = new SocketClient();	
 			client.startConnection("172.31.249.49", 6666);
@@ -48,8 +72,8 @@ public class Main {
 					allUsers = (ArrayList<JSONObject>) reponseAll.get("users");
 					for(int i = 0; i<allUsers.size();i++) {
 						System.out.println("id: "+allUsers.get(i).get("Id")+
-								" * nom: "+allUsers.get(i).get("nom")+
-								" * prenom: "+allUsers.get(i).get("prenom"));
+								" | nom: "+allUsers.get(i).get("nom")+
+								" | prenom: "+allUsers.get(i).get("prenom"));
 					}			 
 					client.stopConnection();  
 					break;
@@ -152,6 +176,21 @@ public class Main {
 				client.stopConnection();
 				System.exit(0);
 				break;
+
+			case "6": 
+				//pour montrer que le client n'a pas accés a la BDD
+
+				c = createConnection(); 
+				System.out.println("nom:");
+				String nomBDD = sc.nextLine();
+				System.out.println("prénom:");
+				String prenomBDD = sc.nextLine();
+
+				PreparedStatement stmt3 = c.prepareStatement("insert into utilisateur(nom,prenom) values (?,?);");
+				stmt3.setString(1, nomBDD);
+				stmt3.setString(2,prenomBDD);
+				stmt3.execute();
+				break; 
 
 			default:
 				System.out.println("Unrocognized command");

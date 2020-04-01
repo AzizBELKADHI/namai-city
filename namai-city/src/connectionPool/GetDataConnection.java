@@ -4,24 +4,24 @@ import java.io.*;
 import java.util.Properties;
 
 public class GetDataConnection {
-	
+
 	private String DriverName;
 	private String DatabaseUrl;
 	private String login;
 	private String password;
 	final Properties prop;
 	InputStream input = null;
-	
+
 	public GetDataConnection() {
 		prop = new Properties();
 		try {
 
 			input = getClass().getClassLoader().getResourceAsStream("connectionPool/Data.properties");
 
-			// charge le fichier properties 
+			// loads the file properties 
 			prop.load(input);
 
-			// r�cupere les valeurs des variables dans le fichier properties 
+			// recovers values of variables in the file properties 
 			DatabaseUrl = prop.getProperty("url");
 			login = prop.getProperty("username");
 			password = prop.getProperty("password");
@@ -39,8 +39,8 @@ public class GetDataConnection {
 			}
 		}
 	}
-	
-	
+
+
 	public String getDriverName() {
 		return DriverName;
 	}

@@ -37,7 +37,7 @@ public class JDBCConnectionPool {
 	}
 
 
-// methode permettant de créer une connexion.
+// method for creating a connection 
 	public Connection createConnection() throws SQLException {
 		try {
 		return  DriverManager.getConnection (URL, login, password);
@@ -47,6 +47,7 @@ public class JDBCConnectionPool {
 
 	}
 
+	// improvement of this method : it's for the user to obtain a connection only if the connections don't exceed the maximum size of the pool 
 // amelioration de cette methode pour que l'utilisateur obtienne une connexion ssi les connexions 
 	//utilisées ne depassent pas la taille maximale du pool et si le pool de connexion n'est pas vide.
 	
