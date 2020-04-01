@@ -38,17 +38,17 @@ public class DBConnectController {
 
 		System.out.println("Bonjour, Bienvenue sur votre serveur!"); 
 
-		// Création de la socket côté serveur
+		// Socket creation on the server side 
 		socketServeur = new ServerSocket(6666);
 
 
 		while(true) {
 
 			try {
-				// Attente de la connexion du client
+				// Waiting for customer connection 
 				socketClient = socketServeur.accept();
 
-				// on attribue une connexion au client 
+				// a connection is assigned to the client 
 
 				co.add(DataSource.getConnection());
 				//c = DataSource.getConnection();
@@ -59,7 +59,7 @@ public class DBConnectController {
 				System.out.println("bonjour je vais traiter votre demande");
 
 
-				// instanciation du thread client (avec une socket et une connexion 
+				// instanciation of thread client (with a socket  and a connection)
 				ThreadClient client = new ThreadClient(socketClient,c);
 				client.start(); 
 
