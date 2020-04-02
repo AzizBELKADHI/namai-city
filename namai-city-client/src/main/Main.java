@@ -56,7 +56,7 @@ public class Main {
 			switch (rep) {
 			case "1":
 				System.out.println("########################### Menu Namai-city-client #########################");
-				System.out.println("1: Afficher tout les utilisateurs");
+				System.out.println("1: Afficher tous les utilisateurs");
 				System.out.println("2: afficher un utilisateur en particulier");
 				System.out.println("########################### Menu Namai-city-client #########################");	
 				Scanner choice = new Scanner(System.in);
