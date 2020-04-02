@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -83,17 +84,28 @@ public class Main {
 					choice = new Scanner(System.in);
 					System.out.println("########################### SELECT #########################");
 					System.out.println("quel est l'id de l'utilisateur à afficher ? ");
-					rep = choice.nextLine();
-					Integer id_user = Integer.parseInt(rep);
+					int repSelect = 0;
+					try {
+					repSelect = choice.nextInt();
+					}
+					catch(InputMismatchException e){
+						System.out.println("probleme de saisi de l'id");
+						break;
+					}
 					obj.put("demandType",String.valueOf("SELECT"));
-					obj.put("Id",Integer.valueOf(id_user)); 
+					obj.put("Id",Integer.valueOf(repSelect)); 
 					System.out.println(obj);
 					JSONObject reponse = client.sendMessage(obj);
-					String name = (String) reponse.get("nom");  
-					String prenom = (String) reponse.get("prenom");  
-					long idCaste = (long) reponse.get("Id");
-					int id = (int) idCaste;
-					System.out.println(name +": \n" + prenom + ": \n "+id+ ": \n");  
+					if(reponse.containsKey("reponse")) {
+						System.out.println(reponse.get("reponse"));
+					}
+					else {					
+						String name = (String) reponse.get("nom");  
+						String prenom = (String) reponse.get("prenom");  
+						long idCaste = (long) reponse.get("Id");
+						int id = (int) idCaste;
+						System.out.println("voici les informations de l'utilisateur: \n" + name +"\n" + prenom + "\n "+id+ "\n");  
+					}
 					client.stopConnection();  
 					break;
 				}
@@ -113,18 +125,24 @@ public class Main {
 				System.out.println(obj);
 				JSONObject reponse = client.sendMessage(obj);
 				String repServer = (String) reponse.get("reponse");  
-				String prenomInsert = (String) reponse.get("prenom");  
-				String nomInsert = (String) reponse.get("nom");
-				System.out.println(repServer +": \n" + prenomInsert + ": \n " + nomInsert  + ": \n");  
+				if(repServer.equals("insertion réussi")) {
+					String prenomInsert = (String) reponse.get("prenom");  
+					String nomInsert = (String) reponse.get("nom");
+					System.out.println(repServer +"\n voici les informations insere: \n" + prenomInsert + "\n " + nomInsert  + "\n");  
+				}
+				else {
+					System.out.println(repServer +"\n");
+				}
 				client.stopConnection();
 				break; 
 
 			case "3": 
 				// requete pour mettre à  jour la table utilisateur 
-				System.out.println("########################### INSERT #########################");
+				System.out.println("########################### UPDATE #########################");
 				System.out.println("quel est l'id à modifier?"); 
-				String id = sc.nextLine();
-				Integer id_user = Integer.parseInt(id);
+				
+				String id_update = sc.nextLine();
+				Integer id_user_update = Integer.parseInt(id_update);
 				System.out.print("le nom ? ");
 				String nomUpdate = sc.nextLine(); 
 				System.out.print("le prenom ? ");
@@ -132,16 +150,20 @@ public class Main {
 				obj.put("demandType",String.valueOf("UPDATE"));
 				obj.put("nom",String.valueOf(nomUpdate));
 				obj.put("prenom",String.valueOf(prenomUpdate));
-				obj.put("Id",String.valueOf(id_user));
+				obj.put("Id",id_user_update);
 				System.out.println(obj);
 				JSONObject reponseUdpade = client.sendMessage(obj);
-				String repServerUpdate = (String) reponseUdpade.get("reponse");  
-				String prenomUpdate2 = (String) reponseUdpade.get("prenom");  
-				String nomupdate2 = (String) reponseUdpade.get("nom");
-				long idCaste = (long) reponseUdpade.get("Id");
-				int idUpdate = (int) idCaste;
-				System.out.println(repServerUpdate +": \n" + prenomUpdate2 + ": \n " + nomupdate2  + ": \n" + idUpdate  + ": \n");  
-				System.out.println(repServerUpdate); 
+				String repServerUpdate = (String) reponseUdpade.get("reponse"); 
+				if(repServerUpdate.contentEquals("mise à jour reussie")) {
+					String prenomUpdate2 = (String) reponseUdpade.get("prenom");  
+					String nomupdate2 = (String) reponseUdpade.get("nom");
+					long idCaste = (long) reponseUdpade.get("Id");
+					int idUpdate = (int) idCaste;
+					System.out.println(repServerUpdate +"\n voici les donnees mises a jour: \n" + prenomUpdate2 + "\n " + nomupdate2  + "\n" + idUpdate);
+				}
+				else {
+					System.out.println(repServerUpdate);
+				}
 				client.stopConnection();
 
 				break; 
@@ -161,9 +183,14 @@ public class Main {
 				JSONObject reponseDelete = client.sendMessage(obj);
 				String repServerDelete = (String) reponseDelete.get("reponse");  
 
-				long idCasteDelete = (long) reponseDelete.get("Id");
-				int idDelete = (int) idCasteDelete;
-				System.out.println("Voici l'id de le l'utilisateur à supprimer : " + idDelete);  
+				if(repServerDelete.equals("suppression réussie")) {
+					long idCasteDelete = (long) reponseDelete.get("Id");
+					int idDelete = (int) idCasteDelete;
+					System.out.println(repServerDelete + "\n Voici l'id de le l'utilisateur à supprimer : " + idDelete);  
+				}
+				else {
+					System.out.println(repServerDelete);
+				}
 				client.stopConnection();
 
 				break; 

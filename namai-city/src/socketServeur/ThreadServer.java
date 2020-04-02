@@ -17,14 +17,14 @@ import java.io.*;
 import java.net.*;
 
 
-public class ThreadClient extends Thread {
+public class ThreadServer extends Thread {
 	private Socket clientSocket; 
 	public PrintWriter outJson;
 	private BufferedReader inJson;
 	private Connection c; 
 
 
-	public ThreadClient(Socket socket, Connection connection) {
+	public ThreadServer(Socket socket, Connection connection) {
 		this.clientSocket = socket;
 		this.c = connection; 
 
@@ -112,12 +112,17 @@ public class ThreadClient extends Thread {
 				stmtJson.setInt(1, idJson);
 				ResultSet jsonResponse = stmtJson.executeQuery();
 				JSONObject obj=new JSONObject(); 
+				int cpt = 0;
 
 				while (jsonResponse.next()) {
 					//recovery of the data of the user in question 
+					cpt++;
 					obj.put("Id",jsonResponse.getInt("id_user"));
 					obj.put("nom",jsonResponse.getString("nom"));
 					obj.put("prenom",jsonResponse.getString("prenom"));
+				}
+				if(cpt == 0) {
+					obj.put("reponse", "verifier l'id insere");
 				}
 				// displaying the json 
 				System.out.println(obj);
@@ -139,15 +144,19 @@ public class ThreadClient extends Thread {
 			stmt3.setString(1, nomInsert);
 			stmt3.setString(2,prenomInsert);
 			// query execution 
-			stmt3.execute();
+			
 
 			JSONObject obj=new JSONObject(); 
 
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
-			obj.put("reponse",String.valueOf("insertion réussi"));
-			obj.put("nom",String.valueOf(nomInsert));
-			obj.put("prenom",String.valueOf(prenomInsert));
-
+			if(stmt3.executeUpdate()>=1) {
+				obj.put("reponse",String.valueOf("insertion reussi"));
+				obj.put("nom",String.valueOf(nomInsert));
+				obj.put("prenom",String.valueOf(prenomInsert));
+			}
+			else {
+				obj.put("reponse",String.valueOf("erreur lors de l'insertion"));
+			}
 			System.out.println(obj);
 			return obj; 
 		}
@@ -169,16 +178,20 @@ public class ThreadClient extends Thread {
 			System.out.println("je met le idJson dans la requete "); 
 			stmt4.setInt(3, idJson);
 			System.out.println("l'id est bien mis"); 
-			stmt4.execute();
 			JSONObject obj=new JSONObject(); 
 
 
 			//if (update  bien passé) => executer les lignes suivantes sinon dire erreur
-			obj.put("reponse",String.valueOf("mise à jour réussie"));
-			obj.put("nom",String.valueOf(nomUpdate));
-			obj.put("prenom",String.valueOf(prenomUpdate));
-			obj.put("Id", Integer.valueOf(idJson));
 
+			if(stmt4.executeUpdate()>=1) {
+				obj.put("reponse",String.valueOf("mise à jour reussie"));
+				obj.put("nom",String.valueOf(nomUpdate));
+				obj.put("prenom",String.valueOf(prenomUpdate));
+				obj.put("Id", Integer.valueOf(idJson)); 
+			}
+			else {
+				obj.put("reponse",String.valueOf("erreur lors de la mise a jour verifier l'id"));
+			}
 			System.out.println(obj);
 			return obj; 
 		}
@@ -191,14 +204,19 @@ public class ThreadClient extends Thread {
 			System.out.println(idJson);
 			PreparedStatement stmt5 = c.prepareStatement("delete from utilisateur where id_user = ?");
 			stmt5.setInt(1, idJson);
-			stmt5.execute();
+			
 
 			JSONObject obj=new JSONObject(); 
-
-			obj.put("reponse",String.valueOf("suppression réussie"));
-			obj.put("Id", Integer.valueOf(idJson));
-			System.out.println(obj);
-			return obj; 
+			if(stmt5.executeUpdate()>=1) {
+				obj.put("reponse",String.valueOf("suppression réussie"));
+				obj.put("Id", Integer.valueOf(idJson));
+				System.out.println(obj);
+			}
+			else {
+				obj.put("reponse",String.valueOf("echec lors de la suppression verifier l'Id insere"));
+				System.out.println(obj);		
+			}
+			return obj;
 		}
 
 		// Case where no if is checked 

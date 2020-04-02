@@ -7,7 +7,7 @@ public class JDBCConnectionPool {
 	ArrayList<Connection> connections;
 	ArrayList<Connection> usedConnections;
 	GetDataConnection Data;
-	private int sizeMax = 3;
+	private int sizeMax = 20;
 	private int sizeMin =1;
 	private String DRIVER_NAME;
 	private String URL;

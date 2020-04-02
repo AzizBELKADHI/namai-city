@@ -13,7 +13,7 @@ import java.util.Scanner;
 import org.json.simple.JSONObject;
 import connectionPool.DataSource;
 import model.ModelTestPool;
-import socketServeur.ThreadClient;
+import socketServeur.ThreadServer;
 import view.TestPoolView;
 
 
@@ -57,17 +57,19 @@ public class DBConnectController {
 				// a connection is assigned to the client 
 
 				co.add(DataSource.getConnection());
+
 				//c = DataSource.getConnection();
-				shsView.printScreen("Size of the pool: "+DataSource.getSize());
+				//shsView.printScreen("Size of the pool: "+DataSource.getSize());
 				shsView.printScreen("Number of connection asked: "+co.size());
 				c = co.get(0);
-				shsView.printScreen("Size of the pool: "+ DataSource.getSize());
+		//		shsView.printScreen("Size of the pool: "+ DataSource.getSize());
 				System.out.println("bonjour je vais traiter votre demande");
 
 
 				// instanciation of thread client (with a socket  and a connection)
-				ThreadClient client = new ThreadClient(socketClient,c);
+				ThreadServer client = new ThreadServer(socketClient,c);
 				client.start(); 
+				//socketServeur.close();
 
 			}
 			
