@@ -31,26 +31,26 @@ public class ThreadClient extends Thread {
 	}
 
 	public void run()  {
-		
+
 		try {
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
 			inJson  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
-			
-			
+
+
 			// processing part of Json 
 
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
 			inJson = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			String resp = inJson.readLine();
-			System.out.println("bonjour je viens de récuperer le JSON");
+			System.out.println("----bonjour je viens de récuperer le JSON");
 			System.out.println(resp);
 			Object obj=JSONValue.parse(resp); 
-			System.out.println("bonjour je parse le JSON");
+			System.out.println("----bonjour je parse le JSON");
 			System.out.println(resp);
 			JSONObject jsonObject = (JSONObject) obj;  
-			System.out.println("bonjour je viens de parser le JSON");
+			System.out.println("----bonjour je viens de parser le JSON");
 			System.out.println(resp);
-			
+
 			obj = crud(jsonObject); 
 			// Once the Json had been processed, closing the socket and releasing the connection
 
@@ -60,14 +60,14 @@ public class ThreadClient extends Thread {
 			outJson.close();
 			clientSocket.close();
 		} catch (Exception e) {
-			System.out.println("Un client s'est déconnecté de manière précipitée !");
+			System.out.println("--------Un client s'est déconnecté de manière précipitée !-------");
 			//e.printStackTrace();
 		}
 		DBConnectController.clientsState(false);
 	}
-	
-	
-// crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
+
+
+	// crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
 	private Object crud(JSONObject JsonRecu) throws SQLException, InterruptedException {
 
 		if(JsonRecu.get("demandType").equals("SELECT")) {
@@ -76,30 +76,30 @@ public class ThreadClient extends Thread {
 			System.out.println("bonjour voici le ID recu apres traitement");
 			System.out.println(idJson);
 			if(idJson == 0) {
-				
+
 				PreparedStatement stmt1 = c.prepareStatement("select * from utilisateur;");
 				ResultSet rs2 = stmt1.executeQuery();
-				
+
 				JSONObject obj=new JSONObject();
 				// creation of users list 
 				ArrayList<JSONObject> listUsers = new ArrayList<JSONObject>();
-			
+
 				while (rs2.next()) {
 					JSONObject user=new JSONObject();
 					// recovery of each user's data (id/ name/ first name) 
 					user.put("Id", rs2.getInt("id_user"));
 					user.put("nom", rs2.getString("nom"));
 					user.put("prenom", rs2.getString("prenom"));
-					
+
 					// adding each user to the list already created
 					listUsers.add(user);
-					
-					
+
+
 				}
-				System.out.println("voici l'arrayList : ");
+				//System.out.println("voici l'arrayList : ");
 				// displaying the list 
-				System.out.println(listUsers);
-				
+				//System.out.println(listUsers);
+
 				obj.put("users", listUsers);
 				System.out.println("voici le json envoyé avec le select All: ");
 				// displaying the Json
@@ -112,7 +112,7 @@ public class ThreadClient extends Thread {
 				stmtJson.setInt(1, idJson);
 				ResultSet jsonResponse = stmtJson.executeQuery();
 				JSONObject obj=new JSONObject(); 
-				
+
 				while (jsonResponse.next()) {
 					//recovery of the data of the user in question 
 					obj.put("Id",jsonResponse.getInt("id_user"));
@@ -128,30 +128,29 @@ public class ThreadClient extends Thread {
 
 		if(JsonRecu.get("demandType").equals("INSERT")) {
 			System.out.println("Je suis rentré dans la requête INSERT"); 
-// recovery of data that the client had completed (name / first name
+			// recovery of data that the client had completed (name / first name
 			String nomInsert =(String) JsonRecu.get("nom");
 			String prenomInsert =(String) JsonRecu.get("prenom");
 			System.out.println("bonjour voici les donnees recu apres traitement");
 			System.out.println(nomInsert +  " " + prenomInsert);
-			
+
 			PreparedStatement stmt3 = c.prepareStatement("insert into utilisateur(nom,prenom) values (?,?);");
 			// the request takes name and first name already retrieved 
 			stmt3.setString(1, nomInsert);
 			stmt3.setString(2,prenomInsert);
 			// query execution 
 			stmt3.execute();
-			
+
 			JSONObject obj=new JSONObject(); 
-			
+
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			obj.put("reponse",String.valueOf("insertion réussi"));
 			obj.put("nom",String.valueOf(nomInsert));
 			obj.put("prenom",String.valueOf(prenomInsert));
-			
+
 			System.out.println(obj);
 			return obj; 
 		}
-
 
 
 		if(JsonRecu.get("demandType").equals("UPDATE")) {
@@ -201,7 +200,7 @@ public class ThreadClient extends Thread {
 			System.out.println(obj);
 			return obj; 
 		}
-		
+
 		// Case where no if is checked 
 		return new JSONObject();
 	}
