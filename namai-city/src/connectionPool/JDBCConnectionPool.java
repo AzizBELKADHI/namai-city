@@ -47,9 +47,8 @@ public class JDBCConnectionPool {
 
 	}
 
-	// improvement of this method : it's for the user to obtain a connection only if the connections don't exceed the maximum size of the pool 
-// amelioration de cette methode pour que l'utilisateur obtienne une connexion ssi les connexions 
-	//utilisées ne depassent pas la taille maximale du pool et si le pool de connexion n'est pas vide.
+	// improvement of this method : it's for the user to obtain a connection only if the connections don't exceed the maximum size of the pool and 
+	//if the connection Pool isn't empty
 	
 	public Connection getConnection() throws SQLException {
 		if(connections.isEmpty()) {
@@ -68,8 +67,8 @@ public class JDBCConnectionPool {
 		usedConnections.add(toGet);
 		return toGet;
 	}
-
-// methode permettant de liberer les connexions de la liste des connexions utilisées et de les ajouter dans les connexions disponibles.	
+// 
+// method to release the connections from the list of connections used and add them to the available connections.
 	public synchronized boolean releaseConnection(Connection c) {
 		connections.add(c);
 		return usedConnections.remove(c);
@@ -77,7 +76,7 @@ public class JDBCConnectionPool {
 	}
 
 	
-// methode permettant de fermer les connections si la liste des connexions utilisées n'est pas vide.
+// method to close connections if the list of connections used isn't empty.
 	public void closeConnections() throws SQLException {
 		while(!usedConnections.isEmpty()) {
 			releaseConnection(usedConnections.get(0));
