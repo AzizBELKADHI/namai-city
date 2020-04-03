@@ -86,7 +86,7 @@ public class Main {
 					System.out.println("quel est l'id de l'utilisateur à afficher ? ");
 					int repSelect = 0;
 					try {
-					repSelect = choice.nextInt();
+						repSelect = choice.nextInt();
 					}
 					catch(InputMismatchException e){
 						System.out.println("probleme de saisi de l'id");
@@ -95,7 +95,7 @@ public class Main {
 					obj.put("demandType",String.valueOf("SELECT"));
 					obj.put("Id",Integer.valueOf(repSelect)); 
 					System.out.println(obj);
-<<<<<<< HEAD
+
 					JSONObject reponse = client.sendMessage(obj);
 					if(reponse.containsKey("reponse")) {
 						System.out.println(reponse.get("reponse"));
@@ -107,14 +107,7 @@ public class Main {
 						int id = (int) idCaste;
 						System.out.println("voici les informations de l'utilisateur: \n" + name +"\n" + prenom + "\n "+id+ "\n");  
 					}
-=======
-					JSONObject reponse = client.sendMessage(obj); // Response server
-					String name = (String) reponse.get("nom");  
-					String prenom = (String) reponse.get("prenom");  
-					long idCaste = (long) reponse.get("Id");
-					int id = (int) idCaste;
-					System.out.println(name +": \n" + prenom + ": \n "+id+ ": \n");  // Display data
->>>>>>> refs/remotes/origin/nour
+
 					client.stopConnection();  
 					break; // Exit cases
 				}
@@ -134,7 +127,7 @@ public class Main {
 				System.out.println(obj);
 				JSONObject reponse = client.sendMessage(obj); // Response server
 				String repServer = (String) reponse.get("reponse");  
-<<<<<<< HEAD
+
 				if(repServer.equals("insertion réussi")) {
 					String prenomInsert = (String) reponse.get("prenom");  
 					String nomInsert = (String) reponse.get("nom");
@@ -143,31 +136,25 @@ public class Main {
 				else {
 					System.out.println(repServer +"\n");
 				}
-=======
+
 				String prenomInsert = (String) reponse.get("prenom");  
 				String nomInsert = (String) reponse.get("nom");
 				System.out.println(repServer +": \n" + prenomInsert + ": \n " + nomInsert  + ": \n");  // Display data
->>>>>>> refs/remotes/origin/nour
 				client.stopConnection();
 				break; // Exit cases
 
 			case "3": 
-<<<<<<< HEAD
-				// requete pour mettre à  jour la table utilisateur 
-				System.out.println("########################### UPDATE #########################");
-=======
 				// Request to update a user in the table "users"
-				System.out.println("########################### INSERT #########################");
->>>>>>> refs/remotes/origin/nour
+				System.out.println("########################### UPDATE #########################");
 				System.out.println("quel est l'id à modifier?"); 
-<<<<<<< HEAD
-				
+
+
 				String id_update = sc.nextLine();
 				Integer id_user_update = Integer.parseInt(id_update);
-=======
+
 				String id = sc.nextLine(); // Recovery of the id
 				Integer id_user = Integer.parseInt(id);
->>>>>>> refs/remotes/origin/nour
+
 				System.out.print("le nom ? ");
 				String nomUpdate = sc.nextLine(); // Recovery of the name
 				System.out.print("le prenom ? ");
@@ -177,8 +164,8 @@ public class Main {
 				obj.put("prenom",String.valueOf(prenomUpdate));
 				obj.put("Id",id_user_update);
 				System.out.println(obj);
-<<<<<<< HEAD
-				JSONObject reponseUdpade = client.sendMessage(obj);
+
+				JSONObject reponseUdpade = client.sendMessage(obj); // Response server
 				String repServerUpdate = (String) reponseUdpade.get("reponse"); 
 				if(repServerUpdate.contentEquals("mise à jour reussie")) {
 					String prenomUpdate2 = (String) reponseUdpade.get("prenom");  
@@ -190,16 +177,8 @@ public class Main {
 				else {
 					System.out.println(repServerUpdate);
 				}
-=======
-				JSONObject reponseUdpade = client.sendMessage(obj); // Response server
-				String repServerUpdate = (String) reponseUdpade.get("reponse");  
-				String prenomUpdate2 = (String) reponseUdpade.get("prenom");  
-				String nomupdate2 = (String) reponseUdpade.get("nom");
-				long idCaste = (long) reponseUdpade.get("Id");
-				int idUpdate = (int) idCaste;
-				System.out.println(repServerUpdate +": \n" + prenomUpdate2 + ": \n " + nomupdate2  + ": \n" + idUpdate  + ": \n");  // Display data
-				System.out.println(repServerUpdate); 
->>>>>>> refs/remotes/origin/nour
+
+				System.out.println(repServerUpdate);
 				client.stopConnection();
 
 				break; // Exit cases
