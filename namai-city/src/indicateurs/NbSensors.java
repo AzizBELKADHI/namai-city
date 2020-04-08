@@ -1,5 +1,6 @@
 package indicateurs;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,20 +9,22 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
-public class NbCapteurs {
+public class NbSensors {
 	private Connection c; 
 
 	private Object NbCapteurs (JSONObject JsonRecu) throws SQLException, InterruptedException {
 
-		
+
 		String type =(String) JsonRecu.get("type");
 		String position =(String) JsonRecu.get("position");
+		String date =(String) JsonRecu.get("date");
 		System.out.println("bonjour voici les donnees recu apres traitement");
-		System.out.println(type +  " " + position);
-		
-		PreparedStatement stmt1 = c.prepareStatement("select count (*) from capteur where type = ? and position = ?;");
+		System.out.println(date +  " " +type + " " + position + " ");
+
+		PreparedStatement stmt1 = c.prepareStatement("select count (*) as nombre_capteurs from capteur where type = ? position = ? and date = ?;"); 
 		stmt1.setString(1, type);
 		stmt1.setString(2, position);
+		stmt1.setString(3, date);
 		ResultSet rs2 = stmt1.executeQuery();
 
 		JSONObject obj=new JSONObject();
@@ -33,10 +36,8 @@ public class NbCapteurs {
 			// recovery of each sensor's data 
 			sensor.put("Id", rs2.getInt("id_cap"));
 			sensor.put("type", rs2.getString("type"));
-			sensor.put("seuil_pollution_max", rs2.getString("seuil_pollution_max"));
-			sensor.put("taux", rs2.getString("taux"));
 			sensor.put("position", rs2.getString("position")); 
-			sensor.put("etat", rs2.getString("etat")); 
+			sensor.put("date", rs2.getString("date")); 
 
 			// adding each sensor to the list already created
 			listSensors.add(sensor);
