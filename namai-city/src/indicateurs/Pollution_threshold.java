@@ -11,16 +11,16 @@ import org.json.simple.JSONObject;
 public class Pollution_threshold {
 
 	private Connection c; 
-	
+
 	private Object NbEmergency (JSONObject JsonRecu) throws SQLException, InterruptedException {
 
-		
-		
+
+
 		String date =(String) JsonRecu.get("date");
 		System.out.println("bonjour voici les donnees recu apres traitement");
 		System.out.println(date +  " ");
 
-		
+
 		PreparedStatement stmt1 = c.prepareStatement("select count(*) as nombre_alerte, seuil, max(nombre_alerte), avg(nombre_alerte) from historique_alerte where date = ? group by position;"); 
 		stmt1.setString(1, date);
 		ResultSet rs2 = stmt1.executeQuery();

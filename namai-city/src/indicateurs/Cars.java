@@ -17,7 +17,7 @@ public class Cars {
 		System.out.println("bonjour voici les donnees recu apres traitement");
 		System.out.println(date +  " ");
 
-		PreparedStatement stmt1 = c.prepareStatement("select sum(nb_voitures) as nombre_voitures from Frequentation_Voiture where date = ? group by position;"); 
+		PreparedStatement stmt1 = c.prepareStatement("select sum(nb_voitures) as nombre_voitures, avg(nb_voitures), max(nb_voitures) from Frequentation_Voiture where date = ? group by position;"); 
 		stmt1.setString(1, date);
 		ResultSet rs2 = stmt1.executeQuery();
 
