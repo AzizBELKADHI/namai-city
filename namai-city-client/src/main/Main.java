@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 
 import org.json.simple.*;
 
+import indicator.SensorIndicator;
 import socketClient.SocketClient;
 
 public class Main {
@@ -33,6 +35,8 @@ public class Main {
 
 	}
 
+
+
 	public static void main(String[] args) throws IOException, SQLException {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
@@ -45,6 +49,7 @@ public class Main {
 			System.out.println("4: Supprimer");
 			System.out.println("5: Exit");
 			System.out.println("6: Tentative de connexion à la BDD depuis le client ");
+			System.out.println("7: récupération des indicateurs");
 			System.out.println("########################### Menu Namai-city-client #########################");
 			SocketClient client = new SocketClient();	// Socket creation
 			client.startConnection("172.31.249.49", 6666); // Start of connection with socket
@@ -64,7 +69,7 @@ public class Main {
 				switch(rep) {
 				case "1": // Request to display all users in the table "users"
 					System.out.println("########################### SELECT #########################");
-					obj.put("demandType",String.valueOf("SELECT"));
+					obj.put("demandType","SELECT");
 					obj.put("Id",Integer.valueOf(0)); 
 					System.out.println(obj);
 					JSONObject reponseAll = client.sendMessage(obj);
@@ -85,7 +90,7 @@ public class Main {
 					System.out.println("quel est l'id de l'utilisateur à afficher ? ");
 					rep = choice.nextLine();
 					Integer id_user = Integer.parseInt(rep);
-					obj.put("demandType",String.valueOf("SELECT"));
+					obj.put("demandType","SELECT");
 					obj.put("Id",Integer.valueOf(id_user)); 
 					System.out.println(obj);
 					JSONObject reponse = client.sendMessage(obj); // Response server
@@ -107,7 +112,7 @@ public class Main {
 				String nom = sc.nextLine(); // Recovery of the name
 				System.out.println("prénom:");
 				String prenom = sc.nextLine(); // Recovery of the first name
-				obj.put("demandType",String.valueOf("INSERT"));
+				obj.put("demandType","INSERT");
 				obj.put("nom",String.valueOf(nom));
 				obj.put("prenom",String.valueOf(prenom));
 				System.out.println(obj);
@@ -129,7 +134,7 @@ public class Main {
 				String nomUpdate = sc.nextLine(); // Recovery of the name
 				System.out.print("le prenom ? ");
 				String prenomUpdate = sc.nextLine(); // Recovery of the first name
-				obj.put("demandType",String.valueOf("UPDATE"));
+				obj.put("demandType","UPDATE");
 				obj.put("nom",String.valueOf(nomUpdate));
 				obj.put("prenom",String.valueOf(prenomUpdate));
 				obj.put("Id",String.valueOf(id_user));
@@ -154,7 +159,7 @@ public class Main {
 				Integer id_user_delete = Integer.parseInt(id_delete);
 
 
-				obj.put("demandType",String.valueOf("DELETE"));
+				obj.put("demandType","DELETE");
 
 				obj.put("Id",String.valueOf(id_user_delete));
 				System.out.println(obj);
@@ -195,6 +200,26 @@ public class Main {
 			default:
 				System.out.println("Unrocognized command"); // If none of the cases, message display "Unrocognized command"
 				break; // Exit cases
+
+			case "7": 
+				System.out.println("########################### SENSOR INDICATOR #########################");
+				System.out.println("A quel date voulez-vous récupèrer les données du capteur de la qualité de l'air? ");
+				String date  = sc.nextLine();
+				Timestamp date2 = Timestamp.valueOf(date);
+				obj.put("demandType", "SENSOR_INDICATOR");
+				obj.put("date", date); 
+
+				System.out.println(obj);
+				JSONObject reponseAll = client.sendMessage(obj);
+				ArrayList<SensorIndicator> allSensors = new ArrayList<SensorIndicator>();// Creation d'un tableau de type SensorIndicator
+				allSensors = (ArrayList<SensorIndicator>) reponseAll.get("sensors");
+				for(int i = 0; i<allSensors.size();i++) { // Creating a loop to display all sensors in the table sensors
+					System.out.println("id: "+allSensors.get(i).getIdCap() + 
+							" | type: "+allSensors.get(i).getType()+
+							" | position: "+allSensors.get(i).getPosition() +
+							" | date: "+allSensors.get(i).getDate()); 
+				}			 
+				client.stopConnection();
 
 			}
 

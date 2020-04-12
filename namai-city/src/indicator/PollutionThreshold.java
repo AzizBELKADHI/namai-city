@@ -1,4 +1,4 @@
-package indicateurs;
+package indicator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,12 +8,11 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
-public class Pollution_threshold {
+public class PollutionThreshold {
 
 	private Connection c; 
 
 	private Object NbEmergency (JSONObject JsonRecu) throws SQLException, InterruptedException {
-
 
 
 		String date =(String) JsonRecu.get("date");

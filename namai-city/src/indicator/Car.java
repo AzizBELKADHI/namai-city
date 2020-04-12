@@ -1,4 +1,4 @@
-package indicateurs;
+package indicator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
-public class Cars {
+public class Car {
 	private Connection c; 
 
 	private Object NbCars (JSONObject JsonRecu) throws SQLException, InterruptedException {
