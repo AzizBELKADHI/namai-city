@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 
 public class StationIndicator {
 	
-	private int idStation; 
-	private String nomStation; 
+	private int stationId; 
+	private String stationName; 
 	private String position; 
 	private Timestamp date;
 	
@@ -13,37 +13,44 @@ public class StationIndicator {
 		
 	}
 	
-	public StationIndicator(int idS, String nom, String p, Timestamp d) {
-		idStation = idS; 
-		nomStation = nom; 
+	public StationIndicator(int idS, String name, String p, Timestamp d) {
+		stationId = idS; 
+		stationName = name; 
 		position = p; 
 		date = d; 
 	}
-	
-	public int getIdStation() {
-		return idStation;
+
+	public int getStationId() {
+		return stationId;
 	}
-	public void setIdStation(int idStation) {
-		this.idStation = idStation;
+
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
 	}
-	public String getNomStation() {
-		return nomStation;
+
+	public String getStationName() {
+		return stationName;
 	}
-	public void setNomStation(String nomStation) {
-		this.nomStation = nomStation;
+
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
 	}
+
 	public String getPosition() {
 		return position;
 	}
+
 	public void setPosition(String position) {
 		this.position = position;
 	}
+
 	public Timestamp getDate() {
 		return date;
 	}
+
 	public void setDate(Timestamp date) {
 		this.date = date;
-	} 
-	
-
+	}
 }
+	
+	

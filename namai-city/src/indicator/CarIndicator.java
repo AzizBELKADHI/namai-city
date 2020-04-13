@@ -52,8 +52,4 @@ public class CarIndicator {
 		this.sensorId = sensorId;
 	}
 	
-	
-	
-	
-
 }

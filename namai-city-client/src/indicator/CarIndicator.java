@@ -4,49 +4,52 @@ import java.sql.Timestamp;
 
 public class CarIndicator {
 	
-	private int idVoit; 
+	private int carId; 
 	private Timestamp date; 
-	private int nbVoitures;
-	private int idCap;
+	private int carsNb;
+	private int sensorId;
 	
 	public CarIndicator() {
 		
 	}
 	
 	public CarIndicator (int id, Timestamp d, int nbV, int idC) {
-		idVoit = id; 
+		carId = id; 
 		date = d; 
-		nbVoitures = nbV; 
-		idCap = idC; 
+		carsNb = nbV; 
+		sensorId = idC; 
 	}
-	
-	public int getIdVoit() {
-		return idVoit;
+
+	public int getCarId() {
+		return carId;
 	}
-	public void setIdVoit(int idVoit) {
-		this.idVoit = idVoit;
+
+	public void setCarId(int carId) {
+		this.carId = carId;
 	}
+
 	public Timestamp getDate() {
 		return date;
 	}
+
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
-	public int getNbVoitures() {
-		return nbVoitures;
-	}
-	public void setNbVoitures(int nbVoitures) {
-		this.nbVoitures = nbVoitures;
-	}
-	public int getIdCap() {
-		return idCap;
-	}
-	public void setIdCap(int idCap) {
-		this.idCap = idCap;
-	} 
-	
-	
-	
-	
 
+	public int getCarsNb() {
+		return carsNb;
+	}
+
+	public void setCarsNb(int carsNb) {
+		this.carsNb = carsNb;
+	}
+
+	public int getSensorId() {
+		return sensorId;
+	}
+
+	public void setSensorId(int sensorId) {
+		this.sensorId = sensorId;
+	}
+	
 }

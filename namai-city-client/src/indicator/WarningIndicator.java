@@ -4,54 +4,62 @@ import java.sql.Timestamp;
 
 public class WarningIndicator {
 
-	private int idAlerte; 
-	private String alerteEtat; 
-	private int idSeuil; 
-	private int seuil;
+	private int warningId; 
+	private String warningState; 
+	private int thresholdId; 
+	private int threshold;
 	private Timestamp date; 
 	
 	public WarningIndicator() {
 		
 	}
 	
-	public WarningIndicator(int idA, String alerte,int idS, int s, Timestamp d ) {
-		idAlerte = idA; 
-		alerteEtat = alerte; 
-		idSeuil = idS; 
-		seuil = s; 
+	public WarningIndicator(int idA, String warning,int idS, int s, Timestamp d ) {
+		warningId = idA; 
+		warningState = warning; 
+		thresholdId = idS; 
+		threshold = s; 
 		date = d; 
 	}
-	
+
+	public int getWarningId() {
+		return warningId;
+	}
+
+	public void setWarningId(int warningId) {
+		this.warningId = warningId;
+	}
+
+	public String getWarningState() {
+		return warningState;
+	}
+
+	public void setWarningState(String warningState) {
+		this.warningState = warningState;
+	}
+
+	public int getThresholdId() {
+		return thresholdId;
+	}
+
+	public void setThresholdId(int thresholdId) {
+		this.thresholdId = thresholdId;
+	}
+
+	public int getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
+	}
+
 	public Timestamp getDate() {
 		return date;
 	}
+
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
-	public int getIdAlerte() {
-		return idAlerte;
-	}
-	public void setIdAlerte(int idAlerte) {
-		this.idAlerte = idAlerte;
-	}
-	public String getAlerteEtat() {
-		return alerteEtat;
-	}
-	public void setAlerteEtat(String alerteEtat) {
-		this.alerteEtat = alerteEtat;
-	}
-	public int getIdSeuil() {
-		return idSeuil;
-	}
-	public void setIdSeuil(int idSeuil) {
-		this.idSeuil = idSeuil;
-	}
-	public int getSeuil() {
-		return seuil;
-	}
-	public void setSeuil(int seuil) {
-		this.seuil = seuil;
-	} 
-	
 	
 }

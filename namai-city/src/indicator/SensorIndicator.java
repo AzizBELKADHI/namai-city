@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class SensorIndicator {
 	
-	private int idCap; 
+	private int sensorId; 
 	private String type; 
 	private String position; 
 	private Timestamp date; 
@@ -14,17 +14,17 @@ public class SensorIndicator {
 	}
 	
 	public SensorIndicator(int id, String t, String p, Timestamp d) {
-		idCap = id; 
+		sensorId = id; 
 		type = t; 
 		position = p; 
 		date = d; 
 	}
 	
-	public int getIdCap() {
-		return idCap;
+	public int getSensorId() {
+		return sensorId;
 	}
-	public void setIdCap(int idCap) {
-		this.idCap = idCap;
+	public void setSensorId(int sensorId) {
+		this.sensorId = sensorId;
 	}
 	public String getType() {
 		return type;
