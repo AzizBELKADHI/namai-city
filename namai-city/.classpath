@@ -10,5 +10,6 @@
 	<classpathentry kind="src" path="com.namai-city.client"/>
 	<classpathentry kind="src" path="com.namai-city.server"/>
 	<classpathentry kind="src" path="com.namai-city.commons"/>
+	<classpathentry kind="src" path="com.namai-city.insert-data"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
