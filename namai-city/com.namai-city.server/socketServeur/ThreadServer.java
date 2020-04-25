@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 
 import com.connectionPool.DataSource;
 import controller.DBConnectController;
@@ -44,6 +45,7 @@ public class ThreadServer extends Thread {
 			String resp = inJson.readLine();
 			System.out.println("----bonjour je viens de récuperer le JSON");
 			System.out.println(resp);
+			
 			Object obj=JSONValue.parse(resp); 
 			System.out.println("----bonjour je parse le JSON");
 			System.out.println(resp);
@@ -61,14 +63,14 @@ public class ThreadServer extends Thread {
 			clientSocket.close();
 		} catch (Exception e) {
 			System.out.println("--------Un client s'est déconnecté de manière précipitée !-------");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		DBConnectController.clientsState(false);
 	}
 
 
 	// crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
-	private Object crud(JSONObject JsonRecu) throws SQLException, InterruptedException {
+	private Object crud(JSONObject JsonRecu) throws SQLException, InterruptedException, UnsupportedEncodingException, ParseException {
 
 		if(JsonRecu.get("demandType").equals("SELECT")) {
 			long idcaste = Long.valueOf(JsonRecu.get("Id").toString());
@@ -218,6 +220,13 @@ public class ThreadServer extends Thread {
 			}
 			return obj;
 		}
+		
+		if (JsonRecu.get("demandType").equals("MOCK_SENSOR_INSERT")) {
+			SensorInsert sensorInsert = new SensorInsert(); 
+			sensorInsert.insertSensor(JsonRecu, c); 
+		}
+		
+		
 
 		// Case where no if is checked 
 		return new JSONObject();

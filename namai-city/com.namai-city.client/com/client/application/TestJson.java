@@ -69,6 +69,7 @@ public class TestJson {
 			System.out.println("9: récupération de l'indicateur du nombre d'alertes");
 			System.out.println("10: récupération de l'indicateur du nombre de stations");
 			System.out.println("11: récupération de l'indicateur du nombre de personnes par station");
+			System.out.println("12: insérer des données dans la table Capteur");
 			System.out.println("########################### Menu Namai-city-client #########################");
 			
 			client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
@@ -359,6 +360,22 @@ public class TestJson {
 				client.stopConnection();
 				
 				break; 
+				
+			case "12": 
+				System.out.println("########################### INSERT SENSOR #########################");
+				
+				
+				
+				obj.put("demandType",String.valueOf("MOCK_SENSOR_INSERT"));
+			
+				
+				JSONObject reponseInsertSensor = client.sendMessage(obj);
+				String repServerSensor = (String) reponseInsertSensor.get("reponse");
+				System.out.println(repServerSensor);
+			
+				client.stopConnection();
+				break; 
+
 
 			}
 
