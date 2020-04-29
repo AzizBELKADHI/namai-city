@@ -226,6 +226,10 @@ public class ThreadServer extends Thread {
 			sensorInsert.insertSensor(JsonRecu, c); 
 		}
 		
+		if (JsonRecu.get("demandType").equals("MOCK_CAR_INSERT")) {
+			CarInsert carInsert = new CarInsert(); 
+			carInsert.insertCar(JsonRecu, c); 
+		}
 		
 
 		// Case where no if is checked 
