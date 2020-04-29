@@ -71,6 +71,8 @@ public class TestJson {
 			System.out.println("11: récupération de l'indicateur du nombre de personnes par station");
 			System.out.println("12: insérer des données dans la table Capteur");
 			System.out.println("13: insérer des données dans la table Frequentation_Voiture");
+			System.out.println("14: insérer des données dans la table station"); 
+			System.out.println("15: insérer des données dans la table Frequentation_station_tram"); 
 			System.out.println("########################### Menu Namai-city-client #########################");
 			
 			client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
@@ -364,9 +366,6 @@ public class TestJson {
 				
 			case "12": 
 				System.out.println("########################### INSERT SENSOR #########################");
-				
-				
-				
 				obj.put("demandType",String.valueOf("MOCK_SENSOR_INSERT"));
 			
 				
@@ -388,7 +387,30 @@ public class TestJson {
 			
 				client.stopConnection();
 				break; 
-
+				
+			case "14": 
+				System.out.println("########################### INSERT STATION #########################");
+				obj.put("demandType",String.valueOf("MOCK_STATION_INSERT"));
+			
+				
+				JSONObject reponseInsertStation = client.sendMessage(obj);
+				String repServerStation = (String) reponseInsertStation.get("reponse");
+				System.out.println(repServerStation);
+			
+				client.stopConnection();
+				break; 
+				
+			case "15": 
+				System.out.println("########################### INSERT  PERS STATION #########################");
+				obj.put("demandType",String.valueOf("MOCK_PERS_STATION_INSERT"));
+			
+				
+				JSONObject reponseInsertPersStation = client.sendMessage(obj);
+				String repServerPersStation = (String) reponseInsertPersStation.get("reponse");
+				System.out.println(repServerPersStation);
+			
+				client.stopConnection();
+				break; 
 
 			}
 

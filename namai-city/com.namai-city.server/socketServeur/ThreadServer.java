@@ -231,6 +231,16 @@ public class ThreadServer extends Thread {
 			carInsert.insertCar(JsonRecu, c); 
 		}
 		
+		if (JsonRecu.get("demandType").equals("MOCK_STATION_INSERT")) {
+			StationTramInsert stationInsert = new StationTramInsert(); 
+			stationInsert.insertStation(JsonRecu, c); 
+		}
+		
+		if (JsonRecu.get("demandType").equals("MOCK_PERS_STATION_INSERT")) {
+			StationTramInsert stationInsert = new StationTramInsert(); 
+			stationInsert.insertPersStation(JsonRecu, c); 
+		}
+		
 
 		// Case where no if is checked 
 		return new JSONObject();

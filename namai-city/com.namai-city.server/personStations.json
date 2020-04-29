@@ -1,0 +1,30 @@
+[
+
+{
+"id_freq_station" : 5,
+"position" : "Est",
+"date" : "2020-04-04 20:00:02",
+"qte_pers" : 20,
+"id_station" : 5
+	},
+	
+	{
+"id_freq_station" : 6,
+"position" : "Ouest",
+"date" : "2020-04-12 16:20:42",
+"qte_pers" : 50,
+"id_station" : 6
+
+},
+
+{
+"id_freq_station" : 7,
+"position" : "Nord",
+"date" : "2020-04-27 21:01:32"
+"qte_pers" : 45,
+"id_station" : 7
+
+}
+
+]
+	

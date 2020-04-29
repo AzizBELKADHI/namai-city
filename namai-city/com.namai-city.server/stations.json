@@ -1,0 +1,34 @@
+[
+
+{
+"id_station" : 6,
+"nom_station" : "Reuilly Diderot",
+"position" : "Nord",
+"date" : "2020-02-14 19:00:02"
+	},
+	
+	{
+"id_station" : 7,
+"nom_station" : "Joinville le Pont RER",
+"position" : "Sud",
+"date" : "2020-01-12 16:20:42"
+
+},
+
+{
+"id_station" : 8,
+"nom_station" : "La Défense",
+"position" : "Ouest",
+"date" : "2020-01-29 21:01:32"
+
+},
+
+{
+"id_station" : 9,
+"nom_station" : "Nation",
+"position" : "Est",
+"date" : "2020-02-04 17:01:42"
+}
+
+]
+	
