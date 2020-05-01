@@ -5,10 +5,13 @@ import java.sql.Timestamp;
 public class WarningIndicator {
 
 	private int warningId; 
-	private String warningState; 
 	private int thresholdId; 
+	private String warningState; 
 	private int threshold;
-	private Timestamp date; 
+	private int thresholdMax; 
+	private String position; 
+	private Timestamp dateStart; 
+	private Timestamp dateEnd; 
 	
 	public WarningIndicator() {
 		

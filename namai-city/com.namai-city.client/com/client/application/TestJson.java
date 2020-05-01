@@ -1,3 +1,4 @@
+
 package com.client.application;
 
 import java.io.IOException;
@@ -73,6 +74,7 @@ public class TestJson {
 			System.out.println("13: insérer des données dans la table Frequentation_Voiture");
 			System.out.println("14: insérer des données dans la table station"); 
 			System.out.println("15: insérer des données dans la table Frequentation_station_tram"); 
+			System.out.println("16: insérer des données dans la table Historique_alerte"); 
 			System.out.println("########################### Menu Namai-city-client #########################");
 			
 			client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
@@ -408,6 +410,18 @@ public class TestJson {
 				JSONObject reponseInsertPersStation = client.sendMessage(obj);
 				String repServerPersStation = (String) reponseInsertPersStation.get("reponse");
 				System.out.println(repServerPersStation);
+			
+				client.stopConnection();
+				break; 
+				
+			case "16": 
+				System.out.println("########################### INSERT HISTORICAL WARNING #########################");
+				obj.put("demandType",String.valueOf("MOCK_WARNING_HISTORICAL_INSERT"));
+			
+				
+				JSONObject reponseInsertWarning = client.sendMessage(obj);
+				String repServerWarning = (String) reponseInsertWarning.get("reponse");
+				System.out.println(repServerWarning);
 			
 				client.stopConnection();
 				break; 

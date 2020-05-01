@@ -31,10 +31,14 @@ public class SocketClient {
 	}
 
 	public static JSONObject sendMessage(JSONObject JsonMsg) throws IOException {
+		System.out.println(JsonMsg); 
 		outJson.println(JsonMsg);
 		String resp = inJson.readLine();
-		Object obj=JSONValue.parse(resp); 
-		JSONObject jsonObject = (JSONObject) obj;  
+		JSONObject jsonObject = new JSONObject(); 
+		if (resp != null ) {
+			Object obj=JSONValue.parse(resp); 
+			jsonObject = (JSONObject) obj;  
+		}
 		return jsonObject;
 	}
 

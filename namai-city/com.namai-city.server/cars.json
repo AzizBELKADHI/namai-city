@@ -1,24 +1,21 @@
 [
 
 {
-"id_voit" : 6,
 "nb_voitures" : 200,
-"id_cap" : 19,
+"id_cap" : 25,
 "date" : "2020-04-24 14:41:02"
 	},
 	
 	{
-"id_voit" : 7,
 "nb_voitures" : 150,
-"id_cap" : 21,
+"id_cap" : 26,
 "date" : "2020-04-02 10:21:42"
 
 },
 
 {
-"id_voit" : 19,
 "nb_voitures" : 50,
-"id_cap" : 22,
+"id_cap" : 27,
 "date" : "2020-02-26 21:11:32"
 
 }

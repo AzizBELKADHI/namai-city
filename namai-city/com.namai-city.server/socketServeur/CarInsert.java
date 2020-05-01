@@ -46,21 +46,18 @@ public void insertCar (JSONObject JsonRecu, Connection c) throws ParseException,
 
 		for (int i = 0; i < json.size(); i++) {
 			JSONObject jsonObject = (JSONObject) json.get(i);
-			Long id = (Long) (jsonObject.get("id_voit"));
-			int carId = id.intValue(); 
 			Long nb = (Long) (jsonObject.get("nb_voitures"));
 			int carsNb = nb.intValue(); 
 			Long id2 = (Long) (jsonObject.get("id_cap"));
-			int sensorId = id.intValue(); 
+			int sensorId = id2.intValue(); 
 			Timestamp date = Timestamp.valueOf((String) jsonObject.get("date")); 
-			System.out.println("Parcours de la liste des voitures Fréquentés  " + carId); 
+			System.out.println("Parcours de la liste des voitures Fréquentés  " + carsNb); 
 		
-			PreparedStatement stmt3 = c.prepareStatement("insert into Frequentation_Voiture (id_voit, nb_voitures, id_cap, date) values (?,?,?,?);");
+			PreparedStatement stmt3 = c.prepareStatement("insert into Frequentation_Voiture (nb_voitures, id_cap, date) values (?,?,?);");
 			// the request takes name and first name already retrieved 
-			stmt3.setInt(1, carId);
-			stmt3.setInt(2,carsNb);
-			stmt3.setInt(3,sensorId);
-			stmt3.setTimestamp(4, date); 
+			stmt3.setInt(1,carsNb);
+			stmt3.setInt(2,sensorId);
+			stmt3.setTimestamp(3, date); 
 			// query execution 
 			
 			System.out.println("recupération des données"); 
@@ -71,7 +68,6 @@ public void insertCar (JSONObject JsonRecu, Connection c) throws ParseException,
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			if(stmt3.executeUpdate()>=1) {
 				obj.put("reponse",String.valueOf("insertion reussi"));
-				obj.put("id_voit",carId);
 				obj.put("nb_voitures", carsNb);
 				obj.put("id_cap",sensorId);
 				obj.put("date",date);

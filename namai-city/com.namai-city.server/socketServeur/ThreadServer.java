@@ -222,23 +222,33 @@ public class ThreadServer extends Thread {
 		}
 		
 		if (JsonRecu.get("demandType").equals("MOCK_SENSOR_INSERT")) {
+			System.out.println("CAPTEUR");
 			SensorInsert sensorInsert = new SensorInsert(); 
 			sensorInsert.insertSensor(JsonRecu, c); 
 		}
 		
 		if (JsonRecu.get("demandType").equals("MOCK_CAR_INSERT")) {
+			System.out.println("FREQUENTATION-VOITURE");
 			CarInsert carInsert = new CarInsert(); 
 			carInsert.insertCar(JsonRecu, c); 
 		}
 		
 		if (JsonRecu.get("demandType").equals("MOCK_STATION_INSERT")) {
+			System.out.println("STATION ");
 			StationTramInsert stationInsert = new StationTramInsert(); 
 			stationInsert.insertStation(JsonRecu, c); 
 		}
 		
 		if (JsonRecu.get("demandType").equals("MOCK_PERS_STATION_INSERT")) {
+			System.out.println("FREQUENTATION PERSONNE STATION ");
 			StationTramInsert stationInsert = new StationTramInsert(); 
 			stationInsert.insertPersStation(JsonRecu, c); 
+		}
+		
+		if (JsonRecu.get("demandType").equals("MOCK_WARNING_HISTORICAL_INSERT")) {
+			System.out.println("HISTORIQUE ALERTE "); 
+			WarningInsert warningInsert = new WarningInsert(); 
+			warningInsert.warningHistoricalInsert(JsonRecu, c); 
 		}
 		
 

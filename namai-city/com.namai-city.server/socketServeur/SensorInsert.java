@@ -49,19 +49,16 @@ public class SensorInsert {
 
 		for (int i = 0; i < json.size(); i++) {
 			JSONObject jsonObject = (JSONObject) json.get(i);
-			Long id = (Long) (jsonObject.get("id_cap"));
-			int sensorId = id.intValue(); 
 			String type = String.valueOf(jsonObject.get("type")); 
 			String position =  String.valueOf(jsonObject.get("position")); 
 			Timestamp date = Timestamp.valueOf((String) jsonObject.get("date")); 
-			System.out.println("Parcours de la liste des capteurs " + sensorId); 
+			System.out.println("Parcours de la liste des capteurs " + type ); 
 		
-			PreparedStatement stmt3 = c.prepareStatement("insert into capteur (id_cap, type, position, date) values (?,?,?,?);");
+			PreparedStatement stmt3 = c.prepareStatement("insert into capteur (type, position, date) values (?,?,?);");
 			// the request takes name and first name already retrieved 
-			stmt3.setInt(1, sensorId);
-			stmt3.setString(2,type);
-			stmt3.setString(3,position);
-			stmt3.setTimestamp(4, date); 
+			stmt3.setString(1,type);
+			stmt3.setString(2,position);
+			stmt3.setTimestamp(3, date); 
 			// query execution 
 			
 			System.out.println("recupération des données"); 
@@ -72,7 +69,6 @@ public class SensorInsert {
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			if(stmt3.executeUpdate()>=1) {
 				obj.put("reponse",String.valueOf("insertion reussi"));
-				obj.put("id_cap",sensorId);
 				obj.put("type", type);
 				obj.put("position",position);
 				obj.put("date",date);

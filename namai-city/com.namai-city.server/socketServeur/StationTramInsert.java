@@ -49,16 +49,15 @@ public class StationTramInsert {
 			int stationId = id.intValue(); 
 			String stationName = String.valueOf(jsonObject.get("nom_station")); 
 			String position =  String.valueOf(jsonObject.get("position")); 
-			Timestamp date = Timestamp.valueOf((String) jsonObject.get("date")); 
+		
 			System.out.println("Parcours de la liste des stations, nom de la station " + stationName); 
 		
 			
-			PreparedStatement stmt3 = c.prepareStatement("insert into station (id_station, nom_station, position, date) values (?,?,?,?);");
+			PreparedStatement stmt3 = c.prepareStatement("insert into station (id_station, nom_station, position) values (?,?,?);");
 			// the request takes name and first name already retrieved 
 			stmt3.setInt(1, stationId);
 			stmt3.setString(2, stationName);
 			stmt3.setString(3,position);
-			stmt3.setTimestamp(4, date); 
 			// query execution 
 			
 			System.out.println("recupération des données"); 
@@ -72,7 +71,6 @@ public class StationTramInsert {
 				obj.put("id_station",stationId);
 				obj.put("nom_station", stationName);
 				obj.put("position",position);
-				obj.put("date",date);
 				
 				System.out.println("Insertion des lignes en base faite"); 
 			}
@@ -112,25 +110,24 @@ public class StationTramInsert {
 
 		for (int i = 0; i < json.size(); i++) {
 			JSONObject jsonObject = (JSONObject) json.get(i);
-			Long id1 = (Long) (jsonObject.get("id_station"));
-			int freqStationId = id1.intValue();
 			String position =  String.valueOf(jsonObject.get("position")); 
-			Timestamp date = Timestamp.valueOf((String) jsonObject.get("date")); 
 			Long id = (Long) (jsonObject.get("qte_pers"));
 			int personQty = id.intValue();
 			Long id2 = (Long) (jsonObject.get("id_station"));
 			int stationId = id2.intValue();
+			String stationName =  String.valueOf(jsonObject.get("nom_station")); 
+			Timestamp date = Timestamp.valueOf((String) jsonObject.get("date_mesure")); 
 			
 			System.out.println("Parcours de la liste des personnes par station, nombre de personnes par station " + personQty); 
 		
 			
-			PreparedStatement stmt3 = c.prepareStatement("insert into frequentation_station_tram (id_freq_station,position, date, qte_pers, id_station) values (?,?,?,?,?);");
+			PreparedStatement stmt3 = c.prepareStatement("insert into frequentation_station_tram (position, qte_pers, id_station, nom_station, date_mesure) values (?,?,?,?,?);");
 			// the request takes name and first name already retrieved 
-			stmt3.setInt(1, freqStationId);
-			stmt3.setString(2, position);
-			stmt3.setTimestamp(3, date);
-			stmt3.setInt(4,personQty);
-			stmt3.setInt(5, stationId); 
+			stmt3.setString(1, position);
+			stmt3.setInt(2,personQty);
+			stmt3.setInt(3, stationId); 
+			stmt3.setString(4, stationName);
+			stmt3.setTimestamp(5, date);
 			// query execution 
 			
 			System.out.println("recupération des données"); 
@@ -141,11 +138,11 @@ public class StationTramInsert {
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			if(stmt3.executeUpdate()>=1) {
 				obj.put("reponse",String.valueOf("insertion reussi"));
-				obj.put("id_freq_station",freqStationId);
 				obj.put("position",position);
-				obj.put("date", date);
 				obj.put("qte_pers",personQty);
 				obj.put("id_station",stationId);
+				obj.put("nom_station",stationName);
+				obj.put("date_mesure", date);
 				
 				System.out.println("Insertion des lignes en base faite"); 
 			}
