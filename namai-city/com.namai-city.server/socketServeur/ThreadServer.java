@@ -34,13 +34,9 @@ public class ThreadServer extends Thread {
 
 		try {
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
-			inJson  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
-
-
-			// processing part of Json 
-
-			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
 			inJson = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			
+			do {
 			String resp = inJson.readLine();
 			System.out.println("----bonjour je viens de récuperer le JSON");
 			System.out.println(resp);
@@ -55,14 +51,20 @@ public class ThreadServer extends Thread {
 			// Once the Json had been processed, closing the socket and releasing the connection
 
 			outJson.println(obj);
-			DataSource.releaseConnection(c); 
-			inJson.close();
-			outJson.close();
-			clientSocket.close();
-		} catch (Exception e) {
+			
+				/*
+				 * DataSource.releaseConnection(c); inJson.close(); outJson.close();
+				 * clientSocket.close();
+				 */
+		}while(!clientSocket.isClosed());
+		
+		}catch (Exception e) {
 			System.out.println("--------Un client s'est déconnecté de manière précipitée !-------");
 			//e.printStackTrace();
 		}
+		
+		
+		
 		DBConnectController.clientsState(false);
 	}
 
@@ -160,7 +162,32 @@ public class ThreadServer extends Thread {
 			System.out.println(obj);
 			return obj; 
 		}
+		
+		if(JsonRecu.get("demandType").equals("INSERT_CAPTEUR")) {
+			System.out.println("Je suis rentré dans la requête INSERT"); 
+			// recovery of data that the client had completed (name / first name
+			String inserttype_capteur =(String) JsonRecu.get("type_capteur");
+			String insertlocalisation =(String) JsonRecu.get("localisation");
+			System.out.println("bonjour voici les donnees recu apres traitement");
+			System.out.println(inserttype_capteur +  " " + insertlocalisation);
 
+			PreparedStatement stmt = c.prepareStatement("insert into Capteur(type_capteur,localisation) values (?,?);");
+			// the request takes name and first name already retrieved 
+			stmt.setString(1, inserttype_capteur);
+			stmt.setString(2,insertlocalisation);
+			// query execution 
+			stmt.execute();
+
+			JSONObject obj=new JSONObject(); 
+
+			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
+			obj.put("reponse",String.valueOf("insertion réussi"));
+			obj.put("type_capteur",String.valueOf(inserttype_capteur));
+			obj.put("localisation",String.valueOf(insertlocalisation));
+
+			System.out.println(obj);
+			return obj; 
+		}
 
 		if(JsonRecu.get("demandType").equals("UPDATE")) {
 			System.out.println("Je suis rentré dans la requete UPDATE");
