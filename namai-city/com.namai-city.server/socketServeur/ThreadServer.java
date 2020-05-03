@@ -247,7 +247,7 @@ public class ThreadServer extends Thread {
 		}
 
 		// Case where no if is checked 
-		return new JSONObject();
+		return new JSONObject(); 
 	}
 
 }
