@@ -43,6 +43,7 @@ public class SensorInsert {
 			}
 		}
 		String myjsonstring = sb.toString(); 
+		
 
 		JSONParser parser = new JSONParser(); 
 		JSONArray json = (JSONArray) parser.parse(myjsonstring); 

@@ -9,45 +9,52 @@ import java.util.ArrayList;
 import org.json.simple.JSONObject;
 
 public class Car {
-	private Connection c; 
+	
 
-	public Object CarDAO (JSONObject JsonRecu) throws SQLException, InterruptedException {
+	public Object carDAO (JSONObject JsonRecu, Connection c) {
+		JSONObject obj=new JSONObject();
 		if (JsonRecu.get("demandType").equals("CAR_INDICATOR")) {
 
-			String date =(String) JsonRecu.get("date");
-			System.out.println("bonjour voici les donnees recu apres traitement");
-			System.out.println(date +  " ");
+			try {
+				PreparedStatement stmt1 = c.prepareStatement("select sum(nb_voitures) as nombre_voitures_total_date, date from Frequentation_Voiture group by (date);"); 
 
-			PreparedStatement stmt1 = c.prepareStatement("select *, sum(nb_voitures) as nombre_voitures, avg(nb_voitures), max(nb_voitures) from Frequentation_Voiture where date = ? group by position;"); 
-			stmt1.setString(1, date);
-			ResultSet rs2 = stmt1.executeQuery();
+				System.out.println("execution de la requête");
+				ResultSet rs2 = stmt1.executeQuery();
+				System.out.println("requête exécutée)"); 
 
-			JSONObject obj=new JSONObject();
-			// creation of car list 
-			ArrayList<CarIndicator> listCars = new ArrayList<CarIndicator>(); 
+				// creation of car list 
+				ArrayList<JSONObject> listCars = new ArrayList<JSONObject>();
+				System.out.println(rs2.getFetchSize());
+				System.out.println("mapping classe CarIndicator");
 
+				while (rs2.next()) {
 
-			while (rs2.next()) {
+					// Mapping de la classe CarIndicator (passage des résultats de la BDD en un objet java grâce au resultset 
+					CarIndicator car = new CarIndicator(0, rs2.getInt("nb_voitures"), 0, rs2.getTimestamp("date"), rs2.getInt("nombre_voitures_total_date"));
+					System.out.println("récuperation des résultats du select"); 
+					obj= car.convertToJSON();
+					// adding each sensor to the list already created
+					listCars.add(obj);
+					System.out.println("ajout d'une frequentation de voitures dans la liste des voitures"); 
 
-				// Mapping de la classe CarIndicator (passage des résultats de la BDD en un objet java grâce au resultset 
-				CarIndicator car = new CarIndicator(rs2.getInt("id_voit"), rs2.getTimestamp("date"), rs2.getInt("nb_voitures"), rs2.getInt("id_cap")); 
+				}
+				//System.out.println("voici l'arrayList : ");
+				// displaying the list 
+				//System.out.println(listUsers);
 
-				// adding each sensor to the list already created
-				listCars.add(car);
+				obj.put("cars", listCars);
+				System.out.println("voici le json envoyé avec le select permettant de récupérer le nombre de voiture dans la ville: ");
+				// displaying the Json
+				System.out.println(obj);
+				Thread.sleep(3000);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			//System.out.println("voici l'arrayList : ");
-			// displaying the list 
-			//System.out.println(listUsers);
-
-			obj.put("cars", listCars);
-			System.out.println("voici le json envoyé avec le select: ");
-			// displaying the Json
-			System.out.println(obj);
-			Thread.sleep(3000); 
-
-			return obj;
 		}
-		return null; 
 
+		return obj;
 	}
 }
+

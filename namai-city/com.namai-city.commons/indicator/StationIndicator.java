@@ -2,22 +2,39 @@ package indicator;
 
 import java.sql.Timestamp;
 
+import org.json.simple.JSONObject;
+
 public class StationIndicator {
 	
 	private int stationId; 
 	private String stationName; 
 	private String position; 
-	private Timestamp date;
+	private int stationNb; 
 	
+	
+	public int getStationNb() {
+		return stationNb;
+	}
+
+	public void setStationNb(int stationNb) {
+		this.stationNb = stationNb;
+	}
+
 	public StationIndicator() {
 		
 	}
 	
-	public StationIndicator(int idS, String name, String p, Timestamp d) {
+	@Override
+	public String toString() {
+		return "StationIndicator [stationId=" + stationId + ", stationName=" + stationName + ", position=" + position
+				+ ", stationNb=" + stationNb + "]";
+	}
+
+	public StationIndicator(int idS, String name, String p, int nb) {
 		stationId = idS; 
 		stationName = name; 
-		position = p; 
-		date = d; 
+		position = p;
+		stationNb = nb; 
 	}
 
 	public int getStationId() {
@@ -43,13 +60,21 @@ public class StationIndicator {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-
-	public Timestamp getDate() {
-		return date;
+	
+	public JSONObject convertToJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id_station", stationId);
+		json.put("nom_station", stationName); 
+		json.put("position", position); 
+		//json.put("nombre_stations_position", stationsNb); 
+		
+		return json;
 	}
-
-	public void setDate(Timestamp date) {
-		this.date = date;
+	
+	public void convertFromJson(JSONObject json) {
+		this.stationId = (int) json.get("id_station");
+		this.position = (String) json.get("position"); 
+		//this.stationsNb = (int) json.get("nombre_stations_position"); 
 	}
 }
 	

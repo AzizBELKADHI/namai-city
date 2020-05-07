@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 
 import com.connectionPool.DataSource;
 import controller.DBConnectController;
@@ -21,45 +22,43 @@ import controller.DBConnectController;
 
 
 public class Sensor {
-	private Connection c;
-	
-	
-	public Object getIndicator (JSONObject JsonRecu) throws SQLException, InterruptedException {
+
+	public JSONObject getIndicator (JSONObject JsonRecu, Connection c){
+		JSONObject obj=new JSONObject();
+
 		if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR")) {
-			String date =(String) JsonRecu.get("date");
-			System.out.println("bonjour voici les donnees recu apres traitement");
-			System.out.println(date +  " " );
+			try {
+				PreparedStatement stmt1 = c.prepareStatement("select count(*) as nombre_capteur_position, position, type, date from capteur group by (position,type,date);");
+				ResultSet rs2 = stmt1.executeQuery();
 
-			System.out.println("execution de la requête"); 
-			PreparedStatement stmt1 = c.prepareStatement("select type, position, count(*) as nombre_cap from capteur where date = ? group by (type, position);"); 
-			stmt1.setString(1, date);
-			ResultSet rs2 = stmt1.executeQuery();
 
-			JSONObject obj=new JSONObject();
-			// creation of sensor list 
-			ArrayList<SensorIndicator> listSensors = new ArrayList<SensorIndicator>(); 
-			System.out.println(rs2.getFetchSize());
-			while (rs2.next()) {
+				// creation of users list 
+				ArrayList<JSONObject> listSensors = new ArrayList<JSONObject>();
 
-				// Mapping de la classe SensorIndicator (passage des résultats de la BDD en un objet java grâce au resultset 
-				SensorIndicator sensor = new SensorIndicator(0, rs2.getString("type"), rs2.getString("position"), rs2.getTimestamp("date"), rs2.getInt("nombre_cap")); 
-				System.out.println("récuperation des résultats du select"); 
-				//System.out.println("affichage: " + sensor.toString()); 
-				// adding each sensor to the list already created
-				listSensors.add(sensor);
-			}
-			//System.out.println("voici l'arrayList : ");
-			// displaying the list 
-			//System.out.println(listUsers);
+				while (rs2.next()) {
+					SensorIndicator sensor = new SensorIndicator(0, rs2.getString("type"), rs2.getString("position"), rs2.getTimestamp("date"), rs2.getInt("nombre_capteur_position")); 
+					//System.out.println("récuperation des résultats du select"); 
+					JSONObject sensorJSON = sensor.convertToJSON();
 
-			obj.put("sensors", listSensors);
-			System.out.println("voici le json envoyé avec le select: ");
-			// displaying the Json
-			System.out.println(obj);
-			Thread.sleep(3000); 
-		
-			return obj;
+					// adding each user to the list already created
+					listSensors.add(sensorJSON);
+
+
+				}
+				//System.out.println("voici l'arrayList : ");
+				// displaying the list 
+				//System.out.println(listUsers);
+
+				obj.put("sensors", listSensors);
+				System.out.println("voici le json envoyé avec getIndicator ");
+				// displaying the Json
+				System.out.println(obj);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 		}
-		return null;
+		return obj;
 	}
+
 }

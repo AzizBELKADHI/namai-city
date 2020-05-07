@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 
 
 
@@ -30,14 +31,27 @@ public class SocketClient {
 		inJson = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
 	}
 
-	public static JSONObject sendMessage(JSONObject JsonMsg) throws IOException {
-		System.out.println(JsonMsg); 
-		outJson.println(JsonMsg);
-		String resp = inJson.readLine();
+	public static JSONObject sendMessage(JSONObject JsonMsg) {
 		JSONObject jsonObject = new JSONObject(); 
-		if (resp != null ) {
+		try {
+			System.out.println(JsonMsg); 
+			outJson.println(JsonMsg);
+			String resp = inJson.readLine();
+			System.out.println("==================> En String :  "  + resp);
 			Object obj=JSONValue.parse(resp); 
 			jsonObject = (JSONObject) obj;  
+			System.out.println("==================> En JSON : "  + jsonObject);
+			//JSONParser parser = new JSONParser();
+			//jsonObject=(JSONObject) parser.parse(resp);
+			/*if (resp != null ) {
+				JSONParser parser = new JSONParser();
+				jsonObject=(JSONObject) parser.parse(resp);
+				//jsonObject = (JSONObject) obj;  
+			}*/
+			//return jsonObject;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return jsonObject;
 	}

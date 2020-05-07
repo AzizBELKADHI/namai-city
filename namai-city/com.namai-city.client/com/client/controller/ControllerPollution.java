@@ -44,7 +44,7 @@ public class ControllerPollution implements ActionListener {
 			String localisation = (String) reponse.get("localisation");
 			System.out.println(repServer +": \n" + type_capteur + ": \n " + localisation  + ": \n");  // Display data
 		
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			
 			e1.printStackTrace();
 		} 

@@ -66,7 +66,7 @@ public class TestJson {
 			System.out.println("5: Exit");
 			System.out.println("6: Tentative de connexion à la BDD depuis le client ");
 			System.out.println("7: récupération de l'indicateur du nombre de capteurs");
-			System.out.println("8: récupération de l'indicateur du nombre de voitures");
+			System.out.println("8: récupération de l'indicateur du nombre de voitures par date dans la ville ");
 			System.out.println("9: récupération de l'indicateur du nombre d'alertes");
 			System.out.println("10: récupération de l'indicateur du nombre de stations");
 			System.out.println("11: récupération de l'indicateur du nombre de personnes par station");
@@ -75,6 +75,7 @@ public class TestJson {
 			System.out.println("14: insérer des données dans la table station"); 
 			System.out.println("15: insérer des données dans la table Frequentation_station_tram"); 
 			System.out.println("16: insérer des données dans la table Historique_alerte"); 
+
 			System.out.println("########################### Menu Namai-city-client #########################");
 			
 			client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
@@ -246,23 +247,43 @@ public class TestJson {
 				stmt3.setString(2,prenomBDD);
 				stmt3.execute();
 				break; 
-
-			default:
-				System.out.println("Unrocognized command");
-				break;
 				
 			case "7": 
 				System.out.println("########################### SENSOR INDICATOR #########################");
-				System.out.println("A quel date voulez-vous récupèrer les données du capteur de la qualité de l'air? ");
-				String date  = sc.nextLine();
-				Timestamp date2 = Timestamp.valueOf(date);
 				obj.put("demandType", "SENSOR_INDICATOR");
-				obj.put("date", date); 
+				System.out.println("récupération du nombre de capteur par zone selon le type et la date"); 
 
 				System.out.println(obj);
 				JSONObject reponseSensor = client.sendMessage(obj);
 				System.out.println("affichage rep : " + reponseSensor); 
-				ArrayList<SensorIndicator> allSensors = new ArrayList<SensorIndicator>();// Creation d'un tableau de type SensorIndicator
+				ArrayList<JSONObject> allSensors = new ArrayList<JSONObject>();// Creation d'un tableau de type SensorIndicator
+				allSensors = (ArrayList<JSONObject>) reponseSensor.get("sensors");
+				//System.out.println(allSensors.size()); 
+				int nbTotal = 0;
+				for(int i = 0; i<allSensors.size();i++) { // Creating a loop to display all sensors in the table sensors
+					SensorIndicator s = new SensorIndicator(); 
+					s.convertFromJson(allSensors.get(i));
+					System.out.println("type: "+s.getType()+
+							" | position: "+s.getPosition() +
+							" | date: Pas encore recuperee " + 
+							" | nombre de capteurs en ville : "+s.getSensorNb()); 
+				
+					nbTotal += s.getSensorNb();
+				}
+				System.out.println("==============> Nb total : " + nbTotal);
+				
+				
+				client.stopConnection();
+				/*
+				client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+				JSONObject obj2 =new JSONObject();
+				obj2.put("demandType", "SENSOR_INDICATOR");
+				System.out.println("récupération du nombre totale de capteurs dans la ville"); 
+				
+				System.out.println(obj);
+				JSONObject reponseSensor2 = client.sendMessage(obj2);
+				System.out.println("affichage rep : " + reponseSensor); 
+				ArrayList<SensorIndicator> allSensors2 = new ArrayList<SensorIndicator>();// Creation d'un tableau de type SensorIndicator
 				allSensors = (ArrayList<SensorIndicator>) reponseSensor.get("sensors");
 				for(int i = 0; i<allSensors.size();i++) { // Creating a loop to display all sensors in the table sensors
 					System.out.println("type: "+allSensors.get(i).getType()+
@@ -270,52 +291,55 @@ public class TestJson {
 							" | date: "+allSensors.get(i).getDate() + 
 							" | nombre de capteurs en ville : "+allSensors.get(i).getSensorNb()); 
 					
-				}
-				
-				client.stopConnection();
+				} 
+				*/
 				
 				break; 
 				
 			case "8": 
 				System.out.println("########################### CAR INDICATOR #########################");
-				System.out.println("A quel date voulez-vous récupèrer les données du capteur permettant de comptabiliser le nombre de voitures? ");
-				String date_car  = sc.nextLine();
-				Timestamp date_car2 = Timestamp.valueOf(date_car);
+			
 				obj.put("demandType", "CAR_INDICATOR");
-				obj.put("date", date_car); 
+				System.out.println("récupération du nombre de voitures par la date"); 
+
 
 				System.out.println(obj);
+				
 				JSONObject reponseAll1 = client.sendMessage(obj);
-				ArrayList<CarIndicator> allCars = new ArrayList<CarIndicator>();// Creation d'un tableau de type CarIndicator
-				allCars = (ArrayList<CarIndicator>) reponseAll1.get("cars");
-				System.out.println("Bonjour"); 
+				System.out.println("affichage rep : " + reponseAll1); 
+				ArrayList<JSONObject> allCars = new ArrayList<JSONObject>();// Creation d'un tableau de type CarIndicator
+				allCars = (ArrayList<JSONObject>) reponseAll1.get("cars");
+				
 				for(int i = 0; i<allCars.size();i++) { // Creating a loop to display all sensors in the table Frequentation_Voiture
-					System.out.println("id_voiture: "+allCars.get(i).getCarId() + 
-							" | date: "+allCars.get(i).getDate()+
-							" | nombre de voitures: "+allCars.get(i).getCarsNb() +
-							" | id_capteur: "+allCars.get(i).getSensorId()); 
+					CarIndicator s = new CarIndicator(); 
+					s.convertFromJson(allCars.get(i));
+					System.out.println(" | nombre de voitures: "+ s.getCarsNb() +
+							" date: " + s.getDate()+
+							" | nombre de voitures totale par date : "+ s.getCarNbGlobal()); 
+							
+		
 				}			 
 				client.stopConnection();
 				break; 
 				
+				
 			case "9": 
 				System.out.println("########################### WARNING INDICATOR #########################");
-				System.out.println("A quel date voulez-vous récupèrer le nombre d'alertes ainsi que le taux de seuil de pollution de chacune ? ");
-				String date_warning  = sc.nextLine();
-				Timestamp date_warning2 = Timestamp.valueOf(date_warning);
 				obj.put("demandType", "WARNING_INDICATOR");
-				obj.put("date", date_warning); 
+
+				System.out.println("récupération du nombre d'alertes par DATE"); 
 
 				System.out.println(obj);
 				JSONObject reponseAll2 = client.sendMessage(obj);
-				ArrayList<WarningIndicator> allWarnings = new ArrayList<WarningIndicator>();// Creation d'un tableau de type WarningIndicator
-				allWarnings = (ArrayList<WarningIndicator>) reponseAll2.get("warnings");
+				System.out.println("affichage rep : " + reponseAll2);
+				ArrayList<JSONObject> allWarnings = new ArrayList<JSONObject>();// Creation d'un tableau de type WarningIndicator
+				allWarnings = (ArrayList<JSONObject>) reponseAll2.get("warnings");
 				for(int i = 0; i<allWarnings.size();i++) { // Creating a loop to display all sensors in the table historique_Alerte
-					System.out.println("id_alerte: "+allWarnings.get(i).getWarningId() + 
-							" | l'état de l'alerte : "+allWarnings.get(i).getWarningState()+
-							" | id_seuil: "+allWarnings.get(i).getThresholdId() +
-							" | le taux du seuil: "+allWarnings.get(i).getThreshold() +
-					" | date: "+allWarnings.get(i).getDate()); 
+					WarningIndicator s = new WarningIndicator(); 
+					s.convertFromJson(allWarnings.get(i));
+					System.out.println("position: "+ s.getPosition() + 
+							" | date : "+ s.getDateStart()+
+							" | nombre d'alertes dans la ville : "+s.getWarningNb()); 
 				}			 
 				client.stopConnection();
 				
@@ -324,21 +348,20 @@ public class TestJson {
 				
 			case "10": 
 				System.out.println("########################### STATION INDICATOR #########################");
-				System.out.println("A quel date voulez-vous récupèrer le nombre de stations dans la ville? ");
-				String date_station  = sc.nextLine();
-				Timestamp date_station2 = Timestamp.valueOf(date_station);
+			
+				
 				obj.put("demandType", "STATION_INDICATOR");
-				obj.put("date", date_station); 
-
+				System.out.println("récupération du nombre de station par zone "); 
 				System.out.println(obj);
 				JSONObject reponseAll3 = client.sendMessage(obj);
-				ArrayList<StationIndicator> allStations = new ArrayList<StationIndicator>();// Creation d'un tableau de type StationIndicator
-				allStations = (ArrayList<StationIndicator>) reponseAll3.get("stations");
+				System.out.println("affichage rep : " + reponseAll3); 
+				ArrayList<JSONObject> allStations = new ArrayList<JSONObject>();// Creation d'un tableau de type StationIndicator
+				allStations = (ArrayList<JSONObject>) reponseAll3.get("stations");
 				for(int i = 0; i<allStations.size();i++) { // Creating a loop to display all sensors in the table historique_Alerte
-					System.out.println("id_station: "+allStations.get(i).getStationId() + 
-							" | nom de la station  : "+allStations.get(i).getStationName()+
-							" | position : "+allStations.get(i).getPosition() +
-					" | date: "+allStations.get(i).getDate()); 
+					StationIndicator s = new StationIndicator(); 
+					s.convertFromJson(allStations.get(i));
+					System.out.println(" | position : "+s.getPosition() +
+							" | nombre de stations par zone dans la ville : "+ s.getStationNb()); 
 				}			 
 				client.stopConnection();
 				
@@ -346,21 +369,20 @@ public class TestJson {
 				
 			case "11": 
 				System.out.println("###########################  PERSON PER STATION INDICATOR #########################");
-				System.out.println("A quel date voulez-vous récupèrer le nombre de stations dans la ville? ");
-				String date_pers_station  = sc.nextLine();
-				Timestamp date_pers_station2 = Timestamp.valueOf(date_pers_station);
-				obj.put("demandType", "STATION_INDICATOR");
-				obj.put("date", date_pers_station); 
+				obj.put("demandType", "PERSON_STATION_INDICATOR");
+				
 
 				System.out.println(obj);
 				JSONObject reponseAll4 = client.sendMessage(obj);
-				ArrayList<PersonStationIndicator> allStationsPers = new ArrayList<PersonStationIndicator>();// Creation d'un tableau de type StationIndicator
-				allStationsPers = (ArrayList<PersonStationIndicator>) reponseAll4.get("PersonStations");
+				ArrayList<JSONObject> allStationsPers = new ArrayList<JSONObject>();// Creation d'un tableau de type StationIndicator
+				allStationsPers = (ArrayList<JSONObject>) reponseAll4.get("PersonStations");
 				for(int i = 0; i<allStationsPers.size();i++) { // Creating a loop to display all sensors in the table historique_Alerte
-					System.out.println("id_Freq_station : "+allStationsPers.get(i).getFreqStationId() + 
-							" | position  : "+allStationsPers.get(i).getPosition()+
-							" | le nombre de personnes dans cette station  : "+allStationsPers.get(i).getPersonQty() +
-					" | id_station : "+allStationsPers.get(i).getStationId()); 
+					PersonStationIndicator s = new PersonStationIndicator(); 
+					s.convertFromJson(allStationsPers.get(i));
+					System.out.println(" position  : "+ s.getPosition()+
+							" | le nombre de personne dans cette station  : "+ s.getPersonQty() +
+					" | date : "+ s.getDate() + 
+					" | nombre de personne dans cette zone  : " + s.getPersNb());
 				}			 
 				client.stopConnection();
 				
@@ -425,6 +447,11 @@ public class TestJson {
 			
 				client.stopConnection();
 				break; 
+
+			default:
+				System.out.println("Unrocognized command");
+				break;
+				
 
 			}
 

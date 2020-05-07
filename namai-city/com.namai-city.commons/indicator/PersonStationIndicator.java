@@ -2,6 +2,8 @@ package indicator;
 
 import java.sql.Timestamp;
 
+import org.json.simple.JSONObject;
+
 public class PersonStationIndicator {
 
 	private int freqStationId; 
@@ -9,17 +11,44 @@ public class PersonStationIndicator {
 	private Timestamp date;
 	private int personQty; 
 	private int stationId;
+	private String stationName; 
+	private int persNb; 
 	
 	public PersonStationIndicator() {
 		
 	}
 	
-	public PersonStationIndicator(int idFreq, String p, Timestamp d, int qteP, int idS) {
+	@Override
+	public String toString() {
+		return "PersonStationIndicator [freqStationId=" + freqStationId + ", position=" + position + ", date=" + date
+				+ ", personQty=" + personQty + ", stationId=" + stationId + ", stationName=" + stationName + ", persNb="
+				+ persNb + "]";
+	}
+
+	public PersonStationIndicator(int idFreq, String p, int qteP, int idS, String nameS, Timestamp date, int persN) {
 		freqStationId = idFreq; 
 		position = p; 
-		date = d; 
 		personQty = qteP;  
 		stationId = idS; 
+		stationName = nameS; 
+		date = date; 
+		persNb = persN; 
+	}
+
+	public String getStationName() {
+		return stationName;
+	}
+
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
+	}
+
+	public int getPersNb() {
+		return persNb;
+	}
+
+	public void setPersNb(int persNb) {
+		this.persNb = persNb;
 	}
 
 	public int getFreqStationId() {
@@ -60,6 +89,28 @@ public class PersonStationIndicator {
 
 	public void setStationId(int stationId) {
 		this.stationId = stationId;
+	}
+	
+	public JSONObject convertToJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id_freq_station", freqStationId);
+		json.put("position", position); 
+		json.put("qte_pers",personQty); 
+		json.put("id_station", stationId); 
+		json.put("nom_station", stationName); 
+		json.put("date_mesure", date);
+		//json.put("nombre_personne_position", persNb);
+		return json;
+	}
+	
+	public void convertFromJson(JSONObject json) {
+		this.freqStationId = (int) json.get("id_freq_station");
+		this.position = (String) json.get("position"); 
+		this.personQty = (int) json.get("qte_pers"); 
+		this.stationId = (int) json.get("id_station"); 
+		this.stationName = (String) json.get("nom_station"); 
+		this.date = (Timestamp) json.get("date_mesure"); 
+		//this.persNb = (int) json.get("nombre_personne_position"); 
 	}
 	
 }

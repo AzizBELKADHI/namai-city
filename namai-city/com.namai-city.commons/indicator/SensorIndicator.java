@@ -2,6 +2,8 @@ package indicator;
 
 import java.sql.Timestamp;
 
+import org.json.simple.JSONObject;
+
 public class SensorIndicator {
 	
 	private int sensorId; 
@@ -16,14 +18,13 @@ public class SensorIndicator {
 		
 	}
 	
-	public SensorIndicator(int id, String t, String p, Timestamp d, int snb) {
+	public SensorIndicator(int id, String t, String p, Timestamp d,int snb) {
 		sensorId = id; 
 		type = t; 
 		position = p; 
 		date = d; 
 		sensorNb = snb; 
 	}
-	
 	
 	@Override
 	public String toString() {
@@ -61,6 +62,25 @@ public class SensorIndicator {
 	}
 	public void setDate(Timestamp date) {
 		this.date = date;
+	}
+	
+	public JSONObject convertToJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id_cap", sensorId);
+		json.put("type", type); 
+		json.put("position", position); 
+		//json.put("date", date); 
+		json.put("nombre_capteur_position",sensorNb); 
+		
+		return json;
+	}
+	
+	public void convertFromJson(JSONObject json) {
+		this.sensorId = Long.valueOf(String.valueOf(json.get("id_cap"))).intValue();
+		this.type = String.valueOf(json.get("type")); 
+		this.position = String.valueOf(json.get("position")); 
+		//this.date = Timestamp.valueOf((String) json.get("date"));		
+		this.sensorNb = Long.valueOf(String.valueOf(json.get("nombre_capteur_position"))).intValue(); 
 	}
 	
 }
