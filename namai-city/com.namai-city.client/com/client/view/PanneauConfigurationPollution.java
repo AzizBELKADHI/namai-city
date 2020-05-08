@@ -19,6 +19,7 @@ public class PanneauConfigurationPollution extends JPanel {
 	private JTextField jtCapteurType;
 	private JTextField jtLocalisation;
 	private JButton submit;
+	
 	public PanneauConfigurationPollution() {
 		//this.setBackground(Couleur.getBgThem());
 		this.setForeground(Couleur.getBgApp());

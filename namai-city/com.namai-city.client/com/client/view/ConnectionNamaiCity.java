@@ -1,6 +1,8 @@
 package com.client.view;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -23,8 +25,7 @@ public class ConnectionNamaiCity extends JFrame {
 		superpos= new CardLayout();
 	
 		this.setLayout(superpos);
-		this.setLocation(550, 150);
-		this.setSize(600,600);
+		this.setSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		this.getContentPane().add("fr",pan);
 		this.getContentPane().add("de",pa);
 		superpos.show(this.getContentPane(), "fr");

@@ -42,6 +42,7 @@ public class ConnectionController implements ActionListener {
 			else if(T[0].equals("namai") &&	T[1].equals("namai")) {
 				try {
 					client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+					client.stopConnection();
 					//tj.go();
 				} catch (IOException e1) {
 					System.out.println("impossible de se connecter au serveur");

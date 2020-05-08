@@ -28,7 +28,7 @@ public class Sensor {
 
 		if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR")) {
 			try {
-				PreparedStatement stmt1 = c.prepareStatement("select count(*) as nombre_capteur_position, position, type, date from capteur group by (position,type,date);");
+				PreparedStatement stmt1 = c.prepareStatement("select count(*) as nombre_capteur_position, position, type from capteur group by (position,type);");
 				ResultSet rs2 = stmt1.executeQuery();
 
 
@@ -36,7 +36,7 @@ public class Sensor {
 				ArrayList<JSONObject> listSensors = new ArrayList<JSONObject>();
 
 				while (rs2.next()) {
-					SensorIndicator sensor = new SensorIndicator(0, rs2.getString("type"), rs2.getString("position"), rs2.getTimestamp("date"), rs2.getInt("nombre_capteur_position")); 
+					SensorIndicator sensor = new SensorIndicator(0, rs2.getString("type"), rs2.getString("position"),null,  rs2.getInt("nombre_capteur_position")); 
 					//System.out.println("récuperation des résultats du select"); 
 					JSONObject sensorJSON = sensor.convertToJSON();
 

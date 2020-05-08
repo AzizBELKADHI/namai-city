@@ -42,7 +42,7 @@ public class PanneauBienvenueNamaiCity extends JPanel  {
 		this.add(labelAccueil, BorderLayout.SOUTH);
 		JLabel center = new JLabel();
 		center.setHorizontalAlignment((int) JPanel.CENTER_ALIGNMENT);
-		center.setIcon(new ImageIcon("ressources\\namai-city2.gif") );
+		center.setIcon(new ImageIcon("ressources\\namai-city2.gif"));
 		this.add(center,BorderLayout.CENTER);
 
 		}

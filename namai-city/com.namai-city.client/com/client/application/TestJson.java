@@ -51,6 +51,38 @@ public class TestJson {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<SensorIndicator> goSensor() throws SQLException, IOException {
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		
+		obj.put("demandType", "SENSOR_INDICATOR");
+		System.out.println("récupération du nombre de capteur par zone selon le type et la date"); 
+
+		System.out.println(obj);
+		JSONObject reponseSensor = client.sendMessage(obj);
+		System.out.println("affichage rep : " + reponseSensor); 
+		ArrayList<JSONObject> allSensors = new ArrayList<JSONObject>();// Creation d'un tableau de type SensorIndicator
+		allSensors = (ArrayList<JSONObject>) reponseSensor.get("sensors");
+		//System.out.println(allSensors.size()); 
+		int nbTotal = 0;
+		ArrayList<SensorIndicator> liste = new ArrayList<SensorIndicator>();
+		for(int i = 0; i<allSensors.size();i++) { // Creating a loop to display all sensors in the table sensors
+			SensorIndicator s = new SensorIndicator();
+			s.convertFromJson(allSensors.get(i));
+			liste.add(s);
+			System.out.println("type: "+s.getType()+
+					" | position: "+s.getPosition() +
+					" | nombre de capteurs en ville : "+s.getSensorNb()); 
+		
+			nbTotal += s.getSensorNb();
+		}
+		System.out.println("==============> Nb total : " + nbTotal);
+				
+		client.stopConnection();
+		return liste;
+		
+	}
 
 	public void go() throws SQLException, IOException {
 
