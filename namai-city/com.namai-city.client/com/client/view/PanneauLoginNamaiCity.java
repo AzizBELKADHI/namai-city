@@ -2,8 +2,10 @@ package com.client.view;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,42 +20,75 @@ public class PanneauLoginNamaiCity extends JPanel {
 	private JPasswordField mp;
 	private JLabel username;
 	private JLabel password;
-	private JPanel form;
+	//private JPanel form;
 	
 	public PanneauLoginNamaiCity() {
 		super();
-		this.setLayout(new GridBagLayout());
-		form = new JPanel();
-		form.setLayout(new GridLayout(5,1));
+		this.setForeground(Couleur.getBgApp());
+		this.setFont(new Font("Arial", Font.BOLD, 14) );
+		this.setBorder(new LineBorder(Couleur.getBgTitle()));
+		GridBagLayout b = new GridBagLayout();
+		GridBagConstraints x = new GridBagConstraints();
+		this.setLayout(b);
+		//form = new JPanel();
 		login = new JButton("Submit");
 		user = new JTextField();
 		mp = new JPasswordField();
 		username = new JLabel("Username");
 		password = new JLabel("Password");
-		form.add(username);
-		form.add(user);
-		form.add(password);
-		form.add(mp);
-		form.add(login);
-		form.setPreferredSize(new Dimension(500,500));
-		this.add(form);	
-		username.setHorizontalAlignment(JLabel.CENTER);
-		password.setHorizontalAlignment(JLabel.CENTER);
-		password.setBackground(Couleur.getBgThem());
+		//form.add(username);
+		//form.add(user);
+		//form.add(password);
+		//form.add(mp);
+		//form.add(login);
+		//form.setPreferredSize(new Dimension(500,500));	
+		
+		x.gridx = 0;
+		x.gridy = 0;
+		this.add(username,x);
+		
+		x.gridx = 0;
+		x.gridy = 1;
+		x.weightx = 0.5;
+		user.setPreferredSize(new Dimension(150,25));
+		this.add(user,x);
+		
+		x.gridx = 0;
+		x.gridy = 4;
+		this.add(password,x);
+		
+		x.gridx = 0;
+		x.gridy = 5;
+		x.weightx = 0.3;
+		mp.setPreferredSize(new Dimension(150,25));
+		this.add(mp,x);
+		
+		x.gridx = 0;
+		x.gridy = 6;
+		x.weightx = 0.5;
+		x.insets = new Insets(25,25,25,25);
+		login.setPreferredSize(new Dimension(100,25));
+		this.add(login,x);
+		
+		//this.add(form);
+		
+		//username.setHorizontalAlignment(JLabel.CENTER);
+		//password.setHorizontalAlignment(JLabel.CENTER);
+		//password.setBackground(Couleur.getBgThem());
 		//password.setForeground(Couleur.getBgApp());
-		password.setFont(new Font("Arial", Font.BOLD, 25) );
+		//password.setFont(new Font("Arial", Font.BOLD, 15) );
 		//password.setBorder(new LineBorder(Couleur.getBgTitle()));
-		username.setBackground(Couleur.getBgThem());
+		//username.setBackground(Couleur.getBgThem());
 		//username.setForeground(Couleur.getBgApp());
-		username.setFont(new Font("Arial", Font.BOLD, 25) );
+		//username.setFont(new Font("Arial", Font.BOLD, 15) );
 		//username.setBorder(new LineBorder(Couleur.getBgTitle()));
-		user.setPreferredSize((new Dimension(55, 50) ));
+		user.setPreferredSize((new Dimension(150, 25) ));
 		
 	}
 
-	public JPanel getForm() {
-		return form;
-	}
+	//public JPanel getForm() {
+		//return form;
+	//}
 
 	public JLabel getUsername() {
 		return username;

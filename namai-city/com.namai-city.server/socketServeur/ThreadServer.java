@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -163,18 +165,37 @@ public class ThreadServer extends Thread {
 			return obj; 
 		}
 		
-		if(JsonRecu.get("demandType").equals("INSERT_CAPTEUR")) {
+		
+		
+		if(JsonRecu.get("demandType").equals("INSERT_CAPTEUR_POLLUANT")) {
 			System.out.println("Je suis rentré dans la requête INSERT"); 
 			// recovery of data that the client had completed (name / first name
-			String inserttype_capteur =(String) JsonRecu.get("type_capteur");
+			String insertAdresse_Ip =(String) JsonRecu.get("Adresse_Ip");
 			String insertlocalisation =(String) JsonRecu.get("localisation");
+			String iseuil_co2 =(String) JsonRecu.get("Seuil_CO2");
+			String iseuil_no2 =(String) JsonRecu.get("Seuil_NO2");
+			String iseuil_pm =(String) JsonRecu.get("Seuil_PM");
+			String iseuil_min_tmp =(String) JsonRecu.get("Seuil_Min_Tmp");
+			String iseuil_max_tmp =(String) JsonRecu.get("Seuil_Max_Tmp");
 			System.out.println("bonjour voici les donnees recu apres traitement");
-			System.out.println(inserttype_capteur +  " " + insertlocalisation);
-
-			PreparedStatement stmt = c.prepareStatement("insert into Capteur(type_capteur,localisation) values (?,?);");
+		System.out.println(insertAdresse_Ip +  " " + insertlocalisation + " " + iseuil_co2 + " " 
+								+ iseuil_no2 + " " + iseuil_pm + " " + iseuil_min_tmp + " " + iseuil_max_tmp);
+			String adresse_ip = String.valueOf(insertAdresse_Ip);
+			String localisation = String.valueOf(insertlocalisation);
+			String seuil_co2 = String.valueOf(iseuil_co2);
+			String seuil_no2 = String.valueOf(iseuil_no2);
+			String seuil_pm = String.valueOf(iseuil_pm);
+			String seuil_min_tmp = String.valueOf(iseuil_min_tmp);
+			String seuil_max_tmp = String.valueOf(iseuil_max_tmp);
+			PreparedStatement stmt = c.prepareStatement("insert into capteur_polluant (adresse_ip,localisation,seuil_co2,seuil_no2,seuil_pm,seuil_min_tmp, seuil_max_tmp) values (?,?,?,?,?,?,?);");
 			// the request takes name and first name already retrieved 
-			stmt.setString(1, inserttype_capteur);
-			stmt.setString(2,insertlocalisation);
+			stmt.setString(1,adresse_ip);
+			stmt.setString(2,localisation);
+			stmt.setString(3,seuil_co2);
+			stmt.setString(4,seuil_no2);
+			stmt.setString(5,seuil_pm);
+			stmt.setString(6,seuil_min_tmp);
+			stmt.setString(7,seuil_max_tmp);
 			// query execution 
 			stmt.execute();
 
@@ -182,13 +203,22 @@ public class ThreadServer extends Thread {
 
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			obj.put("reponse",String.valueOf("insertion réussi"));
-			obj.put("type_capteur",String.valueOf(inserttype_capteur));
-			obj.put("localisation",String.valueOf(insertlocalisation));
-
+			obj.put("Adresse_ip",adresse_ip);
+			obj.put("localisation",localisation);
+			obj.put("Seuil_CO2",seuil_co2);
+			obj.put("Seuil_NO2",seuil_no2);
+			obj.put("Seuil_PM",seuil_pm);
+			obj.put("Seuil_Min_Tmp",seuil_min_tmp);
+			obj.put("Seuil_Max_Tmp",seuil_max_tmp);
 			System.out.println(obj);
 			return obj; 
+			
+			
 		}
-
+		
+		
+		 
+		
 		if(JsonRecu.get("demandType").equals("UPDATE")) {
 			System.out.println("Je suis rentré dans la requete UPDATE");
 			String nomUpdate =(String) JsonRecu.get("nom");
