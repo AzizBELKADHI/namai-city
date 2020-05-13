@@ -15,6 +15,7 @@ import com.connectionPool.DataSource;
 import controller.DBConnectController;
 import indicator.Car;
 import indicator.Sensor;
+import indicator.SensorPolluant;
 import indicator.Tram;
 import indicator.Warning;
 import indicator.WarningIndicator;
@@ -257,6 +258,17 @@ public class ThreadServer extends Thread {
 				WarningInsert warningInsert = new WarningInsert(); 
 				warningInsert.warningHistoricalInsert(JsonRecu, c); 
 			}
+			if (JsonRecu.get("demandType").equals("MOCK_SENSOR_POLLUANT_INSERT")) {
+				System.out.println(" CAPTEUR POLLUANT"); 
+				SensorPolluantInsert sensorPolluantInsert = new SensorPolluantInsert(); 
+				sensorPolluantInsert.insertSensorPolluant(JsonRecu,c); 
+			}
+			if (JsonRecu.get("demandType").equals("MOCK_HISTORICAL_SENSOR_POLLUANT_INSERT")) {
+				System.out.println(" ALERTE"); 
+				HistoricalSensorPolluantInsert historicalSensorPolluantInsert = new HistoricalSensorPolluantInsert(); 
+				historicalSensorPolluantInsert.insertHistoricalSensorPolluant(JsonRecu,c); 
+			}
+			
 			// FIN MOCK TEST 
 			
 			// BEGIN TEST REQUESTS
@@ -274,8 +286,9 @@ public class ThreadServer extends Thread {
 
 				System.out.println("le nombre de station par zone dans la ville: "); 
 				Tram tram = new Tram(); 
-				System.out.println("initialisation de la classe tram"); 
-				//return tram.stationDAO(JsonRecu,c); 
+				System.out.println("initialisation de la classe tram");
+				JSONObject obj = tram.stationDAO(JsonRecu,c); 
+				return obj; 
 
 			}
 
@@ -284,8 +297,8 @@ public class ThreadServer extends Thread {
 				System.out.println("le nombre de personnes par zone dans la ville: "); 
 				Tram tram = new Tram(); 
 				System.out.println("initialisation de la classe tram"); 
-				//return tram.personStationDAO(JsonRecu,c); 
-
+				JSONObject obj = tram.personStationDAO(JsonRecu,c);
+				return obj; 
 			}
 			if (JsonRecu.get("demandType").equals("CAR_INDICATOR")) {
 
@@ -303,6 +316,45 @@ public class ThreadServer extends Thread {
 				//return warning.warmingDAO(JsonRecu,c); 
 
 			}
+			if (JsonRecu.get("demandType").equals("SENSOR_POLLUANT_INDICATOR")) {
+
+				System.out.println("le nombre d'alerte par date dans la ville : "); 
+				SensorPolluant warning = new SensorPolluant(); 
+				System.out.println("initialisation de la classe sensorPolluant"); 
+				JSONObject obj = warning.getIndicator(JsonRecu,c);
+				return obj;
+
+			}
+			if (JsonRecu.get("demandType").equals("getIdSensorPolluant")) {
+
+				System.out.println("affichage de tous les id des capteurs polluant: "); 
+				SensorPolluant id = new SensorPolluant(); 
+				System.out.println("initialisation de la classe sensorPolluant"); 
+				JSONObject obj = id.getIdSensorPolluant(JsonRecu,c);
+				return obj;
+
+			}
+			if (JsonRecu.get("demandType").equals("getThresholdSensorPolluant")) {
+
+				System.out.println("Consultation des polluants"); 
+				SensorPolluant polluant = new SensorPolluant(); 
+				System.out.println("initialisation de la classe sensorPolluant"); 
+				JSONObject obj = polluant.getThreshold(JsonRecu,c);
+				return obj;
+
+			}
+			
+			if (JsonRecu.get("demandType").equals("getWarningPolluant")) {
+
+				System.out.println("Consultation des polluants"); 
+				SensorPolluant polluant = new SensorPolluant(); 
+				System.out.println("initialisation de la classe sensorPolluant"); 
+				JSONObject obj = polluant.getWarning(JsonRecu,c);
+				return obj;
+			}
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 

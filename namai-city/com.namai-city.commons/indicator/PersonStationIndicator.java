@@ -98,19 +98,19 @@ public class PersonStationIndicator {
 		json.put("qte_pers",personQty); 
 		json.put("id_station", stationId); 
 		json.put("nom_station", stationName); 
-		json.put("date_mesure", date);
-		//json.put("nombre_personne_position", persNb);
+		//json.put("date_mesure", date);
+		json.put("nombre_personne_position", persNb);
 		return json;
 	}
 	
 	public void convertFromJson(JSONObject json) {
-		this.freqStationId = (int) json.get("id_freq_station");
-		this.position = (String) json.get("position"); 
-		this.personQty = (int) json.get("qte_pers"); 
-		this.stationId = (int) json.get("id_station"); 
+		this.freqStationId = Long.valueOf(String.valueOf(json.get("id_freq_station"))).intValue();
+		this.position = String.valueOf(json.get("position")); 
+		this.personQty = Long.valueOf(String.valueOf(json.get("qte_pers"))).intValue(); 
+		this.stationId = Long.valueOf(String.valueOf(json.get("id_station"))).intValue();
 		this.stationName = (String) json.get("nom_station"); 
-		this.date = (Timestamp) json.get("date_mesure"); 
-		//this.persNb = (int) json.get("nombre_personne_position"); 
+		//this.date = (Timestamp) json.get("date_mesure"); 
+		this.persNb = Long.valueOf(String.valueOf(json.get("nombre_personne_position"))).intValue(); 
 	}
 	
 }

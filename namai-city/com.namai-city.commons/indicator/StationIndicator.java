@@ -66,15 +66,15 @@ public class StationIndicator {
 		json.put("id_station", stationId);
 		json.put("nom_station", stationName); 
 		json.put("position", position); 
-		//json.put("nombre_stations_position", stationsNb); 
+		json.put("nombre_stations_position", stationNb); 
 		
 		return json;
 	}
 	
 	public void convertFromJson(JSONObject json) {
-		this.stationId = (int) json.get("id_station");
-		this.position = (String) json.get("position"); 
-		//this.stationsNb = (int) json.get("nombre_stations_position"); 
+		this.stationId = Long.valueOf(String.valueOf(json.get("id_station"))).intValue();
+		this.position = String.valueOf(json.get("position")); 
+		this.stationNb = Long.valueOf(String.valueOf(json.get("nombre_stations_position"))).intValue();
 	}
 }
 	
