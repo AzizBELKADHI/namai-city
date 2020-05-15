@@ -359,6 +359,25 @@ public class TestJson {
 				client.stopConnection();
 				
 				break; 
+				
+			case "20":
+				System.out.println("########################### CARBON FOOTPRINT #########################");
+				obj.put("demandType", "CARBON_FOOTPRINT");
+
+				System.out.println(obj);
+				JSONObject reponseAll20 = client.sendMessage(obj);
+				ArrayList<JSONObject> alldata = new ArrayList<JSONObject>(); // Creation d'un tableau de JSONObject
+				alldata = (ArrayList<JSONObject>) reponseAll20.get("realdata"); //REGLAGE
+				System.out.println("Bonjour"); 
+				for(int i = 0; i<alldata.size();i++) { // Boucle pour afficher toutes les données de la table Moyen_Transport
+					System.out.println("id_MT: "+alldata.get(i).get("id_MT") + // ok
+							" | Type_MT: "+alldata.get(i).get("type_MT")+
+							" | nombre d'utilisateurs: "+alldata.get(i).get("nb_utilisateurs") +
+							" | Co2 rejete par MT: "+alldata.get(i).get("co2_rejete_par_mt")); 
+					
+				}			 
+				client.stopConnection();
+				break; 
 
 			}
 
