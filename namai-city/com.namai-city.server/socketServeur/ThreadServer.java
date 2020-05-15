@@ -215,6 +215,39 @@ public class ThreadServer extends Thread {
 			
 			
 		}
+		if(JsonRecu.get("demandType").equals("SELECT_ALL_CAPTEUR_POLLUANT")) {
+
+			PreparedStatement stmt1 = c.prepareStatement("select * from capteur_polluant;");
+			ResultSet rs2 = stmt1.executeQuery();
+
+			JSONObject obj=new JSONObject();
+			// creation of capteurpolluant list 
+			ArrayList<JSONObject> listCapteurs = new ArrayList<JSONObject>();
+
+			while (rs2.next()) {
+				JSONObject capteurPolluant =new JSONObject();
+
+				capteurPolluant.put("id", rs2.getInt("id"));
+				capteurPolluant.put("adresse_ip", rs2.getString("adresse_ip"));
+				capteurPolluant.put("localisation", rs2.getString("localisation"));
+				capteurPolluant.put("seuil_co2", rs2.getString("seuil_co2"));
+				capteurPolluant.put("seuil_no2", rs2.getString("seuil_no2"));
+				capteurPolluant.put("seuil_pf", rs2.getString("seuil_pf"));
+				capteurPolluant.put("seuil_min_tmp", rs2.getString("seuil_min_tmp"));
+				capteurPolluant.put("seuil_max_tmp", rs2.getString("seuil_max_tmp"));
+				// adding each capteur to the list already created
+				listCapteurs.add(capteurPolluant);
+
+
+			}
+
+			obj.put("listCapteurs", listCapteurs);
+			System.out.println("voici le json envoyé avec le select All CapteurPolluant : ");
+			// displaying the Json
+			System.out.println(obj);
+
+			return obj; 
+		}
 		
 		
 		 
@@ -280,4 +313,6 @@ public class ThreadServer extends Thread {
 		return new JSONObject(); 
 	}
 
+	
 }
+

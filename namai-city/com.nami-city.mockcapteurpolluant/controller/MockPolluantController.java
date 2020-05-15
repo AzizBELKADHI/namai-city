@@ -23,7 +23,7 @@ public class MockPolluantController {
 		client = new SocketClient();
 	}
 
-	private void startMock() {
+	public void startMock() {
 		ArrayList<CapteurPolluant> listCapteurs = null;
 		try {
 			this.client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
