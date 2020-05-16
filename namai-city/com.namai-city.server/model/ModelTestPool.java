@@ -2,7 +2,7 @@ package model;
 
 import java.sql.SQLException;
 
-import connectionPool.DataSource;
+import com.connectionPool.DataSource;
 
 public class ModelTestPool {
 	private DataSource data;
