@@ -17,7 +17,6 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
 
-
 public class SocketClient {
 
 	private static Socket socketClient;

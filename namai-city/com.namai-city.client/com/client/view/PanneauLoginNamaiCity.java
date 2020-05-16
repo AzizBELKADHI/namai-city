@@ -70,6 +70,7 @@ public class PanneauLoginNamaiCity extends JPanel {
 		login.setPreferredSize(new Dimension(100,25));
 		this.add(login,x);
 		
+		
 		//this.add(form);
 		
 		//username.setHorizontalAlignment(JLabel.CENTER);

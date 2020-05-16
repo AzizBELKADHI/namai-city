@@ -641,6 +641,7 @@ public class ThreadServer extends Thread {
 			hists.add(h);
 		}
 		return hists;
+		
 	}
 
 	private void insertAlert(AlertePolluant a) throws SQLException {
