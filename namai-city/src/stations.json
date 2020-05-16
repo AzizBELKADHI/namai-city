@@ -1,0 +1,30 @@
+[
+
+{
+"id_station" : 6,
+"nom_station" : "Reuilly Diderot",
+"position" : "Nord"
+	},
+	
+	{
+"id_station" : 7,
+"nom_station" : "Joinville le Pont RER",
+"position" : "Sud"
+
+},
+
+{
+"id_station" : 8,
+"nom_station" : "La Défense",
+"position" : "Ouest"
+
+},
+
+{
+"id_station" : 9,
+"nom_station" : "Nation",
+"position" : "Est"
+}
+
+]
+	

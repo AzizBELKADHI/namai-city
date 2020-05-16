@@ -1,0 +1,29 @@
+[
+
+{
+"position" : "Nord",
+"qte_pers" : 30,
+"id_station" : 6,
+"nom_station" : "Reuilly Diderot",
+"date_mesure" : "2020-04-04 20:00:02"
+	},
+	
+	{
+"position" : "Sud",
+"qte_pers" : 50,
+"id_station" : 7, 
+"nom_station" : "Joinville le Pont RER",
+"date_mesure" : "2020-04-12 16:20:42"
+
+},
+
+{
+"position" : "Ouest",
+"qte_pers" : 200,
+"id_station" : 8,
+"nom_station" : "La Défense",
+"date_mesure" : "2020-04-27 08:01:32"
+}
+
+]
+	
