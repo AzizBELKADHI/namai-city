@@ -46,16 +46,18 @@ public class BornesInsert {
 
 		for (int i = 0; i < json.size(); i++) {
 			JSONObject jsonObject = (JSONObject) json.get(i);
+			Long nb = (Long) (jsonObject.get("id_borne"));
+			int id = nb.intValue();
 			String position = String.valueOf(jsonObject.get("position")); 
-			Timestamp date = Timestamp.valueOf((String) jsonObject.get("date")); 
-			Long nb = (Long) (jsonObject.get("nb_voitures"));
-			int state = nb.intValue(); 
+			Long s = (Long) (jsonObject.get("state"));
+			int state = s.intValue(); 
 			System.out.println("Parcours de la liste des capteurs " + position ); 
 		
-			PreparedStatement stmt3 = c.prepareStatement("insert into bornes (position, date) values (?,?);");
+			PreparedStatement stmt3 = c.prepareStatement("insert into bornes (id_borne,position,state) values (?,?,?);");
 			// the request takes name and first name already retrieved 
-			stmt3.setString(1,position);
-			stmt3.setTimestamp(2, date); 
+			stmt3.setInt(1, id);
+			stmt3.setString(2,position);
+			stmt3.setInt(3, state); 
 			// query execution 
 			
 			System.out.println("recupération des données"); 
@@ -67,7 +69,7 @@ public class BornesInsert {
 			if(stmt3.executeUpdate()>=1) {
 				obj.put("reponse",String.valueOf("insertion reussi"));
 				obj.put("position",position);
-				obj.put("date",date);
+				obj.put("state",state);
 				
 				System.out.println("Insertion des lignes en base faite"); 
 			}

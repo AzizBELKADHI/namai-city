@@ -353,6 +353,7 @@ public void go() throws SQLException, IOException {
 		System.out.println("22: affichage des alertes");
 		System.out.println("23 : nombre de bornes ");
 		System.out.println("24 : nombre de capteurs polluants ");
+		System.out.println("25 : insérer des données dans la table bornes");
 		System.out.println("########################### Menu Namai-city-client #########################");
 
 		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
@@ -1021,6 +1022,17 @@ public void go() throws SQLException, IOException {
 
 			break; 
 
+		case "25": 
+			System.out.println("########################### INSERT SENSOR #########################");
+			obj.put("demandType",String.valueOf("MOCK_BORNE_INSERT"));
+
+
+			JSONObject reponseInsertBorne = client.sendMessage(obj);
+			String repServerBorne = (String) reponseInsertBorne.get("reponse");
+			System.out.println(repServerBorne);
+
+			client.stopConnection();
+			break; 
 
 
 

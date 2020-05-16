@@ -264,6 +264,13 @@ public class ThreadServer extends Thread {
 				historicalSensorPolluantInsert.insertHistoricalSensorPolluant(JsonRecu,c); 
 			}
 			
+			if (JsonRecu.get("demandType").equals("MOCK_BORNE_INSERT")) {
+				System.out.println(" BORNE"); 
+				BornesInsert bornesInsert = new BornesInsert(); 
+				bornesInsert.insertBorne(JsonRecu,c); 
+			}
+			
+			
 			// FIN MOCK TEST 
 			
 			// BEGIN TEST REQUESTS
