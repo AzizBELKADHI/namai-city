@@ -11,12 +11,12 @@ import org.json.simple.JSONObject;
 public class Car {
 	
 
-	public Object carDAO (JSONObject JsonRecu, Connection c) {
+	public JSONObject carDAO (JSONObject JsonRecu, Connection c) {
 		JSONObject obj=new JSONObject();
 		if (JsonRecu.get("demandType").equals("CAR_INDICATOR")) {
 
 			try {
-				PreparedStatement stmt1 = c.prepareStatement("select sum(nb_voitures) as nombre_voitures_total_date, date from Frequentation_Voiture group by (date);"); 
+				PreparedStatement stmt1 = c.prepareStatement("select nb_voitures,date from frequentation_voiture group by (date,nb_voitures);"); 
 
 				System.out.println("execution de la requête");
 				ResultSet rs2 = stmt1.executeQuery();
@@ -24,17 +24,17 @@ public class Car {
 
 				// creation of car list 
 				ArrayList<JSONObject> listCars = new ArrayList<JSONObject>();
-				System.out.println(rs2.getFetchSize());
+				
 				System.out.println("mapping classe CarIndicator");
 
 				while (rs2.next()) {
 
 					// Mapping de la classe CarIndicator (passage des résultats de la BDD en un objet java grâce au resultset 
-					CarIndicator car = new CarIndicator(0, rs2.getInt("nb_voitures"), 0, rs2.getTimestamp("date"), rs2.getInt("nombre_voitures_total_date"));
+					CarIndicator car = new CarIndicator(rs2.getInt("nb_voitures"),rs2.getTimestamp("date"), 0, 0);
 					System.out.println("récuperation des résultats du select"); 
-					obj= car.convertToJSON();
+					JSONObject carJSON = car.convertToJSON();
 					// adding each sensor to the list already created
-					listCars.add(obj);
+					listCars.add(carJSON);
 					System.out.println("ajout d'une frequentation de voitures dans la liste des voitures"); 
 
 				}

@@ -351,6 +351,8 @@ public void go() throws SQLException, IOException {
 		System.out.println("20: affichage de l'id des capteurs ");
 		System.out.println("21: affichage des polluants des capteurs ");
 		System.out.println("22: affichage des alertes");
+		System.out.println("23 : nombre de bornes ");
+		System.out.println("24 : nombre de capteurs polluants ");
 		System.out.println("########################### Menu Namai-city-client #########################");
 
 		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
@@ -564,16 +566,17 @@ public void go() throws SQLException, IOException {
 			System.out.println("affichage rep : " + reponseAll1); 
 			ArrayList<JSONObject> allCars = new ArrayList<JSONObject>();// Creation d'un tableau de type CarIndicator
 			allCars = (ArrayList<JSONObject>) reponseAll1.get("cars");
-
+			int nbCars = 0; 
 			for(int i = 0; i<allCars.size();i++) { // Creating a loop to display all sensors in the table Frequentation_Voiture
 				CarIndicator s = new CarIndicator(); 
 				s.convertFromJson(allCars.get(i));
 				System.out.println(" | nombre de voitures: "+ s.getCarsNb() +
-						" date: " + s.getDate()+
-						" | nombre de voitures totale par date : "+ s.getCarNbGlobal()); 
+						" | date: " + s.getDate() +
+						" | nombre de voitures totale par date pas recuperer "); 
+				nbCars += s.getCarNbGlobal(); 
 
-
-			}			 
+			}
+			System.out.println("==============> Nb total : " + nbCars);	
 			client.stopConnection();
 			break; 
 
@@ -965,7 +968,58 @@ public void go() throws SQLException, IOException {
 			client.stopConnection();
 
 			break; 
+			
+		case "23": 
+			System.out.println("########################### SENSOR INDICATOR #########################");
+			obj.put("demandType", "SENSOR_INDICATOR2");
+			System.out.println("récupération du nombre de bornes par position"); 
 
+			System.out.println(obj);
+			JSONObject reponseBorne = client.sendMessage(obj);
+			System.out.println("affichage rep : " + reponseBorne); 
+			ArrayList<JSONObject> allBornes = new ArrayList<JSONObject>();// Creation d'un tableau de type SensorIndicator
+			allBornes = (ArrayList<JSONObject>) reponseBorne.get("bornes");
+			//System.out.println(allSensors.size()); 
+			int nbBornes = 0;
+			for(int i = 0; i<allBornes.size();i++) { // Creating a loop to display all sensors in the table sensors
+				SensorIndicator s = new SensorIndicator(); 
+				s.convertFromJson(allBornes.get(i));
+				System.out.println(" position: "+s.getLocalisation() +
+						" | nombre de capteurs en ville : "+s.getBorneNb()); 
+
+				nbBornes += s.getBorneNb();
+			}
+			System.out.println("==============> Nb total : " + nbBornes);
+
+			client.stopConnection();
+
+			break; 
+			
+		case "24": 
+			System.out.println("########################### SENSOR INDICATOR #########################");
+			obj.put("demandType", "SENSOR_INDICATOR3");
+			System.out.println("récupération du nombre de capteur par zone selon le type et la date"); 
+
+			System.out.println(obj);
+			JSONObject reponseCapPolluant = client.sendMessage(obj);
+			System.out.println("affichage rep : " + reponseCapPolluant); 
+			ArrayList<JSONObject> allPolluant = new ArrayList<JSONObject>();// Creation d'un tableau de type SensorIndicator
+			allPolluant = (ArrayList<JSONObject>) reponseCapPolluant.get("sensorPolluant");
+			//System.out.println(allSensors.size()); 
+			int nbPolluant = 0;
+			for(int i = 0; i<allPolluant.size();i++) { // Creating a loop to display all sensors in the table sensors
+				SensorIndicator s = new SensorIndicator(); 
+				s.convertFromJson(allPolluant.get(i));
+				System.out.println(" position: "+ s.getLocalisation()+
+						" | nombre de capteurs en ville : "+s.getSensorPolluantNb() ); 
+
+				nbPolluant += s.getSensorPolluantNb();
+			}
+			System.out.println("==============> Nb total : " + nbPolluant);
+
+			client.stopConnection();
+
+			break; 
 
 
 

@@ -56,7 +56,9 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 	JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
 	JPanel firstPanel = new JPanel();
 	JPanel secondPanel = new JPanel();
+	JPanel thirdPanel = new JPanel(); 
 	JPanel fourthPanel = new JPanel();
+	JPanel fifthPanel = new JPanel(); 
 	
 	PanneauResultatSensor result;
 	PanneauResultatStation result2;
@@ -78,15 +80,13 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		c.insets = new Insets(30,30,100,30);
 		firstPanel.add(firstLabel,c);
 
-		Object[] choix = new Object[] { "Position", "Type", "Date"}; 
+		Object[] choix = new Object[] { "Position", "Type", "Date", " "}; 
 		listeChoix = new JComboBox(choix);
 		c.gridx = 1;
 		firstPanel.add(listeChoix,c);
 		c.gridx = 2;
 		tableau = new JButton("Tableau");
 		tableau.addActionListener(this);
-
-
 
 
 		tableau.setPreferredSize(new Dimension(100,25));
@@ -131,21 +131,18 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		secondPanel.add(graphiqueStation,c);
 
 		
-		secondPanel.setLayout(a);
-		JLabel secondLabel2 = new JLabel("Nombre de personnes dans la ville : ");
-		c.gridx = 0;
-		c.gridy = 2;
-		c.weightx = 10;
-		c.insets = new Insets(30,30,100,30);
-		secondPanel.add(secondLabel2,c);
-		
-
 		secondPanel.setPreferredSize(new Dimension(400,600));
-		onglets.addTab("INDICATEUR TRAM",secondPanel);
-
-		JPanel thirdPanel = new JPanel();
+		onglets.addTab("INDICATEUR STATION",secondPanel);
+		
+		thirdPanel.setLayout(a);
 		JLabel thirdLabel = new JLabel("Indicateur concernant les voitures");
-		thirdPanel.add(thirdLabel);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0;
+		//c.insets = new Insets(30,30,100,30);
+		thirdPanel.add(thirdLabel,c);
+		
+		
 		thirdPanel.setPreferredSize(new Dimension(400,600));
 		onglets.addTab("INDICATEUR VOITURE",thirdPanel);
 
@@ -176,6 +173,19 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 
 		onglets.setOpaque(true);
 		this.add(onglets);
+		
+		// PANNEAU PERSONNE PAR STATION : 
+		
+		fifthPanel.setLayout(a);
+		JLabel fifthLabel = new JLabel("Indicateur concernant le nombre de personnes par sation");
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 10;
+		c.insets = new Insets(30,30,100,30);
+		fifthPanel.add(fifthLabel,c);
+		
+		fifthPanel.setPreferredSize(new Dimension(400,600));
+		onglets.addTab("INDICATEUR PERSONNES/STATION",fifthPanel);
 
 		/*
 			secondPanel.add(secondLabel); 
@@ -199,6 +209,7 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		 */
 
 	}
+	
 
 
 	private Integer[] selectCapteur() {

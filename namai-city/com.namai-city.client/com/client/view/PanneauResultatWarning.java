@@ -41,6 +41,9 @@ public class PanneauResultatWarning extends JPanel {
 		
 		Object[][] donnees = {
 				{"Nombre d’alertes pour le capteur "+listeWarning.get(0).getIdFkCap()+" dépassant le seuil maximal de "+nomPolluant+" :"+listeSeuil.get(0),  listeWarning.size()},
+				{"id du capteur",  listeWarning.get(0).getIdFkCap()},
+				{"dépassement du seuil de :",  nomPolluant},
+				{"affichage:",  listeSeuil.get(0)},
 				{"Dépassement moyen du seuil",  dptMoyen},
 				{"Taux de dépassement", txDpt+"%"}
 		};

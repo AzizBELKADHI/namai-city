@@ -1,4 +1,4 @@
-package socketServeur; 
+package socketServeur;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,44 +16,45 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
-public class CarInsert {
+public class BornesInsert {
 	
-public void insertCar (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
+	public void insertBorne (JSONObject JsonRecu, Connection c) throws ParseException, UnsupportedEncodingException, SQLException {
 
 		StringBuffer sb = new StringBuffer();
 
 		// lecture du JSON afin de mettre chaque ligne en chaîne de caractère
-		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("cars.json"); 
-		BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
+		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("bornes.json"); 
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
 		try {
 			String temp; 
-			while ((temp = bufferedReader2.readLine()) != null) 
+			while ((temp = bufferedReader.readLine()) != null) 
 				sb.append(temp); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				bufferedReader2.close();
+				bufferedReader.close();
 			} catch (IOException e) {
 				e.printStackTrace(); 
 			}
 		}
 		String myjsonstring = sb.toString(); 
+		
 
 		JSONParser parser = new JSONParser(); 
 		JSONArray json = (JSONArray) parser.parse(myjsonstring); 
 
 		for (int i = 0; i < json.size(); i++) {
 			JSONObject jsonObject = (JSONObject) json.get(i);
-			Long nb = (Long) (jsonObject.get("nb_voitures"));
-			int carsNb = nb.intValue(); 
+			String position = String.valueOf(jsonObject.get("position")); 
 			Timestamp date = Timestamp.valueOf((String) jsonObject.get("date")); 
-			System.out.println("Parcours de la liste des voitures Fréquentés  " + carsNb); 
+			Long nb = (Long) (jsonObject.get("nb_voitures"));
+			int state = nb.intValue(); 
+			System.out.println("Parcours de la liste des capteurs " + position ); 
 		
-			PreparedStatement stmt3 = c.prepareStatement("insert into  frequentation_voiture (nb_voitures, date) values (?,?);");
+			PreparedStatement stmt3 = c.prepareStatement("insert into bornes (position, date) values (?,?);");
 			// the request takes name and first name already retrieved 
-			stmt3.setInt(1,carsNb);
+			stmt3.setString(1,position);
 			stmt3.setTimestamp(2, date); 
 			// query execution 
 			
@@ -65,7 +66,7 @@ public void insertCar (JSONObject JsonRecu, Connection c) throws ParseException,
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			if(stmt3.executeUpdate()>=1) {
 				obj.put("reponse",String.valueOf("insertion reussi"));
-				obj.put("nb_voitures", carsNb);
+				obj.put("position",position);
 				obj.put("date",date);
 				
 				System.out.println("Insertion des lignes en base faite"); 
@@ -78,5 +79,6 @@ public void insertCar (JSONObject JsonRecu, Connection c) throws ParseException,
 		}
 		
 	}
-}
+	
 
+}

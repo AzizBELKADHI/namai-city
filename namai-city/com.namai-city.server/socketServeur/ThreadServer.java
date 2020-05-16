@@ -253,11 +253,6 @@ public class ThreadServer extends Thread {
 				stationInsert.insertPersStation(JsonRecu, c); 
 			}
 
-			if (JsonRecu.get("demandType").equals("MOCK_WARNING_HISTORICAL_INSERT")) {
-				System.out.println("HISTORIQUE ALERTE "); 
-				WarningInsert warningInsert = new WarningInsert(); 
-				warningInsert.warningHistoricalInsert(JsonRecu, c); 
-			}
 			if (JsonRecu.get("demandType").equals("MOCK_SENSOR_POLLUANT_INSERT")) {
 				System.out.println(" CAPTEUR POLLUANT"); 
 				SensorPolluantInsert sensorPolluantInsert = new SensorPolluantInsert(); 
@@ -279,6 +274,25 @@ public class ThreadServer extends Thread {
 				Sensor sensor = new Sensor(); 
 				System.out.println("initialisation de la classe Sensor");
 				JSONObject obj = sensor.getIndicator(JsonRecu,c);
+				return obj; 
+
+			}
+			
+			if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR2")) {
+
+				System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
+				Sensor sensor = new Sensor(); 
+				System.out.println("initialisation de la classe Sensor");
+				JSONObject obj = sensor.getIndicatorBorne(JsonRecu,c);
+				return obj; 
+
+			}
+			if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR3")) {
+
+				System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
+				Sensor sensor = new Sensor(); 
+				System.out.println("initialisation de la classe Sensor");
+				JSONObject obj = sensor.getIndicatorSensorPolluant(JsonRecu,c);
 				return obj; 
 
 			}
@@ -305,7 +319,9 @@ public class ThreadServer extends Thread {
 				System.out.println("le nombre de voitures par date dans la ville : "); 
 				Car car = new Car(); 
 				System.out.println("initialisation de la classe Car"); 
-				//return car.carDAO(JsonRecu,c); 
+				JSONObject obj = car.carDAO(JsonRecu,c);
+				return obj; 
+		
 
 			}
 			if (JsonRecu.get("demandType").equals("WARMING_INDICATOR")) {

@@ -43,7 +43,6 @@ public class PanneauResultatStation extends JPanel{
 					}
 				}
 
-
 				Object[][] donnees = {
 						{"Nord",  cptNord},
 						{"Sud",  cptSud},
