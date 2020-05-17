@@ -37,6 +37,13 @@ public class SocketClient {
 		JSONObject jsonObject = (JSONObject) obj;  
 		return jsonObject;
 	}
+/*	
+	public static JSONObject receiveMessage() throws IOException {
+		String resp = inJson.readLine();
+		Object obj=JSONValue.parse(resp); 
+		JSONObject jsonObject = (JSONObject) obj;  
+		return jsonObject;
+	}  */
 
 	public static void stopConnection() throws IOException {
 		inJson.close();

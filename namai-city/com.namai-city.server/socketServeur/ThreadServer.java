@@ -5,12 +5,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 
 import com.connectionPool.DataSource;
+
+import bornes.Borne;
+import carsHistory.carsHistory;
+import carsSensors.CarSensors;
 import controller.DBConnectController;
 
 import java.io.*; 
@@ -19,9 +26,10 @@ import java.net.*;
 
 public class ThreadServer extends Thread {
 	private Socket clientSocket; 
-	public PrintWriter outJson;
+	public PrintWriter outJson;	
 	private BufferedReader inJson;
 	private Connection c; 
+	private Borne bornes ;
 
 
 	public ThreadServer(Socket socket, Connection connection) {
@@ -33,14 +41,59 @@ public class ThreadServer extends Thread {
 	public void run()  {
 
 		try {
-			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
-			inJson  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
+			/*
+			carsHistory test = new carsHistory(this.c);
+			
+			new Thread() {
+				public void run() {
+					try {
+						System.out.println("je suis dans le thread");
+						ServerSocket server = new ServerSocket(3001);
+						Socket s = server.accept();
+						DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+						try {
+							System.out.println("je traite les voitures");
+							test.addCarToHistory("audi A4", "voiture",1);							
+							System.out.println(carsHistory.totalCars);
+							dos.writeInt(carsHistory.totalCars);
+							sleep(3000);
+							test.addCarToHistory("audi A3", "voiture",3);
+							dos.writeInt(carsHistory.totalCars);
+							sleep(3000);
+							test.addCarToHistory("audi A8", "voiture",1);
+							dos.writeInt(carsHistory.totalCars);
+							sleep(3000);
+							test.addCarToHistory("audi Q8", "SUV",1);
+							dos.writeInt(carsHistory.totalCars);
+							sleep(3000);
+							test.addCarToHistory("audi A4", "voiture",2);
+							dos.writeInt(carsHistory.totalCars);
+							server.close();
+						} catch (SQLException | InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+			}.start();  */
+			 //JSON parser object to parse read fileStringBuffer sb = new StringBuffer();
 
-
+			InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("simulation.json"); 
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
+			System.out.println("je suis passe par le file reader");
+			CarSensors test = new CarSensors(c, inputStream);
+			test.start();
+			System.out.println("je suis passé outre le thread");
+			
 			// processing part of Json 
-
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
 			inJson = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			this.bornes = new Borne(this.c);
+			Object obj1 = new Object();
 			String resp = inJson.readLine();
 			System.out.println("----bonjour je viens de récuperer le JSON");
 			System.out.println(resp);
@@ -50,11 +103,25 @@ public class ThreadServer extends Thread {
 			JSONObject jsonObject = (JSONObject) obj;  
 			System.out.println("----bonjour je viens de parser le JSON");
 			System.out.println(resp);
+			if(jsonObject.get("demandType").equals("GetBornes")) {
+				obj1 = bornes.BornesState();
+				outJson.println(obj1);
+			}
+			
+			if(jsonObject.get("demandType").equals("RiseBornes")) {
+				obj1 = bornes.riseBornes();
+				outJson.println(obj1); 
+			};
+			
+			if(jsonObject.get("demandType").equals("LowerBornes")) {
+				obj1 = bornes.lowerBornes();
+				outJson.println(obj1); 
+			};
 
-			obj = crud(jsonObject); 
+			//obj = crud(jsonObject); 
 			// Once the Json had been processed, closing the socket and releasing the connection
 
-			outJson.println(obj);
+		//	outJson.println(obj);
 			DataSource.releaseConnection(c); 
 			inJson.close();
 			outJson.close();

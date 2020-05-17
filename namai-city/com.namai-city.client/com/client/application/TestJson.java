@@ -1,5 +1,6 @@
 package com.client.application;
 
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import javax.swing.*;
 
 import org.json.simple.JSONObject;
 
@@ -49,13 +52,20 @@ public class TestJson {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		PagePrincipale page = new PagePrincipale();
+		page.setVisible(true);
+	
+		
 	}
+	
 
 	public void go() throws SQLException, IOException {
 
 		// TODO Auto-generated method stub
+		
+	
 		Scanner sc = new Scanner(System.in);
-
+		
 		while(true) { // Menu display
 			System.out.println("########################### Menu Namai-city-client #########################");
 			System.out.println("1: Afficher");
@@ -366,3 +376,12 @@ public class TestJson {
 	}
 }
 
+class PagePrincipale extends JFrame{
+	public PagePrincipale() {
+		setTitle("Un exemple de JLabel"); 
+		setSize(400, 200);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new FlowLayout());
+		}
+}
