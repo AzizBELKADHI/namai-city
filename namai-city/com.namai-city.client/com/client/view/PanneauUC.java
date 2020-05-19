@@ -2,6 +2,9 @@ package com.client.view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 
 import javax.swing.JPanel;
 
@@ -16,7 +19,7 @@ public class PanneauUC extends JPanel {
 	private PanneauBienvenueNamaiCity bienvenue;
 	
 	
-	public PanneauUC() {
+	public PanneauUC() throws UnsupportedEncodingException, SQLException, IOException {
 		
 		borne = new PanneauBorne();
 		pollution = new PanneauConfigurationPollution();

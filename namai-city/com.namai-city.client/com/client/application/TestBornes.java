@@ -1,9 +1,14 @@
-package com.client.application;
+/*package com.client.application;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,9 +22,13 @@ import java.util.Scanner;
 
 import javax.swing.*;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.client.controller.SocketClient;
+import com.client.view.PanneauPrincipalBornes;
 import com.commons.model.AccessServer;
 
 import carsHistory.carsHistory;
@@ -49,19 +58,20 @@ public class TestBornes  {
 
 	}
 	
-	public static void main(String [] args) {
+	public static void main(String [] args) throws UnsupportedEncodingException {
 		TestBornes t = new TestBornes();
+		
 		try {
-			System.out.println("aejhfuiazrhlfbzgr");
+			
 			JFrame fenetre = new JFrame();
 			fenetre.setLocationRelativeTo(null);
 			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			fenetre.setTitle("bornes");
-			fenetre.setSize(300, 120);
+			fenetre.setSize(1300, 720);
 					
 			JSONObject rep = t.go();
-			ArrayList<JSONObject> allBornes = new ArrayList<JSONObject>();
-			allBornes = (ArrayList<JSONObject>) rep.get("bornes");
+			PanneauPrincipalBornes test = new PanneauPrincipalBornes(rep); 
+			final ArrayList<JSONObject> allBornes = (ArrayList<JSONObject>) rep.get("bornes");
 			Object data[][]= 	new Object[allBornes.size()][3];
 			for(int i = 0; i<allBornes.size(); i++) {
 			//		System.out.println(allBornes.get(i));
@@ -79,33 +89,10 @@ public class TestBornes  {
 			    //Les titres des colonnes
 			    String  title[] = {"borne", "position", "état"};
 			    JTable tableau = new JTable(data, title);	
-			    fenetre.getContentPane().add(new JScrollPane(tableau), BorderLayout.SOUTH);
-			    fenetre.setVisible(true);
-			    
-			    new Thread() {
-			    	public void run() {
-			    	try {
-			    	Socket s = new Socket("172.31.249.49",3001);
-			    	while(true) {
-			    		DataInputStream dis;
-							dis = new DataInputStream(s.getInputStream());
-							int nbVoitures = dis.readInt();
-				    		System.out.println("nombre de voitures: "+ nbVoitures);
-				    		JLabel myText = new JLabel("Nombres de voitures: " +nbVoitures, SwingConstants.CENTER);	
-				    		fenetre.getContentPane().remove(myText);
-				    		fenetre.getContentPane().add(myText,BorderLayout.NORTH);
-				    		fenetre.getContentPane().revalidate();
-						    fenetre.setVisible(true);
-						    String test = dis.readUTF();
-						    System.out.println("test reception alerte : " + test);
-				    		System.out.println("test Boucle infinie");
-						} }
-			    	catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			    	}
-			    }.start();
+			    fenetre.getContentPane().add(new JScrollPane(tableau), BorderLayout.NORTH);
+				JLabel label = new JLabel("nombre de vehicules");
+		//		fenetre.getContentPane().add(label,BorderLayout.CENTER);
+		//	    fenetre.setVisible(true);
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,19 +103,18 @@ public class TestBornes  {
 	}
 	
 
-	public JSONObject go() throws SQLException, IOException {
+	public JSONObject go() throws SQLException, IOException,UnsupportedEncodingException {
 
-		// TODO Auto-generated method stub
-		
 		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
 		JSONObject obj=new JSONObject();  //JSONObject creation
-		obj.put("demandType",String.valueOf("GetBornes")); 
+		obj.put("demandType",String.valueOf("getInitialInfos")); 
 		System.out.println(obj);	
 		JSONObject reponseBornes = client.sendMessage(obj);
 		System.out.println(reponseBornes);
-		client.stopConnection();  
+		client.stopConnection(); 
 
 		return reponseBornes; 
 		
 	}
 }
+*/

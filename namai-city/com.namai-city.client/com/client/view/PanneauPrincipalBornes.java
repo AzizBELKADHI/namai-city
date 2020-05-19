@@ -11,9 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -23,20 +21,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.client.application.TestJson;
-
-public class PanneauBorne extends JPanel implements ActionListener{
+public class PanneauPrincipalBornes extends JFrame implements ActionListener{
 	private JMenuItem historique,limiteVoitures; 
 	private Button bouton;
 	private JLabel label;
 	private JTable tableau;
 	private JLabel label2; 
 	 
-	public PanneauBorne() throws UnsupportedEncodingException, SQLException, IOException {  
+	public PanneauPrincipalBornes(JSONObject bornes) {  
 		
-		System.out.println("je rentre dans le PanneauBorne()");
-	//	JSONObject bornes = TestJson.getBornes();
-		JSONObject bornes = new JSONObject();
 		JMenuBar mb;    
 		JMenu actions;        
 		JTextArea ta;        
@@ -50,8 +43,8 @@ public class PanneauBorne extends JPanel implements ActionListener{
 		actions=new JMenu("actions");       
 		actions.add(historique);actions.add(limiteVoitures);
     	mb.add(actions);   
-	//	this.setJMenuBar(mb);  
-	//	this.setSize(600,800);    
+		this.setJMenuBar(mb);  
+		this.setSize(600,800);    
 		final ArrayList<JSONObject> allBornes = (ArrayList<JSONObject>) bornes.get("bornes");
 		Object data[][]= 	new Object[allBornes.size()][3];
 		for(int i = 0; i<allBornes.size(); i++) {
@@ -87,12 +80,10 @@ public class PanneauBorne extends JPanel implements ActionListener{
 
 		    Dimension d = new Dimension( 400, 150 );
 		    tableau.setPreferredScrollableViewportSize( d );
-		    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		    bouton = new Button("lancer simulation");
-		    bouton.addActionListener(this);
-		    this.add(panneauBornes);
-		    this.add(panneauBornesOrigine);
-		    this.add(bouton);
+		    this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		    getContentPane().add(panneauBornes);
+		    getContentPane().add(panneauBornesOrigine);
+		    this.setVisible(true);
 		    
 		    new Thread() {
 		    	public void run() {
@@ -117,19 +108,31 @@ public class PanneauBorne extends JPanel implements ActionListener{
 										data[i][2] = "baissé";						
 									}
 								}
-							revalidate();
-				    		repaint();
+							getContentPane().revalidate();
+				    		getContentPane().repaint();
+						 //   fenetre.setVisible(true);
 							}
 							
+						//	int voitures = Integer.valueOf((String) json.get("vehicules"))
 							String voitures = (String)json.get("vehicules");
 							System.out.println(voitures);
 							label2.setText("nombre de voitures dans la ville :: " + voitures);
-							revalidate();
-				    		repaint();
+							getContentPane().revalidate();
+				    		getContentPane().repaint();
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}			 
+					//	int nbVoitures = dis.readInt();
+			    	/*	System.out.println("nombre de voitures: "+ nbVoitures);
+			    		JLabel myText = new JLabel("Nombres de voitures: " +nbVoitures, SwingConstants.CENTER);	
+			    		fenetre.getContentPane().remove(myText);
+			    		fenetre.getContentPane().add(myText,BorderLayout.NORTH);
+			    		fenetre.getContentPane().revalidate();
+					    fenetre.setVisible(true); */
+					/*
+					    System.out.println("test reception alerte : " + test);
+			    		System.out.println("test Boucle infinie"); */
 					} }
 		    	catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -155,9 +158,7 @@ public class PanneauBorne extends JPanel implements ActionListener{
 			}     
 			
 			if(e.getSource() == bouton) {	  
-		
-				
-				System.out.println("je suis quand meme arrivé ici");
+				System.out.println("je suis dans le bouton");
 				label.setText("etat change");
 			}     
 

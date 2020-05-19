@@ -2,6 +2,7 @@ package com.client.application;
 
 import java.awt.FlowLayout;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,17 +45,41 @@ public class TestJson {
 
 	}
 	
-	public static void main(String [] args) {
-		TestJson t = new TestJson();
-		try {
-			t.go();
-		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void main(String [] args) throws SQLException, IOException {
+	//	TestJson t = new TestJson();
 		PagePrincipale page = new PagePrincipale();
 		page.setVisible(true);
 	
+		
+	}
+	
+	
+	public static JSONObject getBornes() throws SQLException, IOException,UnsupportedEncodingException {
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("getInitialInfos")); 
+		System.out.println(obj);	
+		JSONObject reponseBornes = client.sendMessage(obj);
+		System.out.println(reponseBornes);
+		client.stopConnection(); 
+
+		return reponseBornes; 
+		
+	}
+	
+	public JSONObject launchSimulation() throws SQLException, IOException,UnsupportedEncodingException {
+		System.out.println("je rentre deja dans la simulation");
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("launchSimulation")); 
+		System.out.println(obj);	
+		JSONObject reponseBornes = client.sendMessage(obj);
+		System.out.println(reponseBornes);
+		client.stopConnection(); 
+
+		return reponseBornes; 
 		
 	}
 	

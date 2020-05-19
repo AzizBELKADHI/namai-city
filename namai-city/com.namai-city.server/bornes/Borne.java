@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
+import carsHistory.carsHistory;
 
 
 public class Borne {
@@ -39,6 +40,8 @@ public class Borne {
 
 		}
 		obj.put("bornes", listBornes);
+		obj.put("actualCars", Integer.toString(carsHistory.totalCars));
+		obj.put("maxCars", Integer.toString(carsHistory.maxCars));
 		System.out.println("voici le json envoyé avec la liste des bornes: ");
 		// displaying the Json
 		System.out.println(obj);

@@ -2,6 +2,9 @@ package com.client.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -19,7 +22,7 @@ public class ApplicationController implements ActionListener {
 	private ConnectionNamaiCity cn;
 	private PanneaApplication pa;
 	
-	public ApplicationController(ConnectionNamaiCity cn) {
+	public ApplicationController(ConnectionNamaiCity cn) throws UnsupportedEncodingException, SQLException, IOException {
 		this.ma=ma;
 		pa = new PanneaApplication();
 		 ma = new MenuApplication();

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="namai-city/com.namai-city.client"/>
+	<classpathentry kind="src" path="namai-city/com.namai-city.commons"/>
+	<classpathentry kind="src" path="namai-city/com.namai-city.server"/>
+	<classpathentry kind="lib" path="librairies/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="librairies/postgresql-42.2.2.jre7.jar"/>
+	<classpathentry kind="output" path="namai-city/bin"/>
+</classpath>

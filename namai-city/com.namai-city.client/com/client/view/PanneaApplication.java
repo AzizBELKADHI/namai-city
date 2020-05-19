@@ -1,6 +1,9 @@
 package com.client.view;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 
 import javax.swing.JPanel;
 
@@ -12,7 +15,7 @@ public class PanneaApplication extends JPanel {
 	private BorderLayout bl;
 	
 	
-	public PanneaApplication() {
+	public PanneaApplication() throws UnsupportedEncodingException, SQLException, IOException {
 		
 		
 		puc = new PanneauUC();

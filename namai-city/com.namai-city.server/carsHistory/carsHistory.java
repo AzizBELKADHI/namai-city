@@ -8,14 +8,15 @@ import java.sql.SQLException;
 import org.json.simple.JSONObject;
 
 public class carsHistory {
-	public static int totalCars = 200;
-	public static int maxCars = 200;
+	public static int totalCars;
+	public static int maxCars;
 	private Connection c; 
 	
 	public carsHistory(Connection c) {
 		this.c = c;
 		try {
 			totalCars = getCars();
+			maxCars = carsLimit();
 		} catch (SQLException | InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -43,11 +44,50 @@ public class carsHistory {
 		}
 		if(cpt == 0) {
 			voitures = 0;
+			System.out.println("erreur lors de la recuperation des vehicules dans la ville");
 		}
-		System.out.println("preuve que le nb voitures est modifié: " + cpt);
+		System.out.println("nombre de vehicules actuels dans la ville: " + voitures);
 		// displaying the json 
-		Thread.sleep(3000); 
 		return voitures; 
+	}
+	
+	public int carsLimit() throws SQLException, InterruptedException {
+		PreparedStatement stmtJson = c.prepareStatement("SELECT max_voitures FROM voitures_limit");
+		ResultSet response = stmtJson.executeQuery();
+		int cpt = 0;
+		int maxVoitures = 0;
+
+		while (response.next())  {
+			//recovery of the data of the user in question 
+			cpt++;
+			maxVoitures = response.getInt("max_voitures");
+		}
+		if(cpt == 0) {
+			System.out.println("erreur lors de la recuperation du maxVehicules");
+		}
+		System.out.println("nombre max de vehicules autorisé: " + cpt);
+		// displaying the json 
+		return maxVoitures; 
+	}
+	
+	
+	public JSONObject updateMaxCars(int maxCars) throws SQLException {
+		PreparedStatement stmt = c.prepareStatement("update voitures_limit set max_voitures= ?, last_update= current_timestamp;");
+		stmt.setInt(1, maxCars); 
+		JSONObject obj=new JSONObject(); 
+
+
+		//if (update  bien passé) => executer les lignes suivantes sinon dire erreur
+
+		if(stmt.executeUpdate()>=1) {
+			obj.put("reponse",String.valueOf("mise à jour reussie du nb_max vehicules"));
+			System.out.println("mise à jour reussie du nb_max vehicules");
+		}
+		else {
+			obj.put("reponse",String.valueOf("erreur lors de la mise a jour du max vehicules"));
+		}
+		System.out.println(obj);
+		return obj; 
 	}
 
 	
