@@ -1,4 +1,4 @@
-/*package com.client.application;
+package com.client.application;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -117,4 +117,3 @@ public class TestBornes  {
 		
 	}
 }
-*/

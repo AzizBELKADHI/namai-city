@@ -68,7 +68,7 @@ public class TestJson {
 		
 	}
 	
-	public JSONObject launchSimulation() throws SQLException, IOException,UnsupportedEncodingException {
+	public static JSONObject launchSimulation() throws SQLException, IOException,UnsupportedEncodingException {
 		System.out.println("je rentre deja dans la simulation");
 		SocketClient client = new SocketClient();
 		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());

@@ -21,8 +21,8 @@ public class PanneauUC extends JPanel {
 	
 	public PanneauUC() throws UnsupportedEncodingException, SQLException, IOException {
 		
-		borne = new PanneauBorne();
 		pollution = new PanneauConfigurationPollution();
+		borne = new PanneauBorne();
 		detecteur = new PanneauDetecteur();
 		empreinte = new PanneauEmpreinte();
 		indicateur = new PanneauIndicateur();
@@ -32,9 +32,10 @@ public class PanneauUC extends JPanel {
 		
 		cl = new CardLayout();
 		this.setLayout(cl);
+		System.out.println("bonjour Je suis ici");
 		this.add("panneauBienvenue", bienvenue);
-		this.add("panneauBorne", borne);
 		this.add("panneauPollution", pollution);
+		this.add("panneauBorne", borne);
 		this.add("panneauDetecteur", detecteur);
 		this.add("panneauEmpreinte", empreinte);
 		this.add("panneauIndicateur", indicateur);

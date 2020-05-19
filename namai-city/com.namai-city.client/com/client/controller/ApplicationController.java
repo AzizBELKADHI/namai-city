@@ -21,6 +21,7 @@ public class ApplicationController implements ActionListener {
 	private MenuApplication ma;
 	private ConnectionNamaiCity cn;
 	private PanneaApplication pa;
+	private int i = 0;
 	
 	public ApplicationController(ConnectionNamaiCity cn) throws UnsupportedEncodingException, SQLException, IOException {
 		this.ma=ma;
@@ -59,6 +60,20 @@ public class ApplicationController implements ActionListener {
 				cn.getPa().getPuc().setCard("panneauEmpreinte");
 			}
 			else if(choix.equals("configBorne")) {
+				System.out.println("j'appui sur ce putain de panneau bornes");
+				try {
+					if(i == 0) {
+					cn.getPa().getPuc().getBorne().init();
+					i = 1;
+					}
+					else {
+					cn.revalidate();
+					cn.repaint();
+					}
+				} catch (SQLException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				cn.getPa().getPuc().setCard("panneauBorne");
 			}
 			else if(choix.equals("analyse")) {

@@ -25,18 +25,26 @@ import org.json.simple.parser.ParseException;
 
 import com.client.application.TestJson;
 
-public class PanneauBorne extends JPanel implements ActionListener{
+public class PanneauBorne extends JPanel implements ActionListener {
 	private JMenuItem historique,limiteVoitures; 
 	private Button bouton;
 	private JLabel label;
 	private JTable tableau;
 	private JLabel label2; 
-	 
-	public PanneauBorne() throws UnsupportedEncodingException, SQLException, IOException {  
+	private ArrayList<JSONObject> allBornes;
+	private Object[][] data;
+	
+	public PanneauBorne() {
+		revalidate();
+		repaint();
+	}
+	
+	
+	
+	public void init() throws UnsupportedEncodingException, SQLException, IOException {  
 		
 		System.out.println("je rentre dans le PanneauBorne()");
-	//	JSONObject bornes = TestJson.getBornes();
-		JSONObject bornes = new JSONObject();
+		JSONObject bornes = TestJson.getBornes();
 		JMenuBar mb;    
 		JMenu actions;        
 		JTextArea ta;        
@@ -52,8 +60,8 @@ public class PanneauBorne extends JPanel implements ActionListener{
     	mb.add(actions);   
 	//	this.setJMenuBar(mb);  
 	//	this.setSize(600,800);    
-		final ArrayList<JSONObject> allBornes = (ArrayList<JSONObject>) bornes.get("bornes");
-		Object data[][]= 	new Object[allBornes.size()][3];
+		this.allBornes = (ArrayList<JSONObject>) bornes.get("bornes");
+		this.data = new Object[allBornes.size()][3];
 		for(int i = 0; i<allBornes.size(); i++) {
 		//		System.out.println(allBornes.get(i));
 				data[i][0] = allBornes.get(i).get("Id_borne");
@@ -94,49 +102,7 @@ public class PanneauBorne extends JPanel implements ActionListener{
 		    this.add(panneauBornesOrigine);
 		    this.add(bouton);
 		    
-		    new Thread() {
-		    	public void run() {
-		    	try {
-		    	Socket s = new Socket("172.31.249.49",3001);
-		    	while(true) {
-		    		DataInputStream dis;
-						dis = new DataInputStream(s.getInputStream());
-						String rep = dis.readUTF();
-						JSONParser parser = new JSONParser(); 
-						JSONObject json;
-						try {
-							json = (JSONObject) parser.parse(rep);
-							if(json.containsKey("etat")) { 
-								if(json.get("etat").equals("alert")) {
-								for(int i = 0; i<allBornes.size(); i++) {
-									data[i][2] = "relevé";						
-							}
-							}
-							if(json.get("etat").equals("normal")) {
-									for(int i = 0; i<allBornes.size(); i++) {
-										data[i][2] = "baissé";						
-									}
-								}
-							revalidate();
-				    		repaint();
-							}
-							
-							String voitures = (String)json.get("vehicules");
-							System.out.println(voitures);
-							label2.setText("nombre de voitures dans la ville :: " + voitures);
-							revalidate();
-				    		repaint();
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}			 
-					} }
-		    	catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		    	}
-		    }.start();
+		    
 		}     
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
@@ -155,8 +121,68 @@ public class PanneauBorne extends JPanel implements ActionListener{
 			}     
 			
 			if(e.getSource() == bouton) {	  
-		
-				
+				try {
+					System.out.println("je suis ici je vais lancer la simulation");
+					TestJson.launchSimulation();
+					new Thread() {
+				    	public void run() {
+				    	try {
+				    	Socket s = new Socket("172.31.249.49",3001);
+				    	while(true) {
+				    		DataInputStream dis;
+								dis = new DataInputStream(s.getInputStream());
+								String rep = dis.readUTF();
+								JSONParser parser = new JSONParser(); 
+								JSONObject json;
+								try {
+									json = (JSONObject) parser.parse(rep);
+									if(json.containsKey("etat")) { 
+										if(json.get("etat").equals("alert")) {
+										for(int i = 0; i<allBornes.size(); i++) {
+											data[i][2] = "relevé";						
+									}
+									}
+									if(json.get("etat").equals("normal")) {
+											for(int i = 0; i<allBornes.size(); i++) {
+												data[i][2] = "baissé";						
+											}
+										}
+									revalidate();
+						    		repaint();
+								 //   fenetre.setVisible(true);
+									}
+									
+								//	int voitures = Integer.valueOf((String) json.get("vehicules"))
+									String voitures = (String)json.get("vehicules");
+									System.out.println(voitures);
+									label2.setText("nombre de voitures dans la ville :: " + voitures);
+									revalidate();
+						    		repaint();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}			 
+							//	int nbVoitures = dis.readInt();
+					    	/*	System.out.println("nombre de voitures: "+ nbVoitures);
+					    		JLabel myText = new JLabel("Nombres de voitures: " +nbVoitures, SwingConstants.CENTER);	
+					    		fenetre.getContentPane().remove(myText);
+					    		fenetre.getContentPane().add(myText,BorderLayout.NORTH);
+					    		fenetre.getContentPane().revalidate();
+							    fenetre.setVisible(true); */
+							/*
+							    System.out.println("test reception alerte : " + test);
+					    		System.out.println("test Boucle infinie"); */
+							} }
+				    	catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+				    	}
+				    }.start();
+				} catch (SQLException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				System.out.println("je suis quand meme arrivé ici");
 				label.setText("etat change");
 			}     

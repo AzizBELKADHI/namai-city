@@ -8,6 +8,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.DateFormatter;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.awt.*;
 
@@ -81,7 +82,7 @@ public class DateTimePicker extends JXDatePicker {
             calendar.set(Calendar.MINUTE, timeCalendar.get( Calendar.MINUTE ) );
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
-
+            
             Date newDate = calendar.getTime();
             setDate(newDate);
         }
@@ -114,7 +115,11 @@ public class DateTimePicker extends JXDatePicker {
         dateTimePicker.setTimeFormat( DateFormat.getTimeInstance( DateFormat.MEDIUM ) );
 
         dateTimePicker.setDate(date);
-
+        
+        System.out.println(dateTimePicker.getDate());
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.mmm");
+        Date a = dateTimePicker.getDate();
+        System.out.println(f.format(a));
         frame.getContentPane().add(dateTimePicker);
         frame.pack();
         frame.setVisible(true);

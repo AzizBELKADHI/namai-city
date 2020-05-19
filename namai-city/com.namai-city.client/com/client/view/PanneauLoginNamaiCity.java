@@ -22,6 +22,7 @@ public class PanneauLoginNamaiCity extends JPanel {
 	
 	public PanneauLoginNamaiCity() {
 		super();
+		System.out.println("je suis dans PanneauLoginNamaiCity");
 		this.setLayout(new GridBagLayout());
 		form = new JPanel();
 		form.setLayout(new GridLayout(5,1));
