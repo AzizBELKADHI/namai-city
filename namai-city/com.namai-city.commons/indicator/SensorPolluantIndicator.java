@@ -1,6 +1,6 @@
 package indicator;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.json.simple.JSONObject;
 
@@ -9,7 +9,7 @@ public class SensorPolluantIndicator {
 
 	private int id; 
 	private int id2; 
-	private Date date; 
+	private Timestamp date; 
 	private String localisation; 
 	private int warningNb; 
 	private String co2; 
@@ -26,7 +26,7 @@ public class SensorPolluantIndicator {
 
 	}
 
-	public SensorPolluantIndicator(int i, Date d, String l, int w, String c, String p, String n, String t) {
+	public SensorPolluantIndicator(int i, Timestamp d, String l, int w, String c, String p, String n, String t) {
 		id = i; 
 		date = d; 
 		localisation = l; 
@@ -41,7 +41,7 @@ public class SensorPolluantIndicator {
 		id2 = i; 
 	}
 	
-	public SensorPolluantIndicator(int i, Date d, String c, String n, String p, String t, int id) {
+	public SensorPolluantIndicator(int i, Timestamp d, String c, String n, String p, String t, int id) {
 		id = i; 
 		date = d; 
 		co2 = c; 
@@ -132,11 +132,11 @@ public class SensorPolluantIndicator {
 		this.id = id;
 	}
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
@@ -159,7 +159,9 @@ public class SensorPolluantIndicator {
 		JSONObject json = new JSONObject();
 		json.put("fk_id_capteur", id);
 		json.put("id", id2); 
-		//json.put("start_date", date); 
+		if(date != null) {
+			json.put("start_date", date.toString());
+		}
 		json.put("localisation", localisation); 
 		json.put("nb_alerte",warningNb); 
 		json.put("val_co2", co2); 
@@ -175,7 +177,9 @@ public class SensorPolluantIndicator {
 	public void convertFromJson(JSONObject json) {
 		this.id = Long.valueOf(String.valueOf(json.get("fk_id_capteur"))).intValue();
 		this.id2 = Long.valueOf(String.valueOf(json.get("id"))).intValue();
-		//this.date = Date.valueOf((String) json.get("date"));
+		if(json.get("start_date")!=null) {
+		this.date = Timestamp.valueOf(String.valueOf(json.get("start_date"))); 
+		}
 		this.localisation = String.valueOf(json.get("localisation")); 	
 		this.warningNb = Long.valueOf(String.valueOf(json.get("nb_alerte"))).intValue(); 
 		this.co2 = String.valueOf(json.get("val_co2")); 

@@ -1,0 +1,16 @@
+[
+
+	{
+"id_capteur" : 5,
+"position" : "Est",
+"type" : "IN"
+
+},
+{
+"id_capteur" : 6,
+"position" : "Est",
+"type" : "OUT"
+
+}
+
+]

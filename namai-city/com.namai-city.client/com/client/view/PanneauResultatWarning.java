@@ -1,9 +1,11 @@
 package com.client.view;
 
 import java.awt.BorderLayout;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -12,83 +14,103 @@ import indicator.SensorPolluantIndicator;
 
 public class PanneauResultatWarning extends JPanel {
 
-	public PanneauResultatWarning(String nomPolluant, List<Integer> listeSeuil, ArrayList<SensorPolluantIndicator> listeWarning) {
+	public PanneauResultatWarning(Timestamp dateStart, Timestamp dateEnd, String namePolluant, List<Integer> listThreshold, ArrayList<SensorPolluantIndicator> listeWarningWithoutDate) {
+		System.out.println("début :"+dateStart.toString());
+		System.out.println("fin :"+dateEnd.toString());
+		ArrayList<SensorPolluantIndicator> listeWarning = new ArrayList<SensorPolluantIndicator>();
+		for(int i =0;i<listeWarningWithoutDate.size();i++) {
+			if((listeWarningWithoutDate.get(i).getDate().before(dateEnd)) && (listeWarningWithoutDate.get(i).getDate().after(dateStart))) {
+				listeWarning.add(listeWarningWithoutDate.get(i));
+			}
+		}
 		
-		if(!nomPolluant.equals("TMP")) {
+		if(listeWarning.size()==0){
+			
+			JLabel errorMessage = new JLabel("Pas d'alertes pour cette plage de date");
+			this.add(errorMessage, BorderLayout.CENTER);
+			this.repaint();
+		}else {			
+		
+		if(!namePolluant.equals("TMP")) {
 		double dptMoyen = 0.00;
-		switch(nomPolluant) {
+		switch(namePolluant) {
 		case "CO2" :
 			for(int i=0;i<listeWarning.size();i++) {
-				dptMoyen=dptMoyen+(Integer.valueOf(listeWarning.get(i).getCo2())-listeSeuil.get(0));
+				dptMoyen=dptMoyen+(Integer.valueOf(listeWarning.get(i).getCo2())-listThreshold.get(0));
 				
 			}
 			break;
 		case "NO2" :
 			for(int i=0;i<listeWarning.size();i++) {
-				dptMoyen=dptMoyen+(Integer.valueOf(listeWarning.get(i).getNo2())-listeSeuil.get(0));
+				dptMoyen=dptMoyen+(Integer.valueOf(listeWarning.get(i).getNo2())-listThreshold.get(0));
 				
 			}
 			break;
 		case "PF" :
 			for(int i=0;i<listeWarning.size();i++) {
-				dptMoyen=dptMoyen+(Integer.valueOf(listeWarning.get(i).getPf())-listeSeuil.get(0));
+				dptMoyen=dptMoyen+(Integer.valueOf(listeWarning.get(i).getPf())-listThreshold.get(0));
 				
 			}
 			break;
 		}
 		dptMoyen=dptMoyen/(listeWarning.size());
-		double txDpt = listeSeuil.get(0)*dptMoyen/100;
+		double txDpt = (100*dptMoyen)/listThreshold.get(0);
 		
 		Object[][] donnees = {
-				{"Nombre d’alertes pour le capteur "+listeWarning.get(0).getIdFkCap()+" dépassant le seuil maximal de "+nomPolluant+" :"+listeSeuil.get(0),  listeWarning.size()},
-				{"id du capteur",  listeWarning.get(0).getIdFkCap()},
-				{"dépassement du seuil de :",  nomPolluant},
-				{"affichage:",  listeSeuil.get(0)},
+				{"Date de début :",  dateStart.toString()},
+				{"Date de fin :",  dateEnd.toString()},
+				{"Nombre d’alertes pour le capteur ",  listeWarning.size()},
+				{"dépassement du seuil de :",  namePolluant},
+				{"seuil du polluant :",  listThreshold.get(0)},
 				{"Dépassement moyen du seuil",  dptMoyen},
 				{"Taux de dépassement", txDpt+"%"}
 		};
 
 		String[] entetes = {"Indicateur :", " "};
-		JTable tablePosition = new JTable(donnees, entetes);
-		tablePosition.setCellSelectionEnabled(false);
-		this.add(tablePosition.getTableHeader(), BorderLayout.NORTH);
-		this.add(new JScrollPane(tablePosition), BorderLayout.CENTER);
+		JTable TableThreshold = new JTable(donnees, entetes);
+		TableThreshold.setCellSelectionEnabled(false);
+		this.add(TableThreshold.getTableHeader(), BorderLayout.NORTH);
+		this.add(new JScrollPane(TableThreshold), BorderLayout.CENTER);
 		this.repaint();
+		
 		}else {
-			int listeTmpMax = 0;
-			double dptMoyenMax = 0.00;
-			int listeTmpMin = 0;
-			double dptMoyenMin = 0.00;
+			int cptTmpMax = 0;
+			double dptAvgMax = 0.00;
+			int cptTmpMin = 0;
+			double dptAvgMin = 0.00;
 			
 			for(int i=0;i<listeWarning.size();i++) {
-				if(Integer.valueOf(listeWarning.get(i).getTmp())>listeSeuil.get(1)) {
-					listeTmpMax++;
-					dptMoyenMax=dptMoyenMax+(Integer.valueOf(listeWarning.get(i).getTmp())-listeSeuil.get(1));
-				}else if(Integer.valueOf(listeWarning.get(i).getTmp())<listeSeuil.get(0)) {
-					listeTmpMin++;
-					dptMoyenMin=dptMoyenMin+(Integer.valueOf(listeWarning.get(i).getTmp())-listeSeuil.get(0));
+				if(Integer.valueOf(listeWarning.get(i).getTmp())>listThreshold.get(1)) {
+					cptTmpMax++;
+					dptAvgMax=dptAvgMax+(Integer.valueOf(listeWarning.get(i).getTmp())-listThreshold.get(1));
+				}else if(Integer.valueOf(listeWarning.get(i).getTmp())<listThreshold.get(0)) {
+					cptTmpMin++;
+					dptAvgMin=dptAvgMin+(Integer.valueOf(listeWarning.get(i).getTmp())-listThreshold.get(0));
 				}
 			}		
-			double txDptMax = listeSeuil.get(1)*dptMoyenMax/100;
-			double txDptMin = listeSeuil.get(0)*dptMoyenMin/100;
+			dptAvgMax=dptAvgMax/cptTmpMax;
+			dptAvgMin=dptAvgMin/cptTmpMin;
+			double txDptMax = (100*dptAvgMax)/listThreshold.get(1);
+			double txDptMin = (100*dptAvgMin)/listThreshold.get(0);
 			
 			Object[][] donnees = {
-					{"Nombre d’alertes pour le capteur "+listeWarning.get(0).getIdFkCap()+" dépassant le seuil maximal de température : "+listeSeuil.get(0),  listeTmpMax},
-					{"Nombre d’alertes pour le capteur "+listeWarning.get(0).getIdFkCap()+" dépassant le seuil minimal de température : "+listeSeuil.get(0),  listeTmpMin},
-					{"Dépassement moyen du seuil maximal", dptMoyenMax},
+					{"Date de début :",  dateStart.toString()},
+					{"Date de fin :",  dateEnd.toString()},
+					{"Nb d’alertes sur le seuil maximal : "+listThreshold.get(1),  cptTmpMax},
+					{"Nb d’alertes sous le seuil minimal : "+listThreshold.get(0),  cptTmpMin},
+					{"Dépassement moyen du seuil maximal", dptAvgMax},
 					{"Taux de dépassement du seuil maximal", txDptMax+"%"},
-					{"Dépassement moyen du seuil minimal", dptMoyenMin},
+					{"Dépassement moyen du seuil minimal", dptAvgMin},
 					{"Taux de dépassement du seuil minimal", txDptMin+"%"}
 			};
 
-			String[] entetes = {"Position", "Nombre de station dans la ville"};
-			JTable tablePosition = new JTable(donnees, entetes);
-			tablePosition.setCellSelectionEnabled(false);
-			this.add(tablePosition.getTableHeader(), BorderLayout.NORTH);
-			this.add(new JScrollPane(tablePosition), BorderLayout.CENTER);
+			String[] entetes = {"Indicateur :", " "};
+			JTable TableThreshold = new JTable(donnees, entetes);
+			TableThreshold.setCellSelectionEnabled(false);
+			this.add(TableThreshold.getTableHeader(), BorderLayout.NORTH);
+			this.add(new JScrollPane(TableThreshold), BorderLayout.CENTER);
 			this.repaint();
 		}
 	}
-	
-
+	}
 }

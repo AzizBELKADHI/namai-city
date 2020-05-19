@@ -1,0 +1,23 @@
+[
+
+{
+"val_co2" : "5",
+"val_no2" : "7",
+"val_pf" : "20",
+"val_tmp" : "15",
+"fk_id_capteur" : 10,
+"start_date" : "2020-05-18 23:38:21"
+
+	},
+
+{
+
+"val_co2" : "6",
+"val_no2" : "4",
+"val_pf" : "2",
+"val_tmp" : "46",
+"fk_id_capteur" : 12,
+"start_date" : "2020-05-15 12:40:30"
+
+}
+]
