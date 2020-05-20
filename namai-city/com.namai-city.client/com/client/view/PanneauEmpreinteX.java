@@ -7,7 +7,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
+
+import org.json.simple.JSONObject;
+
+import com.client.controller.SocketClient;
+
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import java.awt.Font;
@@ -37,6 +45,8 @@ public class PanneauEmpreinteX extends JPanel {
 	private JLabel lblNewLabel_10;
 	private JTextField textField_18;
 	private JLabel lblNewLabel_8_1_2;
+	private JButton btnNewButton_3;
+	private JTextField textField_19;
 
 
 	/**
@@ -89,9 +99,6 @@ public class PanneauEmpreinteX extends JPanel {
 		JButton btnNewButton = new JButton("Simuler");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String RSVoiture;
-				String RSVelo;
-				String RSMarche;
 				
 				String distanceTram = textField_7.getText();
 				float i = Float.parseFloat(distanceTram);
@@ -131,6 +138,38 @@ public class PanneauEmpreinteX extends JPanel {
 		JButton btnNewButton_1 = new JButton("Calculer");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				/*JSONObject reponseAll20 = null;
+				try {
+				
+				
+				JSONObject obj=new JSONObject(); 
+				obj.put("demandType", "CARBON_FOOTPRINT");
+				
+				 reponseAll20 = client.sendMessage(obj);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				ArrayList<JSONObject> alldata = new ArrayList<JSONObject>(); // Creation d'un tableau de JSONObject
+				System.out.println(alldata);
+				
+				alldata = (ArrayList<JSONObject>) reponseAll20.get("realdata"); //REGLAGE
+				System.out.println("Bonjour"); 
+				for(int i = 0; i<alldata.size();i++) { // Boucle pour afficher toutes les données de la table Moyen_Transport
+					System.out.println("id_MT: "+alldata.get(i).get("id_MT") + // ok
+							" | Type_MT: "+alldata.get(i).get("type_MT")+
+							" | nombre d'utilisateurs: "+alldata.get(i).get("nb_utilisateurs") +
+					" | Co2 rejete par MT: "+alldata.get(i).get("co2_rejete_par_mt")); 
+				}
+				
+				*/
+				
+			//	textField_15.setText(alldata.get(i).get());
+				
+				
+				
+				
 			}
 		});
 		btnNewButton_1.setBounds(127, 117, 85, 21);
@@ -236,7 +275,7 @@ public class PanneauEmpreinteX extends JPanel {
 		
 		JLabel lblNewLabel_12 = new JLabel("Simulation");
 		lblNewLabel_12.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_12.setBounds(206, 158, 118, 20);
+		lblNewLabel_12.setBounds(206, 165, 118, 20);
 		add(lblNewLabel_12);
 		
 		lblNewLabel_13 = new JLabel("Données Réelles");
@@ -261,6 +300,115 @@ public class PanneauEmpreinteX extends JPanel {
 		lblNewLabel_8_1_2 = new JLabel("Résultat (Kg de Co2)");
 		lblNewLabel_8_1_2.setBounds(222, 305, 138, 13);
 		add(lblNewLabel_8_1_2);
+		
+		int [] TabRealData = {16,4000,11,2000,8,1000,3,7000}; //Tableau pour RealDATA Test Unitaire
+		
+		JButton btnNewButton_2 = new JButton("Test unitaire");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Test Unitaire Données réelles
+				
+				textField_15.setText(TabRealData[0]+"");
+				textField_8.setText(TabRealData[1]+"");
+				textField_14.setText(TabRealData[2]+"");
+				textField_9.setText(TabRealData[3]+"");
+				textField_13.setText(TabRealData[4]+"");
+				textField_10.setText(TabRealData[5]+"");
+				textField_12.setText(TabRealData[6]+"");
+				textField_11.setText(TabRealData[7]+"");
+				
+				String distanceTram0 = textField_15.getText();
+				float i0 = Float.parseFloat(distanceTram0);
+				float j0 = i0*3;
+				String usersTram0 = textField_8.getText();
+				float k0 = Float.parseFloat(usersTram0);
+				float finalTram0 = (j0/k0);
+				
+				String distanceVoiture0 = textField_14.getText();
+				float i20 = Float.parseFloat(distanceVoiture0);
+				String usersVoiture0 = textField_9.getText();
+				float k20 = Float.parseFloat(usersVoiture0);
+				float finalVoiture0 = 166*i20*k20;
+				
+				String distanceVelo0 = textField_13.getText();
+				float i30 = Float.parseFloat(distanceVelo0);
+				String usersVelo0 = textField_10.getText();
+				float k30 = Float.parseFloat(usersVelo0);
+				float finalVelo0 = 15*i30*k30;
+				
+				String distanceMarche0 = textField_12.getText();
+				float i40 = Float.parseFloat(distanceMarche0);
+				String usersMarche0 = textField_11.getText();
+				float k40 = Float.parseFloat(usersMarche0);
+				float finalMarche0 = 15*i40*k40;
+				
+				float FINAL0 = finalTram0+finalVoiture0+finalVelo0+finalMarche0;
+				textField_17.setText(FINAL0+"");
+				
+				float FINALKG0 = FINAL0/1000;
+				textField_19.setText(FINALKG0+"");
+			}
+		});
+		btnNewButton_2.setBounds(10, 117, 107, 21);
+		add(btnNewButton_2);
+		
+		btnNewButton_3 = new JButton("Test unitaire");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			//Test unitaire Simulation
+				
+				textField_7.setText(20+"");
+				textField_3.setText(5000+"");
+				textField_6.setText(15+"");
+				textField_1.setText(3000+"");
+				textField_5.setText(10+"");
+				textField_2.setText(2000+"");
+				textField_4.setText(5+"");
+				textField.setText(8000+"");
+				
+				String distanceTram = textField_7.getText();
+				float i = Float.parseFloat(distanceTram);
+				float j = i*3;
+				String usersTram = textField_3.getText();
+				float k = Float.parseFloat(usersTram);
+				float finalTram = (j/k);
+				
+				String distanceVoiture = textField_6.getText();
+				float i2 = Float.parseFloat(distanceVoiture);
+				String usersVoiture = textField_1.getText();
+				float k2 = Float.parseFloat(usersVoiture);
+				float finalVoiture = 166*i2*k2;
+				
+				String distanceVelo = textField_5.getText();
+				float i3 = Float.parseFloat(distanceVelo);
+				String usersVelo = textField_2.getText();
+				float k3 = Float.parseFloat(usersVelo);
+				float finalVelo = 15*i3*k3;
+				
+				String distanceMarche = textField_4.getText();
+				float i4 = Float.parseFloat(distanceMarche);
+				String usersMarche = textField.getText();
+				float k4 = Float.parseFloat(usersMarche);
+				float finalMarche = 15*i4*k4;
+				
+				float FINAL = finalTram+finalVoiture+finalVelo+finalMarche;
+				textField_16.setText(FINAL+"");
+				
+				float FINALKG = FINAL/1000;
+				textField_18.setText(FINALKG+"");
+			}
+		});
+		btnNewButton_3.setBounds(10, 269, 107, 21);
+		add(btnNewButton_3);
+		
+		textField_19 = new JTextField();
+		textField_19.setColumns(10);
+		textField_19.setBounds(334, 144, 59, 19);
+		add(textField_19);
+		
+		JLabel lblNewLabel_8_1_2_1 = new JLabel("R\u00E9sultat (Kg de Co2)");
+		lblNewLabel_8_1_2_1.setBounds(222, 147, 138, 13);
+		add(lblNewLabel_8_1_2_1);
 		
 
 		

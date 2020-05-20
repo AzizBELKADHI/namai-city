@@ -16,7 +16,7 @@ public class RealData {
 
 			System.out.println("bonjour voici les donnees reelles");
 			
-			PreparedStatement stmt1 = c.prepareStatement("select * from Moyen_transport;"); 
+			PreparedStatement stmt1 = c.prepareStatement("select * from Moyen_transport"); 
 			ResultSet rs2 = stmt1.executeQuery();
 
 			JSONObject obj=new JSONObject();
