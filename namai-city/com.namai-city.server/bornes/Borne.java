@@ -45,7 +45,6 @@ public class Borne {
 		System.out.println("voici le json envoyé avec la liste des bornes: ");
 		// displaying the Json
 		System.out.println(obj);
-		Thread.sleep(3000); 
 		return obj; 
 	}
 	

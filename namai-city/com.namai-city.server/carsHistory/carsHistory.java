@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.simple.JSONObject;
 
@@ -186,8 +188,51 @@ public class carsHistory {
 		}
 		
 		this.totalCars = currentNbCars;
-
-		
-		
 	}
+	
+	public Object SearchCars(String dateDebut, String dateFin, String zone, String type) throws SQLException, InterruptedException {
+		String request = "SELECT voiture, schedule, position, cap.type as type_cap   FROM historique_vehicules hv, (select * from capteur_vehicule) cap where hv.passage_sensor = cap.id_capteur AND ";
+		if(type.equals("Sortie")) {
+			type = "OUT";
+		}
+		if(type.equals("Entree")) 
+			type = "IN";
+		
+		request +="schedule between '" + dateDebut + "' AND '" + dateFin + "'";
+		
+		if(!zone.equals("All")) {
+			request += " AND position ='" + zone + "'";
+			
+		}
+		
+		if(!type.equals("town")) {
+			request += " AND cap.type='" + type + "'";
+		}
+		request += ";";
+		
+		System.out.println(request);
+		PreparedStatement stmtGetInfos = c.prepareStatement(request);
+		ResultSet rs2 = stmtGetInfos.executeQuery();
+		System.out.println("requete bien executé");
+		JSONObject obj=new JSONObject();
+		// creation of users list 
+		ArrayList<JSONObject> listvoitures = new ArrayList<JSONObject>();
+
+		while (rs2.next()) {
+			JSONObject voiture=new JSONObject();
+			// recovery of each user's data (id/ name/ first name) 
+			voiture.put("vehicule", rs2.getString("voiture"));
+			String date = (rs2.getDate("schedule")).toString();
+			voiture.put("date", date);
+			voiture.put("position", rs2.getString("position"));
+			voiture.put("type", rs2.getString("type_cap"));
+			System.out.println("je suis ici" + voiture);
+
+			// adding each user to the list already created
+			listvoitures.add(voiture);
+		}
+		obj.put("voitures", listvoitures);
+		return obj; 
+	}
+	
 }

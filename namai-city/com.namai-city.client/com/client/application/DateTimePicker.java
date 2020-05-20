@@ -105,7 +105,7 @@ public class DateTimePicker extends JXDatePicker {
         updateTextFieldFormat();
     }
 
-    public static void main(String[] args) {
+  /*  public static void main(String[] args) {
         Date date = new Date();
         JFrame frame = new JFrame();
         frame.setTitle("selectionner date et heure");
@@ -123,5 +123,5 @@ public class DateTimePicker extends JXDatePicker {
         frame.getContentPane().add(dateTimePicker);
         frame.pack();
         frame.setVisible(true);
-    }
+    }*/
 }

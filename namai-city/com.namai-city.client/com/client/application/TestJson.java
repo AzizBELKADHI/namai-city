@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -80,6 +81,32 @@ public class TestJson {
 		client.stopConnection(); 
 
 		return reponseBornes; 
+		
+	}
+	
+	
+	public static JSONObject searchVehicule(String dateDebut, String dateFin, String zone, String type) throws SQLException, IOException,UnsupportedEncodingException {
+		System.out.println("je rentre deja dans la recherche vehicules");
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("filterVehicule"));
+		if(type.equals("Les deux")) {
+			type = "town";
+		}
+		if(zone.equals("toute la ville")) {
+			zone = "All";
+		}
+		obj.put("type", String.valueOf(type));
+		obj.put("zone", String.valueOf(zone));
+		obj.put("dateDebut", String.valueOf(dateDebut));
+		obj.put("dateFin", String.valueOf(dateFin));
+		
+		System.out.println(obj);	
+		JSONObject reponseSearch = client.sendMessage(obj);
+		client.stopConnection(); 
+
+		return reponseSearch; 
 		
 	}
 	

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.json.simple.JSONArray;
@@ -68,12 +69,12 @@ public class ThreadServer extends Thread {
 			if(jsonObject.get("demandType").equals("RiseBornes")) {
 				obj1 = bornes.riseBornes();
 				outJson.println(obj1); 
-			};
+			}
 			
 			if(jsonObject.get("demandType").equals("LowerBornes")) {
 				obj1 = bornes.lowerBornes();
 				outJson.println(obj1); 
-			};
+			}
 			
 			if(jsonObject.get("demandType").equals("launchSimulation")) {
 				JSONObject obja = new JSONObject();
@@ -81,7 +82,20 @@ public class ThreadServer extends Thread {
 				outJson.println(obj1); 
 				CarSensors test = new CarSensors(c, inputStream);
 				test.start();  
-			};
+			}
+			
+			if(jsonObject.get("demandType").equals("filterVehicule")) {
+				Object objSearch = new Object();
+				String dateDebut = String.valueOf(jsonObject.get("dateDebut"));
+				String dateFin = String.valueOf(jsonObject.get("dateFin"));
+				String type = String.valueOf(jsonObject.get("type"));
+				String zone = String.valueOf(jsonObject.get("zone"));
+				carsHistory cars = new carsHistory(c);
+				objSearch = cars.SearchCars(dateDebut, dateFin, zone, type);
+				System.out.println("voici la liste des voitures retrouvé: ");
+				System.out.println(objSearch);
+				outJson.println(objSearch); 
+			}
 
 			//obj = crud(jsonObject); 
 			// Once the Json had been processed, closing the socket and releasing the connection

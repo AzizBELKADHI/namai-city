@@ -34,7 +34,7 @@ public class SocketClient {
 		outJson.println(JsonMsg);
 		String resp = inJson.readLine();
 		Object obj=JSONValue.parse(resp); 
-		JSONObject jsonObject = (JSONObject) obj;  
+		JSONObject jsonObject = (JSONObject) obj;
 		return jsonObject;
 	}
 /*	
