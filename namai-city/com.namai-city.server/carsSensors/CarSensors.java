@@ -89,6 +89,12 @@ public class CarSensors extends Thread {
 			double taille = Double.parseDouble(String.valueOf(jsonObject.get("taille")));
 			String objet =  String.valueOf(jsonObject.get("objet")); 
 			JSONObject rep = new JSONObject();
+			if(objet.equals("ambulance")) {
+				carsSimulation.addCarToHistory(objet, "vehicule prioritaire", id_sensor);
+				rep.put("special", "vehicule prioritaire");
+				taille = 0;
+			}
+			
 			if(taille >=2.50 && taille <12) {
 				try {
 					if(carsHistory.totalCars < carsHistory.maxCars || id_sensor == 2 || id_sensor == 4) { 

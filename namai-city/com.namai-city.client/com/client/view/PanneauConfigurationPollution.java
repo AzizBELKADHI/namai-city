@@ -20,7 +20,6 @@ public class PanneauConfigurationPollution extends JPanel {
 	private JTextField jtLocalisation;
 	private JButton submit;
 	public PanneauConfigurationPollution() {
-		System.out.println("je rentre dans le panneauConfigurationPollution");
 		//this.setBackground(Couleur.getBgThem());
 		this.setForeground(Couleur.getBgApp());
 		this.setFont(new Font("Arial", Font.BOLD, 14) );

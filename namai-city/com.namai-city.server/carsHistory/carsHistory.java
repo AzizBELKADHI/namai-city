@@ -74,6 +74,7 @@ public class carsHistory {
 	
 	
 	public JSONObject updateMaxCars(int maxCars) throws SQLException {
+		System.out.println(maxCars);
 		PreparedStatement stmt = c.prepareStatement("update voitures_limit set max_voitures= ?, last_update= current_timestamp;");
 		stmt.setInt(1, maxCars); 
 		JSONObject obj=new JSONObject(); 

@@ -76,6 +76,16 @@ public class ThreadServer extends Thread {
 				outJson.println(obj1); 
 			}
 			
+			if(jsonObject.get("demandType").equals("ChangeLimit")) {
+				long idcaste = Long.valueOf(jsonObject.get("maxCars").toString());
+				int idJson = (int) idcaste;
+				System.out.println("bonjour voici le ID recu apres traitement");
+				System.out.println(idJson);
+				carsHistory cars = new carsHistory(c);
+				obj1 = cars.updateMaxCars(idJson);
+				outJson.println(obj1); 
+			}
+			
 			if(jsonObject.get("demandType").equals("launchSimulation")) {
 				JSONObject obja = new JSONObject();
 				obja.put("reponse", String.valueOf("la simulation a été lancé"));
