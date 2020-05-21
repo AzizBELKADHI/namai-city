@@ -34,7 +34,7 @@ import org.json.simple.JSONObject;
 	
 	public class PanneauBorne extends JPanel implements ActionListener {
 		private JMenuItem historique,limiteVoitures; 
-		private Button bouton;
+		private JButton bouton;
 		private JLabel label;
 		private JTable tableau;
 		private JLabel labelNbCars; 
@@ -42,7 +42,7 @@ import org.json.simple.JSONObject;
 		private JComboBox liste1;
 		private JComboBox liste2;
 		private Object[][] data;
-		private Button boutonFiltre;
+		private JButton boutonFiltre;
 		private JPanel Panneau1;
 		private JPanel Panneau2;
 		private JPanel Panneau3;
@@ -60,6 +60,7 @@ import org.json.simple.JSONObject;
 		private int maxCars;
 		private JLabel maxVehicule;
 	    private JLabel labelMaxCars;
+	    private int checkActualCars;
 
 		
 		
@@ -101,6 +102,7 @@ import org.json.simple.JSONObject;
 			    JPanel panneauBornesOrigine = new JPanel();
 			    JPanel panneauBornes = new JPanel();
 			    maxCars = Integer.valueOf((String) bornes.get("maxCars"));
+			    checkActualCars = Integer.valueOf(bornes.get("actualCars").toString());
 			    labelNbCars = new JLabel("nombre de voitures actuellement :" + bornes.get("actualCars"));
 			    labelMaxCars = new JLabel("nombre de voitures maximum :" + maxCars);
 			    panneauBornesOrigine.add(labelNbCars);
@@ -112,7 +114,7 @@ import org.json.simple.JSONObject;
 			    labelNbCars.setBorder(border);
 			    labelMaxCars.setBorder(border);
 	
-			    Dimension d = new Dimension( 400, 150 );
+			    Dimension d = new Dimension( 400, 200 );
 			    tableau.setPreferredScrollableViewportSize( d );
 			    Panneau1 = new JPanel();
 			    Panneau1.setLayout(new BoxLayout(Panneau1, BoxLayout.Y_AXIS));
@@ -138,7 +140,7 @@ import org.json.simple.JSONObject;
 		        panneauFiltre.add(dateTimePicker);
 		        panneauFiltre.add(dateFin);
 		        panneauFiltre.add(dateTimePickerFin);
-		        boutonFiltre = new Button("recherche");
+		        boutonFiltre = new JButton("recherche");
 		        Object[] elements = new Object[]{"Entree", "Sortie", "Les deux"};
 				liste1 = new JComboBox(elements);
 				liste1.setBackground(Color.white);
@@ -155,7 +157,7 @@ import org.json.simple.JSONObject;
 				panneauFiltre.add(boutonFiltre);
 				boutonFiltre.addActionListener(this);
 				
-			    bouton = new Button("lancer simulation");
+			    bouton = new JButton("lancer simulation");
 			    bouton.addActionListener(this);
 			    
 			    Panneau3 = new JPanel();
@@ -202,10 +204,10 @@ import org.json.simple.JSONObject;
 				submit.setPreferredSize(new Dimension(100,25));
 				Panneau3.add(submit,c);	
 
-			    
+				panneauBornesOrigine.add(bouton);
 			    Panneau1.add(panneauBornes);
 			    Panneau1.add(panneauBornesOrigine);
-			    Panneau1.add(bouton);
+			    
 			    Panneau2.add(panneauFiltre, BorderLayout.NORTH);
 			    selection.addTab("Infos bornes", Panneau1);
 			    selection.addTab("Historique", Panneau2);
@@ -223,17 +225,18 @@ import org.json.simple.JSONObject;
 						int a = Integer.valueOf(newNbMax.getText());
 						JSONObject rep = TestJson.changeMax(a);
 						System.out.println(rep);
-						if(maxCars > a) {
+						System.out.println("nombre de vehicules actuellement: " + checkActualCars);
+						if(checkActualCars > a) {
 							for(int i = 0; i<allBornes.size(); i++) {
 								data[i][2] = "relevé";						
 							}
 							TestJson.riseBornes();
 						}
-						if(maxCars < a) {
+						if(checkActualCars < a) {
 							for(int i = 0; i<allBornes.size(); i++) {
 								data[i][2] = "baissé";						
 							}
-						//	TestJson.riseBornes();
+							TestJson.LowerBornes();
 						}
 						
 						maxCars = a;
@@ -328,7 +331,7 @@ import org.json.simple.JSONObject;
 							    		repaint();
 										}
 										int nbVoitures = Integer.valueOf(json.get("vehicules").toString());
-										
+										checkActualCars = nbVoitures;
 										if(json.containsKey("special") && nbVoitures >maxCars) {
 											JOptionPane.showMessageDialog(Panneau1, "un vehicule prioritaire entre dans la ville");
 									      /*  Timer t = new Timer(6000, new ActionListener() {

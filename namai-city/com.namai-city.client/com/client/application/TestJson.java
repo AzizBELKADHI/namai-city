@@ -52,6 +52,7 @@ public class TestJson {
 			e.printStackTrace();
 		}
 	}
+	
 
 	public static JSONObject getBornes() throws SQLException, IOException,UnsupportedEncodingException {
 		SocketClient client = new SocketClient();
@@ -694,4 +695,21 @@ public class TestJson {
 
 		}
 	}
-}
+
+		public static JSONObject LowerBornes() throws SQLException, IOException,UnsupportedEncodingException {
+			System.out.println("l'état des bornes va etre modifié");
+			SocketClient client = new SocketClient();
+			client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+			JSONObject obj=new JSONObject();  //JSONObject creation
+			obj.put("demandType",String.valueOf("LowerBornes")); 
+			System.out.println(obj);	
+			JSONObject reponseSimulation = client.sendMessage(obj);
+			System.out.println(reponseSimulation);
+			client.stopConnection(); 
+
+			return reponseSimulation; 
+			
+		}
+		
+	}
+

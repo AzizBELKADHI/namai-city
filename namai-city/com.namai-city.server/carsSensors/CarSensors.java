@@ -92,12 +92,13 @@ public class CarSensors extends Thread {
 			if(objet.equals("ambulance")) {
 				carsSimulation.addCarToHistory(objet, "vehicule prioritaire", id_sensor);
 				rep.put("special", "vehicule prioritaire");
+				sleep(2000);
 				taille = 0;
 			}
 			
 			if(taille >=2.50 && taille <12) {
 				try {
-					if(carsHistory.totalCars < carsHistory.maxCars || id_sensor == 2 || id_sensor == 4) { 
+					if(carsHistory.totalCars < carsHistory.maxCars || id_sensor == 2 || id_sensor == 4 || id_sensor == 6 ||id_sensor == 8 ) { 
 						carsSimulation.addCarToHistory(objet, "voiture", id_sensor);
 						sleep(2000);
 						}

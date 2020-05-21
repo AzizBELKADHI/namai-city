@@ -5,8 +5,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/tjny/git/namai-city/librairies/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tjny/git/namai-city/librairies/postgresql-42.2.2.jre7.jar"/>
 	<classpathentry kind="src" path="com.namai-city.client"/>
 	<classpathentry kind="src" path="com.namai-city.server"/>
 	<classpathentry kind="src" path="com.namai-city.commons"/>
@@ -21,6 +19,8 @@
 	<classpathentry kind="lib" path="C:/Users/tjny/Downloads/jfreechart-1.0.19/jfreechart-1.0.19/lib/orsonpdf-1.6-eval.jar"/>
 	<classpathentry kind="lib" path="C:/Users/tjny/Downloads/jfreechart-1.0.19/jfreechart-1.0.19/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="C:/Users/tjny/Downloads/jfreechart-1.0.19/jfreechart-1.0.19/lib/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tjny/git/namai-city/librairies/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tjny/git/namai-city/librairies/postgresql-42.2.2.jre7.jar"/>
 	<classpathentry kind="lib" path="C:/Users/tjny/Downloads/swingx-1.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
