@@ -39,6 +39,8 @@ public class TestJson {
 			throw new SQLException("Can't create connection", e);
 		}
 
+		
+		
 	}
 	
 	public static void main(String [] args) {
@@ -51,6 +53,8 @@ public class TestJson {
 		}
 	}
 
+	// METHODE CASE
+	
 	public void go() throws SQLException, IOException {
 
 		// TODO Auto-generated method stub

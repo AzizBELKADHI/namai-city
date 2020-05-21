@@ -139,33 +139,9 @@ public class PanneauEmpreinteX extends JPanel {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				/*JSONObject reponseAll20 = null;
-				try {
+				//LANCEMENT METHODE THREAD SERVER
 				
-				
-				JSONObject obj=new JSONObject(); 
-				obj.put("demandType", "CARBON_FOOTPRINT");
-				
-				 reponseAll20 = client.sendMessage(obj);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				ArrayList<JSONObject> alldata = new ArrayList<JSONObject>(); // Creation d'un tableau de JSONObject
-				System.out.println(alldata);
-				
-				alldata = (ArrayList<JSONObject>) reponseAll20.get("realdata"); //REGLAGE
-				System.out.println("Bonjour"); 
-				for(int i = 0; i<alldata.size();i++) { // Boucle pour afficher toutes les données de la table Moyen_Transport
-					System.out.println("id_MT: "+alldata.get(i).get("id_MT") + // ok
-							" | Type_MT: "+alldata.get(i).get("type_MT")+
-							" | nombre d'utilisateurs: "+alldata.get(i).get("nb_utilisateurs") +
-					" | Co2 rejete par MT: "+alldata.get(i).get("co2_rejete_par_mt")); 
-				}
-				
-				*/
-				
-			//	textField_15.setText(alldata.get(i).get());
+			//textField_15.setText(alldata.get(i).get());
 				
 				
 				

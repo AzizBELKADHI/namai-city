@@ -54,6 +54,8 @@ public class ThreadServer extends Thread {
 			obj = crud(jsonObject); 
 			// Once the Json had been processed, closing the socket and releasing the connection
 
+			//IF CASE : INSTANCE REALDATA ET LANCEMENT METHODE footprint OUTJSON
+			
 			outJson.println(obj);
 			DataSource.releaseConnection(c); 
 			inJson.close();
@@ -65,8 +67,7 @@ public class ThreadServer extends Thread {
 		}
 		DBConnectController.clientsState(false);
 	}
-
-
+	
 	// crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
 	private Object crud(JSONObject JsonRecu) throws SQLException, InterruptedException {
 
