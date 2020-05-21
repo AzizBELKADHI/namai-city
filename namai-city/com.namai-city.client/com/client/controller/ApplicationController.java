@@ -56,7 +56,7 @@ public class ApplicationController implements ActionListener {
 			}
 			
 			else if(choix.equals("empreinteCarbone")) {
-				cn.getPa().getPuc().setCard("panneauEmpreinte");
+				cn.getPa().getPuc().setCard("panneauEmpreinteX");
 			}
 			else if(choix.equals("configBorne")) {
 				System.out.println("j'appui sur ce panneau bornes");
