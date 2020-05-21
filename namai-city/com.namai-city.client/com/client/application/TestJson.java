@@ -2,6 +2,7 @@
 package com.client.application;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -50,6 +51,92 @@ public class TestJson {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static JSONObject getBornes() throws SQLException, IOException,UnsupportedEncodingException {
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("getInitialInfos")); 
+		System.out.println(obj);	
+		JSONObject reponseBornes = client.sendMessage(obj);
+		System.out.println(reponseBornes);
+		client.stopConnection(); 
+
+		return reponseBornes; 
+		
+	}
+	
+	public static JSONObject changeMax(int max) throws SQLException, IOException,UnsupportedEncodingException {
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("ChangeLimit")); 
+		obj.put("maxCars",Integer.valueOf(max)); 
+		System.out.println(obj);	
+		JSONObject reponseMaxVehicules = client.sendMessage(obj);
+		System.out.println(reponseMaxVehicules);
+		client.stopConnection(); 
+
+		return reponseMaxVehicules; 
+		
+	}
+	
+	public static JSONObject launchSimulation() throws SQLException, IOException,UnsupportedEncodingException {
+		System.out.println("je rentre deja dans la simulation");
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("launchSimulation")); 
+		System.out.println(obj);	
+		JSONObject reponseSimulation = client.sendMessage(obj);
+		System.out.println(reponseSimulation);
+		client.stopConnection(); 
+
+		return reponseSimulation; 
+		
+	}
+	
+	
+	public static JSONObject riseBornes() throws SQLException, IOException,UnsupportedEncodingException {
+		System.out.println("l'état des bornes va etre modifié");
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("RiseBornes")); 
+		System.out.println(obj);	
+		JSONObject reponseSimulation = client.sendMessage(obj);
+		System.out.println(reponseSimulation);
+		client.stopConnection(); 
+
+		return reponseSimulation; 
+		
+	}
+	
+	
+	public static JSONObject searchVehicule(String dateDebut, String dateFin, String zone, String type) throws SQLException, IOException,UnsupportedEncodingException {
+		System.out.println("je rentre deja dans la recherche vehicules");
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("filterVehicule"));
+		if(type.equals("Les deux")) {
+			type = "town";
+		}
+		if(zone.equals("toute la ville")) {
+			zone = "All";
+		}
+		obj.put("type", String.valueOf(type));
+		obj.put("zone", String.valueOf(zone));
+		obj.put("dateDebut", String.valueOf(dateDebut));
+		obj.put("dateFin", String.valueOf(dateFin));
+		
+		System.out.println(obj);	
+		JSONObject reponseSearch = client.sendMessage(obj);
+		client.stopConnection(); 
+
+		return reponseSearch; 
+		
 	}
 
 	//method for recover the number of pollutant sensors in the city

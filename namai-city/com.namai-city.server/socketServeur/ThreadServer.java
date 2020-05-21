@@ -12,6 +12,10 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 
 import com.connectionPool.DataSource;
+
+import bornes.Borne;
+import carsHistory.carsHistory;
+import carsSensors.CarSensors;
 import controller.DBConnectController;
 import indicator.Car;
 import indicator.Sensor;
@@ -27,6 +31,7 @@ public class ThreadServer extends Thread {
 	public PrintWriter outJson;
 	private BufferedReader inJson;
 	private Connection c; 
+	private Borne bornes;
 
 
 	public ThreadServer(Socket socket, Connection connection) {
@@ -38,6 +43,7 @@ public class ThreadServer extends Thread {
 	public void run()  {
 
 		try {
+			InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("simulation.json");
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
 			inJson  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
 
@@ -46,6 +52,10 @@ public class ThreadServer extends Thread {
 
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
 			inJson = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			
+			this.bornes = new Borne(this.c);
+			Object obj1 = new Object();
+			
 			String resp = inJson.readLine();
 			System.out.println("----bonjour je viens de récuperer le JSON");
 			System.out.println(resp);
@@ -56,6 +66,56 @@ public class ThreadServer extends Thread {
 			JSONObject jsonObject = (JSONObject) obj;  
 			System.out.println("----bonjour je viens de parser le JSON");
 			System.out.println(resp);
+			
+			if(jsonObject.get("demandType").equals("getInitialInfos")) {
+				System.out.println("bonjour je suis bien entré dans getInfos");
+				new carsHistory(c);
+				System.out.println("nombre max de véhicules dans la ville: " + carsHistory.maxCars);
+				obj1 = bornes.BornesState();
+				outJson.println(obj1);
+			}
+			
+			if(jsonObject.get("demandType").equals("RiseBornes")) {
+				obj1 = bornes.riseBornes();
+				outJson.println(obj1); 
+			}
+			
+			if(jsonObject.get("demandType").equals("LowerBornes")) {
+				obj1 = bornes.lowerBornes();
+				outJson.println(obj1); 
+			}
+			
+			if(jsonObject.get("demandType").equals("launchSimulation")) {
+				JSONObject obja = new JSONObject();
+				obja.put("reponse", String.valueOf("la simulation a été lancé"));
+				outJson.println(obj1); 
+				CarSensors test = new CarSensors(c, inputStream);
+				test.start();  
+			}
+			
+			 if(jsonObject.get("demandType").equals("ChangeLimit")) {
+	                long idcaste = Long.valueOf(jsonObject.get("maxCars").toString());
+	                int idJson = (int) idcaste;
+	                System.out.println("bonjour voici le ID recu apres traitement");
+	                System.out.println(idJson);
+	                carsHistory cars = new carsHistory(c);
+	                obj1 = cars.updateMaxCars(idJson);
+	                outJson.println(obj1);
+	            }
+			
+			
+			if(jsonObject.get("demandType").equals("filterVehicule")) {
+				Object objSearch = new Object();
+				String dateDebut = String.valueOf(jsonObject.get("dateDebut"));
+				String dateFin = String.valueOf(jsonObject.get("dateFin"));
+				String type = String.valueOf(jsonObject.get("type"));
+				String zone = String.valueOf(jsonObject.get("zone"));
+				carsHistory cars = new carsHistory(c);
+				objSearch = cars.SearchCars(dateDebut, dateFin, zone, type);
+				System.out.println("voici la liste des voitures retrouvé: ");
+				System.out.println(objSearch);
+				outJson.println(objSearch); 
+			}
 
 			JSONObject objResponse = crud(jsonObject); 
 			// Once the Json had been processed, closing the socket and releasing the connection
