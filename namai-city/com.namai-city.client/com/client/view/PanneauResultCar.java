@@ -13,27 +13,30 @@ import javax.swing.JTable;
 import indicator.CarIndicator;
 import indicator.SensorPolluantIndicator;
 
-public class PanneauResultatCar extends JPanel {
+public class PanneauResultCar extends JPanel {
 
-	public PanneauResultatCar(Timestamp dateStart, Timestamp dateEnd, ArrayList<CarIndicator> liste) {
+	public PanneauResultCar(Timestamp dateStart, Timestamp dateEnd, ArrayList<CarIndicator> list) {
 		System.out.println("début :"+dateStart.toString());
 		System.out.println("fin :"+dateEnd.toString());
 
-		int nb_voiture = 0;
-		ArrayList<CarIndicator> listeCar = new ArrayList<CarIndicator>();
-		for(int i =0;i<liste.size();i++) {
-			if((liste.get(i).getDate().before(dateEnd)) && (liste.get(i).getDate().after(dateStart))) {
-				listeCar.add(liste.get(i));
-				nb_voiture=nb_voiture+liste.get(i).getCarsNb();
+		// use of a variable (an int) to store the number of cars present in city between the two dates selected by the user 
+		int nb_car = 0;
+		ArrayList<CarIndicator> listCar = new ArrayList<CarIndicator>();
+		for(int i =0;i<list.size();i++) {
+			if((list.get(i).getDate().before(dateEnd)) && (list.get(i).getDate().after(dateStart))) {
+				listCar.add(list.get(i));
+				nb_car=nb_car+list.get(i).getCarsNb();
 			}
 		}
 		
-		if(listeCar.size()==0){
+		if(listCar.size()==0){
 			JLabel errorMessage = new JLabel("Pas de voitures détectées entre ces dates");
 			this.add(errorMessage, BorderLayout.CENTER);
 			this.repaint();
 		}else {
-			long avg_car = nb_voiture/listeCar.size();
+			
+			// then divided by the size of the listCar
+			long avg_car = nb_car/listCar.size();
 			String result = " - "+avg_car+" - ";
 			Object[][] donnees = {
 					{"Date de début :",  dateStart.toString()},

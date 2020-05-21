@@ -10,7 +10,7 @@ public class PanneauUC extends JPanel {
 	private PanneauConfigurationPollution pollution;
 	private PanneauDetecteur detecteur;
 	private PanneauEmpreinte empreinte;
-	private PanneauIndicateur indicateur;
+	private PanneauIndicator indicateur;
 	private MenuApplication ma;
 	private CardLayout cl;
 	private PanneauBienvenueNamaiCity bienvenue;
@@ -22,7 +22,7 @@ public class PanneauUC extends JPanel {
 		pollution = new PanneauConfigurationPollution();
 		detecteur = new PanneauDetecteur();
 		empreinte = new PanneauEmpreinte();
-		indicateur = new PanneauIndicateur();
+		indicateur = new PanneauIndicator();
 		bienvenue = new PanneauBienvenueNamaiCity();
 		ma = new MenuApplication();
 		//pollution.setBackground(Color.BLUE);
@@ -52,7 +52,7 @@ public class PanneauUC extends JPanel {
 	public PanneauEmpreinte getEmpreinte() {
 		return empreinte;
 	}
-	public PanneauIndicateur getIndicateur() {
+	public PanneauIndicator getIndicateur() {
 		return indicateur;
 	}
 	public CardLayout getCl() {

@@ -17,24 +17,24 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import indicator.SensorIndicator;
 
-public class PanneauResultatBorne extends JFrame{
-	public PanneauResultatBorne(String button, String choix2, ArrayList<SensorIndicator> liste) {
-		if(liste.size()==0) {
+public class PanneauResultBorne extends JFrame{
+	public PanneauResultBorne(String button, String choice2, ArrayList<SensorIndicator> list) {
+		if(list.size()==0) {
 			JLabel errorMessage = new JLabel("Pas de données pour cette sélection");
 			this.add(errorMessage, BorderLayout.CENTER);
 			this.repaint();
 		}else {
 		
-		if(button== "tableauBorne") {
+		if(button== "tableBorne") {
 
-			switch(choix2) {
+			switch(choice2) {
 			case "Position" : 
 				int cptNorth=0; 
 				int cptSouth = 0; 
 				int cptWest =0; 
 				int cptEast = 0;
 
-				for (SensorIndicator s: liste) {
+				for (SensorIndicator s: list) {
 					switch(s.getLocalisation()) {
 					case "Nord" : 
 						cptNorth = s.getBorneNb();
@@ -68,14 +68,14 @@ public class PanneauResultatBorne extends JFrame{
 				break;
  
 			}
-		} else if (button == "graphiqueBorne") {
-			switch (choix2) {
+		} else if (button == "graphicBorne") {
+			switch (choice2) {
 			case "Position" : 
 				int cptNorth=0; 
 				int cptSouth = 0; 
 				int cptWest =0; 
 				int cptEast = 0;
-				for(SensorIndicator s :liste) {
+				for(SensorIndicator s :list) {
 					switch(s.getLocalisation()){
 					case "Nord" :
 						cptNorth=cptNorth+s.getBorneNb();

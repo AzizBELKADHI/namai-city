@@ -1,14 +1,14 @@
 [
 
 	{
-"id_capteur" : 5,
-"position" : "Est",
+"id_capteur" : 7,
+"position" : "Ouest",
 "type" : "IN"
 
 },
 {
-"id_capteur" : 6,
-"position" : "Est",
+"id_capteur" : 8,
+"position" : "Ouest",
 "type" : "OUT"
 
 }

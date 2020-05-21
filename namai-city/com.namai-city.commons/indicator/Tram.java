@@ -27,18 +27,15 @@ public class Tram {
 				System.out.println("mapping classe StationIndicator");
 				while (rs2.next()) {
 
-					// Mapping de la classe CarIndicator (passage des résultats de la BDD en un objet java grâce au resultset 
+					// Mapping of the StationIndicator class (passage of the BDD results into a java object thanks to the resultset
 					StationIndicator station = new StationIndicator (0, null, rs2.getString("position"),rs2.getInt("nombre_stations_position"));
 
 					System.out.println("récuperation des résultats du select"); 
 					JSONObject stationJSON= station.convertToJSON();
-					// adding each sensor to the list already created
+					// adding each station to the list already created
 					listStations.add(stationJSON);
 					System.out.println("ajout d'une station dans la liste des stations"); 
 				}
-				//System.out.println("voici l'arrayList : ");
-				// displaying the list 
-				//System.out.println(listUsers);
 
 				obj.put("stations", listStations);
 				System.out.println("=====================================================================================================");

@@ -48,40 +48,41 @@ import indicator.SensorPolluantIndicator;
 import indicator.StationIndicator;
 
 
-public class PanneauIndicateur extends JPanel implements ActionListener{
-	private JButton tableau;
-	private JButton tableauStation;
-	private JButton graphique;
-	private JButton graphiqueStation; 
-	private JButton valider; 
-	private JButton valider5; 
-	private JButton tableauBorne; 
-	private JButton graphiqueBorne; 
-	private JButton tableauSensorCar; 
-	private JButton graphiqueSensorCar; 
+public class PanneauIndicator extends JPanel implements ActionListener{
+	private JButton table;
+	private JButton tableStation;
+	private JButton graphic;
+	private JButton graphicStation; 
+	private JButton validate; 
+	private JButton validate5; 
+	private JButton tableBorne; 
+	private JButton graphicBorne; 
+	private JButton tableSensorCar; 
+	private JButton graphicSensorCar; 
 
-	private JComboBox listeChoix; 
-	private JComboBox listeChoixStation; 
-	private JComboBox listeChoixCapteur; 
-	private JComboBox listeChoixPolluant; 
-	private JComboBox listeChoixBorne; 
+	private JComboBox listChoice; 
+	private JComboBox listChoiceStation; 
+	private JComboBox listChoiceCapteur; 
+	private JComboBox listChoicePolluant; 
+	private JComboBox listChoiceBorne; 
 	private JComboBox listeChoiceSensorCar; 
-	private JComboBox dayDateDebut;
-	private JComboBox monthDateDebut;
+	private JComboBox dayDateStart;
+	private JComboBox monthDateStart;
 	private JComboBox yearDateDebut;
-	private JComboBox dayDateFin;
-	private JComboBox monthDateFin;
-	private JComboBox yearDateFin;
-	private JComboBox dayDateDebut5;
-	private JComboBox monthDateDebut5;
-	private JComboBox yearDateDebut5;
-	private JComboBox dayDateFin5;
-	private JComboBox monthDateFin5;
-	private JComboBox yearDateFin5;
+	private JComboBox dayDateEnd;
+	private JComboBox monthDateEnd;
+	private JComboBox yearDateEnd;
+	private JComboBox dayDateStart5;
+	private JComboBox monthDateStart5;
+	private JComboBox yearDateStart5;
+	private JComboBox dayDateEnd5;
+	private JComboBox monthDateEnd5;
+	private JComboBox yearDateEnd5;
 
 
 
 	JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
+	// creation of panel of each indicator
 	JPanel firstPanel = new JPanel();
 	JPanel secondPanel = new JPanel();
 	JPanel thirdPanel = new JPanel(); 
@@ -89,23 +90,24 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 	JPanel fifthPanel = new JPanel(); 
 	JPanel sixthPanel = new JPanel(); 
 
-	PanneauResultatSensor result;
-	PanneauResultatStation result2;
-	PanneauResultatWarning result3;
-	PanneauResultatBorne result4; 
-	PanneauResultatCar result5;
-	PanneauResultatSensorCar result6; 
+	// creation of pane result for the display of each request
+	PanneauResultSensor result;
+	PanneauResultStation result2;
+	PanneauResultWarning result3;
+	PanneauResultBorne result4; 
+	PanneauResultCar result5;
+	PanneauResultSensorCar result6; 
 
 	GridBagLayout a  = new GridBagLayout();
 	GridBagConstraints c = new GridBagConstraints();
-	public PanneauIndicateur()  {
+	public PanneauIndicator()  {
 		this.setForeground(Couleur.getBgApp());
 		this.setFont(new Font("Arial", Font.BOLD, 14) );
 		this.setBorder(new LineBorder(Couleur.getBgTitle()));
 		this.setPreferredSize(new Dimension(600,800));
 
 
-		// PANNEAU CAPTEUR POLLUANT
+		// PANE CAPTEUR POLLUANT
 		firstPanel.setLayout(a);
 		JLabel firstLabel = new JLabel("Indicateur concernant le  nombre de capteurs polluant");
 		c.gridx = 0;
@@ -114,28 +116,28 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		c.insets = new Insets(30,30,100,30);
 		firstPanel.add(firstLabel,c);
 
-		Object[] choix = new Object[] { "Position"}; 
-		listeChoix = new JComboBox(choix);
+		Object[] choice = new Object[] { "Position"}; 
+		listChoice = new JComboBox(choice);
 		c.gridx = 1;
-		firstPanel.add(listeChoix,c);
+		firstPanel.add(listChoice,c);
 		c.gridx = 2;
-		tableau = new JButton("Tableau");
-		tableau.addActionListener(this);
+		table = new JButton("table");
+		table.addActionListener(this);
 
 
-		tableau.setPreferredSize(new Dimension(100,25));
-		firstPanel.add(tableau,c);	
+		table.setPreferredSize(new Dimension(100,25));
+		firstPanel.add(table,c);	
 		System.out.println("insertion bouton fait");
 
 		c.gridx = 3;
-		graphique = new JButton("Graphique");
-		graphique.addActionListener(this);
-		graphique.setPreferredSize(new Dimension(100,25));
-		firstPanel.add(graphique,c);	
+		graphic = new JButton("graphic");
+		graphic.addActionListener(this);
+		graphic.setPreferredSize(new Dimension(100,25));
+		firstPanel.add(graphic,c);	
 		onglets.addTab("INDICATEUR CAPTEUR POLLUANT",firstPanel);
 
 
-		// PANNEAU STATION TRAM
+		// PANE STATION TRAM
 		secondPanel.setLayout(a);
 		JLabel secondLabel = new JLabel("Indicateur concernant le nombre de stations du tram");
 		c.gridx = 0;
@@ -144,28 +146,28 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		c.insets = new Insets(30,30,100,30);
 		secondPanel.add(secondLabel,c);
 
-		Object[] choixStation = new Object[] { "Position"}; 
-		listeChoixStation = new JComboBox(choixStation);
+		Object[] choiceStation = new Object[] { "Position"}; 
+		listChoiceStation = new JComboBox(choiceStation);
 		c.gridx = 1;
-		secondPanel.add(listeChoixStation,c);
+		secondPanel.add(listChoiceStation,c);
 
 		c.gridx = 2;
-		tableauStation = new JButton("Tableau");
-		tableauStation.addActionListener(this);
-		tableauStation.setPreferredSize(new Dimension(100,25));
-		secondPanel.add(tableauStation,c);	
+		tableStation = new JButton("table");
+		tableStation.addActionListener(this);
+		tableStation.setPreferredSize(new Dimension(100,25));
+		secondPanel.add(tableStation,c);	
 
 		c.gridx = 3;
-		graphiqueStation = new JButton("Graphique");
-		graphiqueStation.addActionListener(this);
-		graphiqueStation.setPreferredSize(new Dimension(100,25));
-		secondPanel.add(graphiqueStation,c);
+		graphicStation = new JButton("graphic");
+		graphicStation.addActionListener(this);
+		graphicStation.setPreferredSize(new Dimension(100,25));
+		secondPanel.add(graphicStation,c);
 
 
 		secondPanel.setPreferredSize(new Dimension(400,600));
 		onglets.addTab("INDICATEUR STATION",secondPanel);
 
-		// PANNEAU BORNE : 
+		// PANE BORNE : 
 
 		thirdPanel.setLayout(a);
 		JLabel thirdLabel = new JLabel("Indicateur concernant le nombre de bornes dans la ville ");
@@ -175,122 +177,122 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		c.insets = new Insets(30,30,100,30);
 		thirdPanel.add(thirdLabel,c);
 		
-		// combox box : permettant de filtrer le nombre de bornes selon la position 
+		// combox box : filter the number of terminals according to the position
 		Object[] choixBorne = new Object[] {"Position"}; 
-		listeChoixBorne = new JComboBox(choixBorne);
+		listChoiceBorne = new JComboBox(choixBorne);
 		c.gridx = 1;
-		thirdPanel.add(listeChoixBorne,c);
+		thirdPanel.add(listChoiceBorne,c);
 
 		c.gridx = 2;
-		tableauBorne = new JButton("Tableau");
-		tableauBorne.addActionListener(this);
-		tableauBorne.setPreferredSize(new Dimension(100,25));
-		thirdPanel.add(tableauBorne,c);	
+		tableBorne = new JButton("table");
+		tableBorne.addActionListener(this);
+		tableBorne.setPreferredSize(new Dimension(100,25));
+		thirdPanel.add(tableBorne,c);	
 
 		c.gridx = 3;
-		graphiqueBorne = new JButton("Graphique");
-		graphiqueBorne.addActionListener(this);
-		graphiqueBorne.setPreferredSize(new Dimension(100,25));
-		thirdPanel.add(graphiqueBorne,c);
+		graphicBorne = new JButton("graphic");
+		graphicBorne.addActionListener(this);
+		graphicBorne.setPreferredSize(new Dimension(100,25));
+		thirdPanel.add(graphicBorne,c);
 
 		thirdPanel.setPreferredSize(new Dimension(400,600));
 		onglets.addTab("INDICATEUR BORNES",thirdPanel);
 
 
-		// PANNEAU : récupération du taux de dépassement / du nb d'alerte déclanché par chaque capteur et par quel polluant 
+		// PANNEAU : recovery of exceedance rates / number of warning triggered by each sensor and by wchich polluant
 		//fourthPanel.setLayout(a);
 		JLabel fourthLabel = new JLabel("Indicateur concernant le détail de chaque alerte");
 		c.gridx = 0;
 		fourthPanel.add(fourthLabel, c);
 		c.gridy = 1;
-		// selectionner le capteur ayant déclancher une alerte 
-		Integer[] choixCapteur = selectCapteur(); 
-		listeChoixCapteur = new JComboBox(choixCapteur);
+		// select the sensor that triggered an warning
+		Integer[] choiceCapteur = selectCapteur(); 
+		listChoiceCapteur = new JComboBox(choiceCapteur);
 		c.gridx = 0;
-		fourthPanel.add(listeChoixCapteur,c);
+		fourthPanel.add(listChoiceCapteur,c);
 
-		// selectionner l'un des polluants
-		Object[] choixPolluant = new Object[] { "CO2", "NO2", "PF", "TMP"}; 
-		listeChoixPolluant = new JComboBox(choixPolluant);
+		// select one of the polluant 
+		Object[] choicePolluant = new Object[] { "CO2", "NO2", "PF", "TMP"}; 
+		listChoicePolluant = new JComboBox(choicePolluant);
 		c.gridx = 1;
-		fourthPanel.add(listeChoixPolluant,c);
+		fourthPanel.add(listChoicePolluant,c);
 
-		// selectionner la période de récupération de l'alerte 
-		//DATE DEBUT
+		// select  the period of recevery of an warning
+		//DATE START
 		c.gridy = 2;
 		c.gridx = 0;
-		JLabel dayDebutLabel = new JLabel("Jour début");
-		fourthPanel.add(dayDebutLabel,c);
+		JLabel dayStartLabel = new JLabel("Jour début");
+		fourthPanel.add(dayStartLabel,c);
 		c.gridx = 1;
-		Integer[] choixDayDebut = new Integer[31];
+		Integer[] choiceDayStart = new Integer[31];
 		for(int i=1;i<=31;i++) {
-			choixDayDebut[i-1]=i;
+			choiceDayStart[i-1]=i;
 		}
-		dayDateDebut = new JComboBox(choixDayDebut);
-		fourthPanel.add(dayDateDebut,c);
+		dayDateStart = new JComboBox(choiceDayStart);
+		fourthPanel.add(dayDateStart,c);
 		c.gridx = 2;
-		JLabel monthDebutLabel = new JLabel("Mois début");
-		fourthPanel.add(monthDebutLabel,c);
+		JLabel monthStartLabel = new JLabel("Mois début");
+		fourthPanel.add(monthStartLabel,c);
 		c.gridx = 3;
-		Integer[] choixMonthDebut = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
-		monthDateDebut = new JComboBox(choixMonthDebut);
-		fourthPanel.add(monthDateDebut,c);
+		Integer[] choiceMonthStart = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
+		monthDateStart = new JComboBox(choiceMonthStart);
+		fourthPanel.add(monthDateStart,c);
 		c.gridx = 4;
-		JLabel yearDebutLabel = new JLabel("Année début");
-		fourthPanel.add(yearDebutLabel,c);
+		JLabel yearStartLabel = new JLabel("Année début");
+		fourthPanel.add(yearStartLabel,c);
 		c.gridx = 5;
-		Integer[] choixYearDebut = new Integer[100];
+		Integer[] choiceYearStart = new Integer[100];
 		for(int i=2000;i<2100;i++) {
-			choixYearDebut[i-2000]=i;
+			choiceYearStart[i-2000]=i;
 		}		
-		yearDateDebut = new JComboBox(choixYearDebut);
+		yearDateDebut = new JComboBox(choiceYearStart);
 		fourthPanel.add(yearDateDebut,c);
 		c.gridy = 3;
 		c.gridx = 0;
 
-		// FIN DATE DEBUT 
+		// FIN DATE START
 
-		// DATE FIN
-		JLabel dayFinLabel = new JLabel("Jour fin");
-		fourthPanel.add(dayFinLabel,c);
+		// DATE END
+		JLabel dayEndLabel = new JLabel("Jour fin");
+		fourthPanel.add(dayEndLabel,c);
 		c.gridx = 1;
-		Integer[] choixDayFin = new Integer[31];
+		Integer[] choiceDayEnd = new Integer[31];
 		for(int i=1;i<=31;i++) {
-			choixDayFin[i-1]=i;
+			choiceDayEnd[i-1]=i;
 		}
-		dayDateFin = new JComboBox(choixDayFin);
-		fourthPanel.add(dayDateFin,c);
+		dayDateEnd = new JComboBox(choiceDayEnd);
+		fourthPanel.add(dayDateEnd,c);
 		c.gridx = 2;
-		JLabel monthFinLabel = new JLabel("Mois fin");
-		fourthPanel.add(monthFinLabel,c);
+		JLabel monthEndLabel = new JLabel("Mois fin");
+		fourthPanel.add(monthEndLabel,c);
 		c.gridx = 3;
-		Integer[] choixMonthFin = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
-		monthDateFin = new JComboBox(choixMonthFin);
-		fourthPanel.add(monthDateFin,c);
+		Integer[] choiceMonthEnd = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
+		monthDateEnd = new JComboBox(choiceMonthEnd);
+		fourthPanel.add(monthDateEnd,c);
 		c.gridx = 4;
-		JLabel yearFinLabel = new JLabel("Année fin");
-		fourthPanel.add(yearFinLabel,c);
+		JLabel yearEndLabel = new JLabel("Année fin");
+		fourthPanel.add(yearEndLabel,c);
 		c.gridx = 5;
-		Integer[] choixYearFin = new Integer[100];
+		Integer[] choiceYearEnd = new Integer[100];
 		for(int i=2000;i<2100;i++) {
-			choixYearFin[i-2000]=i;
+			choiceYearEnd[i-2000]=i;
 		}		
-		yearDateFin = new JComboBox(choixYearFin);
-		fourthPanel.add(yearDateFin,c);
+		yearDateEnd = new JComboBox(choiceYearEnd);
+		fourthPanel.add(yearDateEnd,c);
 
-		// FIN DATE FIN 
+		// FIN DATE END
 		c.gridy = 4;		
 		c.gridx = 2;
-		valider = new JButton("valider");
-		valider.addActionListener(this);
-		valider.setPreferredSize(new Dimension(100,25));
-		fourthPanel.add(valider,c);
+		validate = new JButton("validate");
+		validate.addActionListener(this);
+		validate.setPreferredSize(new Dimension(100,25));
+		fourthPanel.add(validate,c);
 
 		fourthPanel.setPreferredSize(new Dimension(400,600));
 		onglets.addTab("INDICATEUR  DETAIL ALERTE",fourthPanel);
 
 
-		// PANNEAU NB VOITURE: 
+		// PANE NB CAR: 
 
 		//fifthPanel.setLayout(a);
 		JLabel fifthLabel = new JLabel("Indicateur concernant le nombre de voitures selon la date");
@@ -301,72 +303,74 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		fifthPanel.add(fifthLabel,c);
 		c.gridy = 1;
 		c.gridx = 0;
-		JLabel dayDebutLabel5 = new JLabel("Jour début");
-		fifthPanel.add(dayDebutLabel5,c);
+		
+		// the same thing for date like the pane of threhold
+		JLabel dayStartLabel5 = new JLabel("Jour début");
+		fifthPanel.add(dayStartLabel5,c);
 		c.gridx = 1;
-		Integer[] choixDayDebut5 = new Integer[31];
+		Integer[] choiceDayStart5 = new Integer[31];
 		for(int i=1;i<=31;i++) {
-			choixDayDebut5[i-1]=i;
+			choiceDayStart5[i-1]=i;
 		}
-		dayDateDebut5 = new JComboBox(choixDayDebut5);
-		fifthPanel.add(dayDateDebut5,c);
+		dayDateStart5 = new JComboBox(choiceDayStart5);
+		fifthPanel.add(dayDateStart5,c);
 		c.gridx = 2;
-		JLabel monthDebutLabel5 = new JLabel("Mois début");
-		fifthPanel.add(monthDebutLabel5,c);
+		JLabel monthStartLabel5 = new JLabel("Mois début");
+		fifthPanel.add(monthStartLabel5,c);
 		c.gridx = 3;
-		Integer[] choixMonthDebut5 = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
-		monthDateDebut5 = new JComboBox(choixMonthDebut5);
-		fifthPanel.add(monthDateDebut5,c);
+		Integer[] choiceMonthStart5 = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
+		monthDateStart5 = new JComboBox(choiceMonthStart5);
+		fifthPanel.add(monthDateStart5,c);
 		c.gridx = 4;
-		JLabel yearDebutLabel5 = new JLabel("Année début");
-		fifthPanel.add(yearDebutLabel5,c);
+		JLabel yearStartLabel5 = new JLabel("Année début");
+		fifthPanel.add(yearStartLabel5,c);
 		c.gridx = 5;
-		Integer[] choixYearDebut5 = new Integer[100];
+		Integer[] choiceYearStart5 = new Integer[100];
 		for(int i=2000;i<2100;i++) {
-			choixYearDebut5[i-2000]=i;
+			choiceYearStart5[i-2000]=i;
 		}		
-		yearDateDebut5 = new JComboBox(choixYearDebut5);
-		fifthPanel.add(yearDateDebut5,c);
+		yearDateStart5 = new JComboBox(choiceYearStart5);
+		fifthPanel.add(yearDateStart5,c);
 		c.gridy = 2;
 		c.gridx = 0;
-		JLabel dayFinLabel5 = new JLabel("Jour fin");
-		fifthPanel.add(dayFinLabel5,c);
+		JLabel dayEndLabel5 = new JLabel("Jour fin");
+		fifthPanel.add(dayEndLabel5,c);
 		c.gridx = 1;
-		Integer[] choixDayFin5 = new Integer[31];
+		Integer[] choiceDayEnd5 = new Integer[31];
 		for(int i=1;i<=31;i++) {
-			choixDayFin5[i-1]=i;
+			choiceDayEnd5[i-1]=i;
 		}
-		dayDateFin5 = new JComboBox(choixDayFin5);
-		fifthPanel.add(dayDateFin5,c);
+		dayDateEnd5 = new JComboBox(choiceDayEnd5);
+		fifthPanel.add(dayDateEnd5,c);
 		c.gridx = 2;
-		JLabel monthFinLabel5 = new JLabel("Mois fin");
-		fifthPanel.add(monthFinLabel5,c);
+		JLabel monthEndLabel5 = new JLabel("Mois fin");
+		fifthPanel.add(monthEndLabel5,c);
 		c.gridx = 3;
-		Integer[] choixMonthFin5 = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
-		monthDateFin5 = new JComboBox(choixMonthFin5);
-		fifthPanel.add(monthDateFin5,c);
+		Integer[] choiceMonthEnd5 = new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12};
+		monthDateEnd5 = new JComboBox(choiceMonthEnd5);
+		fifthPanel.add(monthDateEnd5,c);
 		c.gridx = 4;
-		JLabel yearFinLabel5 = new JLabel("Année fin");
-		fifthPanel.add(yearFinLabel5,c);
+		JLabel yearEndLabel5 = new JLabel("Année fin");
+		fifthPanel.add(yearEndLabel5,c);
 		c.gridx = 5;
-		Integer[] choixYearFin5 = new Integer[100];
+		Integer[] choiceYearEnd5 = new Integer[100];
 		for(int i=2000;i<2100;i++) {
-			choixYearFin5[i-2000]=i;
+			choiceYearEnd5[i-2000]=i;
 		}		
-		yearDateFin5 = new JComboBox(choixYearFin5);
-		fifthPanel.add(yearDateFin5,c);
+		yearDateEnd5 = new JComboBox(choiceYearEnd5);
+		fifthPanel.add(yearDateEnd5,c);
 
 		c.gridy = 3;		
 		c.gridx = 2;
-		valider5 = new JButton("valider");
-		valider5.addActionListener(this);
-		valider5.setPreferredSize(new Dimension(100,25));
-		fifthPanel.add(valider5,c);
+		validate5 = new JButton("validate");
+		validate5.addActionListener(this);
+		validate5.setPreferredSize(new Dimension(100,25));
+		fifthPanel.add(validate5,c);
 		fifthPanel.setPreferredSize(new Dimension(400,600));
 		onglets.addTab("INDICATEUR NB VOITURE",fifthPanel);
 
 
-		// PANNEAU NOMBRE DE CAPTEUR VEHICULE: 
+		// PANE NUMBER OF SENSOR CAR 
 
 		sixthPanel.setLayout(a);
 		JLabel sixthLabel = new JLabel("Indicateur concernant le nombre de capteur véhicule par position");
@@ -382,16 +386,16 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		sixthPanel.add(listeChoiceSensorCar,c);
 
 		c.gridx = 2;
-		tableauSensorCar = new JButton("Tableau");
-		tableauSensorCar.addActionListener(this);
-		tableauSensorCar.setPreferredSize(new Dimension(100,25));
-		sixthPanel.add(tableauSensorCar,c);	
+		tableSensorCar = new JButton("table");
+		tableSensorCar.addActionListener(this);
+		tableSensorCar.setPreferredSize(new Dimension(100,25));
+		sixthPanel.add(tableSensorCar,c);	
 
 		c.gridx = 3;
-		graphiqueSensorCar = new JButton("Graphique");
-		graphiqueSensorCar.addActionListener(this);
-		graphiqueSensorCar.setPreferredSize(new Dimension(100,25));
-		sixthPanel.add(graphiqueSensorCar,c);
+		graphicSensorCar = new JButton("graphic");
+		graphicSensorCar.addActionListener(this);
+		graphicSensorCar.setPreferredSize(new Dimension(100,25));
+		sixthPanel.add(graphicSensorCar,c);
 
 
 		sixthPanel.setPreferredSize(new Dimension(400,600));
@@ -405,16 +409,16 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 	}
 
 
-	// récupération de la liste des capteurs ayant déclanché une alerte
+	// recovery of id sensor for each sensor who triggered a warning 
 	private Integer[] selectCapteur() {
 		TestJson t = new TestJson();
 		ArrayList<Integer> liste = new ArrayList<Integer>();
-		Integer[] tableau = null;
+		Integer[] table = null;
 		try {
 			liste = t.getIdSensorPolluant();
-			tableau = new Integer[liste.size()];
+			table = new Integer[liste.size()];
 			for(int i =0;i<liste.size();i++) {
-				tableau[i]=liste.get(i);
+				table[i]=liste.get(i);
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -422,12 +426,12 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}		
-		return tableau;
+		return table;
 	}
 
-
+// the event that happens with each click on the buttons
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(tableau)) { 
+		if(e.getSource().equals(table)) { 
 			System.out.println("Bonjour"); 
 			TestJson t = new TestJson(); 
 			try {
@@ -435,7 +439,7 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 				if(result!=null) {
 					result.removeAll();
 				}
-				result = new PanneauResultatSensor("tableau", listeChoix.getSelectedItem().toString(),liste);
+				result = new PanneauResultSensor("table", listChoice.getSelectedItem().toString(),liste);
 				c.gridx = 1;
 				c.gridy = 1;
 				firstPanel.add(result,c);
@@ -450,15 +454,15 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 				e1.printStackTrace();
 			}		
 
-		} else if (e.getSource().equals(graphique)) {
-			System.out.println("Bonjour graphique capteurs "); 
+		} else if (e.getSource().equals(graphic)) {
+			System.out.println("Bonjour graphic capteurs "); 
 			TestJson t = new TestJson(); 
 			try {
 				ArrayList<SensorIndicator> liste = t.goSensor();
 				if(result!=null) {
 					result.removeAll();
 				}
-				result = new PanneauResultatSensor("graphique", listeChoix.getSelectedItem().toString(),liste);
+				result = new PanneauResultSensor("graphic", listChoice.getSelectedItem().toString(),liste);
 				c.gridx = 1;
 				c.gridy = 1;
 				firstPanel.add(result,c);
@@ -472,15 +476,15 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 
 				e1.printStackTrace();
 			}
-		} else if (e.getSource().equals(tableauStation)) {
-			System.out.println("Bonjour  tableau Station"); 
+		} else if (e.getSource().equals(tableStation)) {
+			System.out.println("Bonjour  table Station"); 
 			TestJson t = new TestJson(); 
 			try {
 				ArrayList<StationIndicator> liste2 = t.goStation();
 				if(result2!= null) {
 					result2.removeAll();
 				}
-				result2 = new PanneauResultatStation("tableauStation", listeChoixStation.getSelectedItem().toString(),liste2);
+				result2 = new PanneauResultStation("tableStation", listChoiceStation.getSelectedItem().toString(),liste2);
 				result2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				result2.setSize(new Dimension(600,800));
 				result2.pack();
@@ -496,15 +500,15 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 
 
 			}
-		} else if (e.getSource().equals(graphiqueStation)) {
-			System.out.println("Bonjour graphique Station "); 
+		} else if (e.getSource().equals(graphicStation)) {
+			System.out.println("Bonjour graphic Station "); 
 			TestJson t = new TestJson(); 
 			try {
 				ArrayList<StationIndicator> liste2 = t.goStation();
 				if(result2!=null) {
 					result2.removeAll();
 				}
-				result2 = new PanneauResultatStation("graphiqueStation", listeChoixStation.getSelectedItem().toString(),liste2);
+				result2 = new PanneauResultStation("graphicStation", listChoiceStation.getSelectedItem().toString(),liste2);
 				result2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				result2.setSize(new Dimension(600,800));
 				result2.pack();
@@ -519,15 +523,15 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 
 			}
 
-		} else if (e.getSource().equals(tableauBorne)) {
-			System.out.println("Bonjour  tableau Borne"); 
+		} else if (e.getSource().equals(tableBorne)) {
+			System.out.println("Bonjour  table Borne"); 
 			TestJson t = new TestJson(); 
 			try {
 				ArrayList<SensorIndicator> liste2 = t.goBorne();
 				if(result4!= null) {
 					result4.removeAll();
 				}
-				result4 = new PanneauResultatBorne("tableauBorne", listeChoixBorne.getSelectedItem().toString(),liste2);
+				result4 = new PanneauResultBorne("tableBorne", listChoiceBorne.getSelectedItem().toString(),liste2);
 				result4.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				result4.setSize(new Dimension(600,800));
 				result4.pack();
@@ -543,15 +547,15 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 
 
 			}
-		} else if (e.getSource().equals(graphiqueBorne)) {
-			System.out.println("Bonjour graphique Borne "); 
+		} else if (e.getSource().equals(graphicBorne)) {
+			System.out.println("Bonjour graphic Borne "); 
 			TestJson t = new TestJson(); 
 			try {
 				ArrayList<SensorIndicator> liste2 = t.goBorne();
 				if(result4!=null) {
 					result4.removeAll();
 				}
-				result4 = new PanneauResultatBorne("graphiqueBorne", listeChoixBorne.getSelectedItem().toString(),liste2);
+				result4 = new PanneauResultBorne("graphicBorne", listChoiceBorne.getSelectedItem().toString(),liste2);
 				result4.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				result4.setSize(new Dimension(600,800));
 				result4.pack();
@@ -567,7 +571,7 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 
 			}
 
-		} else if(e.getSource().equals(tableauSensorCar)) { 
+		} else if(e.getSource().equals(tableSensorCar)) { 
 			System.out.println("Bonjour"); 
 			TestJson t = new TestJson(); 
 			try {
@@ -575,7 +579,7 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 				if(result6!=null) {
 					result6.removeAll();
 				}
-				result6 = new PanneauResultatSensorCar ("tableauSensorCar", listeChoiceSensorCar.getSelectedItem().toString(),liste);
+				result6 = new PanneauResultSensorCar ("tableSensorCar", listeChoiceSensorCar.getSelectedItem().toString(),liste);
 				result6.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				result6.setSize(new Dimension(600,800));
 				result6.pack();
@@ -590,15 +594,15 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 				e1.printStackTrace();
 			}		
 
-		} else if (e.getSource().equals(graphiqueSensorCar)) {
-			System.out.println("Bonjour graphique capteur vehicule "); 
+		} else if (e.getSource().equals(graphicSensorCar)) {
+			System.out.println("Bonjour graphic capteur vehicule "); 
 			TestJson t = new TestJson(); 
 			try {
 				ArrayList<SensorIndicator> liste = t.goSensorCar();
 				if(result6!=null) {
 					result6.removeAll();
 				}
-				result6 = new PanneauResultatSensorCar ("graphiqueSensorCar", listeChoiceSensorCar.getSelectedItem().toString(),liste);
+				result6 = new PanneauResultSensorCar ("graphicSensorCar", listeChoiceSensorCar.getSelectedItem().toString(),liste);
 				result6.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				result6.setSize(new Dimension(600,800));
 				result6.pack();
@@ -614,22 +618,22 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 			}
 		}
 
-		else if (e.getSource().equals(valider)) {
+		else if (e.getSource().equals(validate)) {
 			System.out.println("Bonjour Capteur polluant"); 
 			TestJson t = new TestJson(); 
 			try {
-				List<Integer> listeSeuil = t.getThreshold(listeChoixPolluant.getSelectedItem().toString(),Integer.valueOf(listeChoixCapteur.getSelectedItem().toString()));
-				ArrayList<SensorPolluantIndicator> listeWarning = t.getWarning(listeChoixPolluant.getSelectedItem().toString(), Integer.valueOf(listeChoixCapteur.getSelectedItem().toString()),listeSeuil);
+				List<Integer> listeSeuil = t.getThreshold(listChoicePolluant.getSelectedItem().toString(),Integer.valueOf(listChoiceCapteur.getSelectedItem().toString()));
+				ArrayList<SensorPolluantIndicator> listeWarning = t.getWarning(listChoicePolluant.getSelectedItem().toString(), Integer.valueOf(listChoiceCapteur.getSelectedItem().toString()),listeSeuil);
 				if(result3!= null) {
 					result3.removeAll();
 				}
 				int year1 = Integer.valueOf((String) yearDateDebut.getSelectedItem().toString());
-				int month1 = Integer.valueOf((String) monthDateDebut.getSelectedItem().toString());
-				int day1 = Integer.valueOf((String) dayDateDebut.getSelectedItem().toString());
+				int month1 = Integer.valueOf((String) monthDateStart.getSelectedItem().toString());
+				int day1 = Integer.valueOf((String) dayDateStart.getSelectedItem().toString());
 				System.out.println("debut"+year1+"|"+month1+"|"+day1);
-				int year2 = Integer.valueOf((String) yearDateFin.getSelectedItem().toString());
-				int month2 = Integer.valueOf((String) monthDateFin.getSelectedItem().toString());
-				int day2 = Integer.valueOf((String) dayDateFin.getSelectedItem().toString());
+				int year2 = Integer.valueOf((String) yearDateEnd.getSelectedItem().toString());
+				int month2 = Integer.valueOf((String) monthDateEnd.getSelectedItem().toString());
+				int day2 = Integer.valueOf((String) dayDateEnd.getSelectedItem().toString());
 				System.out.println("fin"+year2+"|"+month2+"|"+day2);
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				Date date = sdf.parse(day1+"/"+month1+"/"+year1);
@@ -637,7 +641,7 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 				Timestamp dateDebut = new Timestamp(date.getTime());				
 				date = sdf.parse(day2+"/"+month2+"/"+year2);
 				Timestamp dateFin = new Timestamp(date.getTime());
-				result3 = new PanneauResultatWarning(dateDebut,dateFin,listeChoixPolluant.getSelectedItem().toString(),listeSeuil,listeWarning);
+				result3 = new PanneauResultWarning(dateDebut,dateFin,listChoicePolluant.getSelectedItem().toString(),listeSeuil,listeWarning);
 				c.gridx = 1;
 				c.gridy = 1;
 				fourthPanel.add(result3,c);
@@ -650,7 +654,7 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 
 
 			}
-		}  else if (e.getSource().equals(valider5)) {
+		}  else if (e.getSource().equals(validate5)) {
 			System.out.println("Bonjour Voiture"); 
 			TestJson t = new TestJson(); 
 			try {
@@ -658,13 +662,13 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 				if(result5!= null) {
 					result5.removeAll();
 				}
-				int year1 = Integer.valueOf((String) yearDateDebut5.getSelectedItem().toString());
-				int month1 = Integer.valueOf((String) monthDateDebut5.getSelectedItem().toString());
-				int day1 = Integer.valueOf((String) dayDateDebut5.getSelectedItem().toString());
+				int year1 = Integer.valueOf((String) yearDateStart5.getSelectedItem().toString());
+				int month1 = Integer.valueOf((String) monthDateStart5.getSelectedItem().toString());
+				int day1 = Integer.valueOf((String) dayDateStart5.getSelectedItem().toString());
 				System.out.println("debut"+year1+"|"+month1+"|"+day1);
-				int year2 = Integer.valueOf((String) yearDateFin5.getSelectedItem().toString());
-				int month2 = Integer.valueOf((String) monthDateFin5.getSelectedItem().toString());
-				int day2 = Integer.valueOf((String) dayDateFin5.getSelectedItem().toString());
+				int year2 = Integer.valueOf((String) yearDateEnd5.getSelectedItem().toString());
+				int month2 = Integer.valueOf((String) monthDateEnd5.getSelectedItem().toString());
+				int day2 = Integer.valueOf((String) dayDateEnd5.getSelectedItem().toString());
 				System.out.println("fin"+year2+"|"+month2+"|"+day2);
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				Date date = sdf.parse(day1+"/"+month1+"/"+year1);
@@ -672,7 +676,7 @@ public class PanneauIndicateur extends JPanel implements ActionListener{
 				Timestamp dateDebut = new Timestamp(date.getTime());				
 				date = sdf.parse(day2+"/"+month2+"/"+year2);
 				Timestamp dateFin = new Timestamp(date.getTime());
-				result5 = new PanneauResultatCar(dateDebut,dateFin,liste);
+				result5 = new PanneauResultCar(dateDebut,dateFin,liste);
 				c.gridx = 1;
 				c.gridy = 1;
 				fifthPanel.add(result5,c);

@@ -268,16 +268,6 @@ public class ThreadServer extends Thread {
 			
 			// BEGIN TEST REQUESTS
 
-			if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR")) {
-
-				System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
-				Sensor sensor = new Sensor(); 
-				System.out.println("initialisation de la classe Sensor");
-				JSONObject obj = sensor.getIndicator(JsonRecu,c);
-				return obj; 
-
-			}
-			
 			if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR2")) {
 
 				System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
@@ -361,15 +351,6 @@ public class ThreadServer extends Thread {
 				System.out.println("initialisation de la classe sensorPolluant"); 
 				JSONObject obj = polluant.getWarning(JsonRecu,c);
 				return obj;
-			}
-			if (JsonRecu.get("demandType").equals("getIndicator2")) {
-
-				System.out.println("Consultation des polluants"); 
-				Sensor sensor = new Sensor(); 
-				System.out.println("initialisation de la classe sensor"); 
-				JSONObject obj = sensor.getIndicator2(JsonRecu,c);
-				return obj;
-
 			}
 			
 			

@@ -3,10 +3,10 @@
 {
 "adresse_ip" : "181.41.284.12",
 "localisation" : "Nord",
-"seuil_co2" : "7",
-"seuil_no2" : "8",
-"seuil_pf" : "6.1",
-"seuil_min_tmp" : "-1",
+"seuil_co2" : "480",
+"seuil_no2" : "410",
+"seuil_pf" : "90",
+"seuil_min_tmp" : "-15",
 "seuil_max_tmp" : "35"
 
 	},
@@ -14,22 +14,22 @@
 	{
 "adresse_ip" : "125.32.254.14",
 "localisation" : "Est",
-"seuil_co2" : "10",
-"seuil_no2" : "5.2",
-"seuil_pf" : "6",
+"seuil_co2" : "460",
+"seuil_no2" : "400",
+"seuil_pf" : "75",
 "seuil_min_tmp" : "-2",
-"seuil_max_tmp" : "35"
+"seuil_max_tmp" : "40"
 
 },
 
 {
 "adresse_ip" : "145.35.214.79",
-"localisation" : "Ouest",
-"seuil_co2" : "8",
-"seuil_no2" : "6",
-"seuil_pf" : "3",
-"seuil_min_tmp" : "-2",
-"seuil_max_tmp" : "45"
+"localisation" : "Sud",
+"seuil_co2" : "450",
+"seuil_no2" : "410",
+"seuil_pf" : "80",
+"seuil_min_tmp" : "-3",
+"seuil_max_tmp" : "40"
 
 }
 

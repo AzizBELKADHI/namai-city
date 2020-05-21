@@ -23,7 +23,7 @@ public class SensorCarInsert {
 		StringBuffer sb = new StringBuffer();
 
 		// lecture du JSON afin de mettre chaque ligne en chaîne de caractère
-		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("bornes.json"); 
+		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("sensorCars.json"); 
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
 		try {
 			String temp; 
@@ -53,7 +53,7 @@ public class SensorCarInsert {
 			System.out.println("Parcours de la liste des capteurs " + position ); 
 		
 			PreparedStatement stmt3 = c.prepareStatement("insert into capteur_vehicule (id_capteur,position,type) values (?,?,?);");
-			// the request takes name and first name already retrieved 
+			//the request takes name and first name already retrieved 
 			stmt3.setInt(1, sensorId);
 			stmt3.setString(2,position);
 			stmt3.setString(3, type); 
@@ -67,7 +67,7 @@ public class SensorCarInsert {
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			if(stmt3.executeUpdate()>=1) {
 				obj.put("reponse",String.valueOf("insertion reussi"));
-				obj.put("id_capteur",sensorId);
+				//obj.put("id_capteur",sensorId);
 				obj.put("position",position);
 				obj.put("type",type);
 				

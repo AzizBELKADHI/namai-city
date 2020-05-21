@@ -3,7 +3,6 @@ package com.client.view;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,39 +15,38 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import indicator.SensorIndicator;
 
+public class PanneauResultSensor extends JPanel{
 
-public class PanneauResultatSensorCar extends JFrame{
-
-	public PanneauResultatSensorCar (String button, String choix, ArrayList<SensorIndicator> liste) {
+	public PanneauResultSensor(String button, String choice, ArrayList<SensorIndicator> liste) {
 		if(liste.size()==0) {
 			JLabel errorMessage = new JLabel("Pas de données pour cette sélection");
 			this.add(errorMessage, BorderLayout.CENTER);
 			this.repaint();
 		}else {
-		if(button== "tableauSensorCar") {
+		if(button== "table") {
 
-			switch(choix) {
+			switch(choice) {
 			case "Position" : 
-				int cptNorth =0; 
+				int cptNorth=0; 
 				int cptSouth = 0; 
 				int cptWest =0; 
 				int cptEast = 0;
-
-				for (SensorIndicator s: liste) {
-					switch(s.getPositionSensorCar()) {
-					case "Nord" : 
-						cptNorth = s.getSensorCarNb();
-						break; 
+				for(SensorIndicator s :liste) {
+					switch(s.getLocalisation() ){
+					case "Nord" :
+						cptNorth=cptNorth+s.getSensorPolluantNb();
+						break;
 					case "Sud" :
-						cptSouth = s.getSensorCarNb();
-						break; 
-					case "Ouest" : 
-						cptWest = s.getSensorCarNb(); 
-						break; 
-					case "Est" : 
-						cptEast = s.getSensorCarNb(); 
-						break; 
-					}
+						cptSouth= cptSouth+ s.getSensorPolluantNb();
+						break;
+					case "Ouest" :
+						cptWest = cptWest + s.getSensorPolluantNb();
+						break;
+					case "Est" :
+						cptEast = cptEast + s.getSensorPolluantNb();
+
+						break;
+					}				
 				}
 
 				Object[][] donnees = {
@@ -59,36 +57,34 @@ public class PanneauResultatSensorCar extends JFrame{
 						{"Total", cptNorth+cptSouth+cptEast+cptWest}
 				};
 
-				String[] entetes = {"Position", "Nombre de capteur véhicule dans la ville"};
+				String[] entetes = {"Position", "Nombre de capteur relevé"};
 				JTable tablePosition = new JTable(donnees, entetes);
 				tablePosition.setCellSelectionEnabled(false);
 				this.add(tablePosition.getTableHeader(), BorderLayout.NORTH);
 				this.add(new JScrollPane(tablePosition), BorderLayout.CENTER);
 				this.repaint();
-				break;
-
- 
+				break; 
 			}
-		} else if (button == "graphiqueSensorCar") {
-			switch (choix) {
+		} else if (button== "graphic") {
+			switch (choice) {
 			case "Position" : 
 				int cptNorth=0; 
 				int cptSouth = 0; 
 				int cptWest =0; 
 				int cptEast = 0;
 				for(SensorIndicator s :liste) {
-					switch(s.getPositionSensorCar()){
+					switch(s.getLocalisation()){
 					case "Nord" :
-						cptNorth=cptNorth+s.getSensorCarNb();
+						cptNorth=cptNorth+s.getSensorPolluantNb();
 						break;
 					case "Sud" :
-						cptSouth= cptSouth+ s.getSensorCarNb();
+						cptSouth= cptSouth+ s.getSensorPolluantNb();
 						break;
 					case "Ouest" :
-						cptWest = cptWest + s.getSensorCarNb();
+						cptWest = cptWest + s.getSensorPolluantNb();
 						break;
 					case "Est" :
-						cptEast = cptEast + s.getSensorCarNb();
+						cptEast = cptEast + s.getSensorPolluantNb();
 
 						break;
 					}				
@@ -99,8 +95,8 @@ public class PanneauResultatSensorCar extends JFrame{
 				pieDataset.setValue("Sud",cptSouth);
 				pieDataset.setValue("Est",cptEast);
 				pieDataset.setValue("Ouest",cptWest);
-
-				JFreeChart pieChart = ChartFactory.createPieChart("Résultat concernant le nombre de capteurs véhicules", pieDataset, true, false, false);
+				
+				JFreeChart pieChart = ChartFactory.createPieChart("Résultat concernant le nombre de capteurs polluants", pieDataset, true, false, false);
 				ChartPanel cPanel = new ChartPanel(pieChart);
 				this.add(cPanel,BorderLayout.CENTER);
 				cPanel.setVisible(true);

@@ -3,7 +3,7 @@ package com.client.view;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,17 +13,12 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
-import indicator.SensorIndicator;
+import indicator.StationIndicator;
 
-public class PanneauResultatSensor extends JPanel{
-
-	public PanneauResultatSensor(String button, String choice, ArrayList<SensorIndicator> liste) {
-		if(liste.size()==0) {
-			JLabel errorMessage = new JLabel("Pas de données pour cette sélection");
-			this.add(errorMessage, BorderLayout.CENTER);
-			this.repaint();
-		}else {
-		if(button== "tableau") {
+public class PanneauResultStation extends JFrame{
+	public PanneauResultStation(String button, String choice, ArrayList<StationIndicator> list) {
+		// recovery of the result of request in the form of graphic and table
+		if(button== "tableStation") {
 
 			switch(choice) {
 			case "Position" : 
@@ -31,22 +26,22 @@ public class PanneauResultatSensor extends JPanel{
 				int cptSouth = 0; 
 				int cptWest =0; 
 				int cptEast = 0;
-				for(SensorIndicator s :liste) {
-					switch(s.getLocalisation() ){
-					case "Nord" :
-						cptNorth=cptNorth+s.getSensorPolluantNb();
-						break;
-					case "Sud" :
-						cptSouth= cptSouth+ s.getSensorPolluantNb();
-						break;
-					case "Ouest" :
-						cptWest = cptWest + s.getSensorPolluantNb();
-						break;
-					case "Est" :
-						cptEast = cptEast + s.getSensorPolluantNb();
 
-						break;
-					}				
+				for (StationIndicator s: list) {
+					switch(s.getPosition()) {
+					case "Nord" : 
+						cptNorth = s.getStationNb();
+						break; 
+					case "Sud" :
+						cptSouth = s.getStationNb();
+						break; 
+					case "Ouest" : 
+						cptWest = s.getStationNb(); 
+						break; 
+					case "Est" : 
+						cptEast = s.getStationNb(); 
+						break; 
+					}
 				}
 
 				Object[][] donnees = {
@@ -57,34 +52,36 @@ public class PanneauResultatSensor extends JPanel{
 						{"Total", cptNorth+cptSouth+cptEast+cptWest}
 				};
 
-				String[] entetes = {"Position", "Nombre de capteur relevé"};
+				String[] entetes = {"Position", "Nombre de station dans la ville"};
 				JTable tablePosition = new JTable(donnees, entetes);
 				tablePosition.setCellSelectionEnabled(false);
 				this.add(tablePosition.getTableHeader(), BorderLayout.NORTH);
 				this.add(new JScrollPane(tablePosition), BorderLayout.CENTER);
 				this.repaint();
-				break; 
+				break;
+
+ 
 			}
-		} else if (button== "graphique") {
+		} else if (button == "graphicStation") {
 			switch (choice) {
 			case "Position" : 
 				int cptNorth=0; 
 				int cptSouth = 0; 
 				int cptWest =0; 
 				int cptEast = 0;
-				for(SensorIndicator s :liste) {
-					switch(s.getLocalisation()){
+				for(StationIndicator s :list) {
+					switch(s.getPosition()){
 					case "Nord" :
-						cptNorth=cptNorth+s.getSensorPolluantNb();
+						cptNorth=cptNorth+s.getStationNb();
 						break;
 					case "Sud" :
-						cptSouth= cptSouth+ s.getSensorPolluantNb();
+						cptSouth= cptSouth+ s.getStationNb();
 						break;
 					case "Ouest" :
-						cptWest = cptWest + s.getSensorPolluantNb();
+						cptWest = cptWest + s.getStationNb();
 						break;
 					case "Est" :
-						cptEast = cptEast + s.getSensorPolluantNb();
+						cptEast = cptEast + s.getStationNb();
 
 						break;
 					}				
@@ -95,8 +92,8 @@ public class PanneauResultatSensor extends JPanel{
 				pieDataset.setValue("Sud",cptSouth);
 				pieDataset.setValue("Est",cptEast);
 				pieDataset.setValue("Ouest",cptWest);
-				
-				JFreeChart pieChart = ChartFactory.createPieChart("Résultat concernant le nombre de capteurs polluants", pieDataset, true, false, false);
+
+				JFreeChart pieChart = ChartFactory.createPieChart("Résultat concernant le nombre de stations", pieDataset, true, false, false);
 				ChartPanel cPanel = new ChartPanel(pieChart);
 				this.add(cPanel,BorderLayout.CENTER);
 				cPanel.setVisible(true);
@@ -105,5 +102,8 @@ public class PanneauResultatSensor extends JPanel{
 			}
 		}
 	}
-	}
 }
+
+
+
+
