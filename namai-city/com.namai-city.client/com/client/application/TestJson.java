@@ -115,6 +115,21 @@ public class TestJson {
 		
 	}
 	
+	public static JSONObject LowerBornes() throws SQLException, IOException,UnsupportedEncodingException {
+		System.out.println("l'état des bornes va etre modifié");
+		SocketClient client = new SocketClient();
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("LowerBornes")); 
+		System.out.println(obj);	
+		JSONObject reponseSimulation = client.sendMessage(obj);
+		System.out.println(reponseSimulation);
+		client.stopConnection(); 
+
+		return reponseSimulation; 
+		
+	}
+	
 	
 	public static JSONObject searchVehicule(String dateDebut, String dateFin, String zone, String type) throws SQLException, IOException,UnsupportedEncodingException {
 		System.out.println("je rentre deja dans la recherche vehicules");

@@ -48,6 +48,29 @@ public class Borne {
 		return obj; 
 	}
 	
+public boolean forbiddenPassage() throws SQLException, InterruptedException {
+		
+		PreparedStatement stmt1 = c.prepareStatement("select state from Bornes where id_borne = 1;");
+		ResultSet rs2 = stmt1.executeQuery();
+		int i = 0;
+		// creation of users list 
+
+		while (rs2.next()) {
+			i++;
+			JSONObject borne=new JSONObject();
+			borne.put("state", rs2.getString("state"));
+			System.out.println("les bornes sont actuellement levé: " + borne);
+		}
+		if(i == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	
+	
 	public Object riseBornes() throws SQLException, InterruptedException{
 			PreparedStatement stmt = c.prepareStatement("update bornes set state= ?;");
 			stmt.setInt(1, 1); 
