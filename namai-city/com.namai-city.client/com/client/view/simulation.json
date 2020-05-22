@@ -1,0 +1,43 @@
+[
+
+    {
+    "id_sensor" : "1",
+    "objet" : "audi A4",
+    "taille" : "4.50"
+        },
+    {
+    "id_sensor" : "1",
+    "objet" : "Renault Clio",
+    "taille" : "4.0"
+        },
+    {
+    "id_sensor" : "1",
+    "objet" : "Nissan",
+    "taille" : "3.50"
+        },
+{
+    "id_sensor" : "1",
+    "objet" : "Peugeot",
+    "taille" : "4.50"
+        },    
+{
+    "id_sensor" : "2",
+    "objet" : "Mercedes",
+    "taille" : "5.50"
+        },
+{
+    "id_sensor" : "4",
+    "objet" : "audi A4",
+    "taille" : "4.50"
+        },
+{
+    "id_sensor" : "3",
+    "objet" : "Camion",
+    "taille" : "12.50"
+        },
+{
+    "id_sensor" : "2",
+    "objet" : "non identifie",
+    "taille" : "0.80"
+        }       
+    ]

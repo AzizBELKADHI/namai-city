@@ -39,6 +39,8 @@ public class ThreadServer extends Thread {
 	private BufferedReader inJson;
 	private Connection c; 
 	private static final int NB_FAUSSE_ALERTE=2;
+	private Borne bornes ;
+
 
 	public ThreadServer(Socket socket, Connection connection) {
 		this.clientSocket = socket;
@@ -52,6 +54,13 @@ public class ThreadServer extends Thread {
 			inJson = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 			do {
+				
+				InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("simulation.json"); 
+				// processing part of Json 
+				outJson = new PrintWriter(clientSocket.getOutputStream(), true);
+				inJson = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				this.bornes = new Borne(this.c);
+				Object obj1 = new Object();
 				String resp = inJson.readLine();
 				System.out.println("----bonjour je viens de récuperer le JSON");
 				System.out.println(resp);
@@ -61,6 +70,80 @@ public class ThreadServer extends Thread {
 				JSONObject jsonObject = (JSONObject) obj;  
 				System.out.println("----bonjour je viens de parser le JSON");
 				System.out.println(resp);
+				
+				
+				/*calls the bornesState method from Bornes to get the states and
+				 * send the result to the client in a JSON File using the socket if 
+				 * it gets a demand from the client
+				 */
+				if(jsonObject.get("demandType").equals("getInitialInfos")) {
+					new carsHistory(c);
+					System.out.println("nombre max de véhicules dans la ville: " + carsHistory.maxCars);
+					obj1 = bornes.BornesState();
+					outJson.println(obj1);
+				}
+				
+				/*calls the riseBornes method from Bornes to change the states of the bornes to 1
+				 * send the success or fail messsage to the client in a JSON File using the socket
+				 */
+				
+				if(jsonObject.get("demandType").equals("RiseBornes")) {
+					obj1 = bornes.riseBornes();
+					outJson.println(obj1); 
+				}
+				
+				
+				/*calls the LowerBornes method from Bornes to change the states of the bornes to 0
+				 * send the success or fail messsage to the client in a JSON File using the socket
+				 */
+				
+				if(jsonObject.get("demandType").equals("LowerBornes")) {
+					obj1 = bornes.lowerBornes();
+					outJson.println(obj1); 
+				}
+
+				/*calls the updateMaxCars method from carsHistory to change the limit of cars in town
+				 * send the new limit to the client in a JSON File using the socket
+				 */	
+				if(jsonObject.get("demandType").equals("ChangeLimit")) {
+					long idcaste = Long.valueOf(jsonObject.get("maxCars").toString());
+					int idJson = (int) idcaste;
+					System.out.println("bonjour voici le ID recu apres traitement");
+					System.out.println(idJson);
+					carsHistory cars = new carsHistory(c);
+					obj1 = cars.updateMaxCars(idJson);
+					outJson.println(obj1); 
+				}
+				
+				/* used to launch the thread that simulate the movements of cars in the town
+				 * by giving him the test file which represents the cars scanned by the sensors 
+				 * 
+				 */
+				
+				if(jsonObject.get("demandType").equals("launchSimulation")) {
+					JSONObject obja = new JSONObject();
+					obja.put("reponse", String.valueOf("la simulation a été lancé"));
+					outJson.println(obj1); 
+					CarSensors test = new CarSensors(c, inputStream);
+					test.start();  
+				}
+				
+				/* used to get the data sent by the user and calling the method that returns 
+				 * the results in cars history and send them to the user using the socket 
+				 */
+				
+				if(jsonObject.get("demandType").equals("filterVehicule")) {
+					Object objSearch = new Object();
+					String dateDebut = String.valueOf(jsonObject.get("dateDebut"));
+					String dateFin = String.valueOf(jsonObject.get("dateFin"));
+					String type = String.valueOf(jsonObject.get("type"));
+					String zone = String.valueOf(jsonObject.get("zone"));
+					carsHistory cars = new carsHistory(c);
+					objSearch = cars.SearchCars(dateDebut, dateFin, zone, type);
+					System.out.println("voici la liste des voitures retrouvé: ");
+					System.out.println(objSearch);
+					outJson.println(objSearch); 
+				}
 				obj = crud(jsonObject); 
 				// Once the Json had been processed, closing the socket and releasing the connection
 

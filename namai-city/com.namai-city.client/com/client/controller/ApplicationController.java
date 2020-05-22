@@ -3,6 +3,7 @@ package com.client.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -56,10 +57,8 @@ public class ApplicationController implements ActionListener {
 			}
 			
 			else if(choix.equals("empreinteCarbone")) {
-				cn.getPa().getPuc().setCard("panneauEmpreinteX");
-				
-				
-			}
+				cn.getPa().getPuc().setCard("panneauEmpreinte");
+				}
 			else if(choix.equals("configBorne")) {
 				System.out.println("j'appui sur ce panneau bornes");
 				try {

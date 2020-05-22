@@ -19,8 +19,12 @@ public class ConnectionNamaiCity extends JFrame {
 	public ConnectionNamaiCity() {
 		super("NAMAI-CITY");
 		pan = new PanneauLoginNamaiCity();
-		pa = new PanneaApplication();
-		
+		try {
+			pa = new PanneaApplication();
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		menu = new PanneauBienvenueNamaiCity();
 		superpos= new CardLayout();
 	
