@@ -27,7 +27,7 @@ import indicator.WarningIndicator;
 
 import java.io.*; 
 import java.net.*;
-
+//
 
 public class ThreadServer extends Thread {
 	private Socket clientSocket; 

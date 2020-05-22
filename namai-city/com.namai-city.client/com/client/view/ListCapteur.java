@@ -119,5 +119,4 @@ public class ListCapteur extends AbstractTableModel{
 			}
 		});
 	}
-
 }

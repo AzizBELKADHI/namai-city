@@ -30,7 +30,7 @@ public class SocketClient {
 		outJson = new PrintWriter(socketClient.getOutputStream(), true);
 		inJson = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
 	}
-//
+
 	public static JSONObject sendMessage(JSONObject JsonMsg) {
 		JSONObject jsonObject = new JSONObject(); 
 		try {

@@ -40,4 +40,5 @@ public class CapteurTableModel  {
 		CapteurTableModel c =new CapteurTableModel();
 
 	}
+	
 }

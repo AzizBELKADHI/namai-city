@@ -238,5 +238,6 @@ public class PanneauConfigurationPollution extends JPanel {
 		this.jFrequence = jFrequence;
 	}
 	
+	
 }
 

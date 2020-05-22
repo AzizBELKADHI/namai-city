@@ -16,7 +16,7 @@ import com.commons.model.AccessServer;
 import com.commons.model.SocketClient;
 
 import entities.CapteurPolluant;
-
+//
 public class ControllerPollution implements ActionListener {
 
 	ConnectionNamaiCity fenetre;

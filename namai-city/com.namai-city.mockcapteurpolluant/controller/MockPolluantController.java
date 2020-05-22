@@ -13,7 +13,7 @@ import com.commons.model.SocketClient;
 import entities.CapteurPolluant;
 import model.GetScenarios;
 import model.ThreadCapteurPolluant;
-
+//
 public class MockPolluantController {
 	SocketClient client;
 	private Map<String, Map<String, String>> scenarios;

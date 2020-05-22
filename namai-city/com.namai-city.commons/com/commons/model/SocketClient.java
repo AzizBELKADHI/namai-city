@@ -23,7 +23,7 @@ public class SocketClient {
 	private static PrintWriter outJson;
 	private static BufferedReader inJson;
 
-
+//
 	public void startConnection(String ip, int port) throws IOException {
 		socketClient = new Socket(ip, port);
 		outJson = new PrintWriter(socketClient.getOutputStream(), true);

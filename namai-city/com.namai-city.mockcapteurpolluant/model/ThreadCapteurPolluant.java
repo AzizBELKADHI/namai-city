@@ -25,7 +25,7 @@ public class ThreadCapteurPolluant implements Runnable {
 	private Random rd;
 	private Map<String, String> mapHistoriques = new HashMap<String, String>();
 	private List<HistoriqueCapteurPolluant> listScenarios = new ArrayList<>();
-
+//
 	public ThreadCapteurPolluant(CapteurPolluant capteurPolluant2, SocketClient client2,
 			Map<String, String> mapHistoriques,String frequence) {
 		this.client = client2;
