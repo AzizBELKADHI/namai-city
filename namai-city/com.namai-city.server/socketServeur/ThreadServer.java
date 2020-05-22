@@ -102,6 +102,7 @@ public class ThreadServer extends Thread {
 					outJson.println(obj1); 
 				}
 
+<<<<<<< HEAD
 				/*calls the updateMaxCars method from carsHistory to change the limit of cars in town
 				 * send the new limit to the client in a JSON File using the socket
 				 */	
@@ -156,6 +157,16 @@ public class ThreadServer extends Thread {
 			}while(!clientSocket.isClosed());
 
 		}catch (Exception e) {
+=======
+			//IF CASE : INSTANCE REALDATA ET LANCEMENT METHODE footprint OUTJSON
+			
+			outJson.println(obj);
+			DataSource.releaseConnection(c); 
+			inJson.close();
+			outJson.close();
+			clientSocket.close();
+		} catch (Exception e) {
+>>>>>>> refs/remotes/origin/AbdelkaderBenSalem
 			System.out.println("--------Un client s'est déconnecté de manière précipitée !-------");
 			System.out.println(e.getMessage());
 		}
@@ -164,9 +175,13 @@ public class ThreadServer extends Thread {
 
 		DBConnectController.clientsState(false);
 	}
+<<<<<<< HEAD
 
 
 
+=======
+	
+>>>>>>> refs/remotes/origin/AbdelkaderBenSalem
 	// crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
 	private JSONObject crud(JSONObject JsonRecu)  {
 
