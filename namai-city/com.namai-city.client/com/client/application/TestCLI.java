@@ -39,7 +39,9 @@ public class TestCLI {
 	}
 	
 	public static void main(String [] args) throws SQLException, IOException {
-	//	TestJson t = new TestJson();
+		TestCLI t = new TestCLI();
+		t.testCLI();
+		
 		PagePrincipale page = new PagePrincipale();
 		page.setVisible(true);
 	
