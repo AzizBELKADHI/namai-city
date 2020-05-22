@@ -47,7 +47,7 @@ public class TestCLI {
 		
 	}
 	
-	public void testCLI(){
+	public void testCLI() throws IOException{
 	Scanner sc = new Scanner(System.in);
 	while(true) { // Menu display
 		System.out.println("########################### Menu Namai-city-client #########################");
@@ -65,7 +65,12 @@ public class TestCLI {
 		switch (rep) {
 		
 		case "1":
-			client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+			try {
+				client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			obj.put("demandType",String.valueOf("getInitialInfos")); 
 			System.out.println(obj);	
 			JSONObject reponseBornes = client.sendMessage(obj);
@@ -100,43 +105,64 @@ public class TestCLI {
 			client.stopConnection();   
 			break; 
 
-		case "3": 
-			// requete pour mettre à  jour la table utilisateur 
-			System.out.println("########################### UPDATE #########################");
-			System.out.println("quel est l'id à modifier?"); 
-
+		case "4": 
+			
+			this.client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+			obj=new JSONObject();  //JSONObject creation
+			
+			System.out.println("quel est le noouveau max vehicules?"); 
 			String id_update = sc.nextLine();
 			Integer id_user_update = Integer.parseInt(id_update);
-			System.out.print("le nom ? ");
-			String nomUpdate = sc.nextLine(); 
-			System.out.print("le prenom ? ");
-			String prenomUpdate = sc.nextLine();
-			obj.put("demandType",String.valueOf("UPDATE"));
-			obj.put("nom",String.valueOf(nomUpdate));
-			obj.put("prenom",String.valueOf(prenomUpdate));
-			obj.put("Id",id_user_update);
-			System.out.println(obj);
-			JSONObject reponseUdpade = client.sendMessage(obj);
-			String repServerUpdate = (String) reponseUdpade.get("reponse"); 
-			if(repServerUpdate.contentEquals("mise à jour reussie")) {
-				String prenomUpdate2 = (String) reponseUdpade.get("prenom");  
-				String nomupdate2 = (String) reponseUdpade.get("nom");
-				long idCaste = (long) reponseUdpade.get("Id");
-				int idUpdate = (int) idCaste;
-				System.out.println(repServerUpdate +"\n voici les donnees mises a jour: \n" + prenomUpdate2 + "\n " + nomupdate2  + "\n" + idUpdate);
+			obj.put("demandType",String.valueOf("ChangeLimit")); 
+			obj.put("maxCars",Integer.valueOf(id_user_update)); 
+			System.out.println(obj);	
+			JSONObject reponseMaxVehicules = this.client.sendMessage(obj);
+			System.out.println(reponseMaxVehicules);
+			this.client.stopConnection(); 
+			break; 
+			
+		
+		case "5": 
+			
+			System.out.println("je rentre deja dans la recherche vehicules");
+			this.client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+			obj=new JSONObject();  //JSONObject creation
+			
+			System.out.println("quel est la date de depart ?"); 
+			String dateDebut = sc.nextLine();
+			
+			System.out.println("quel est la date de fin ?"); 
+			String dateFin = sc.nextLine();
+			
+			System.out.println("quel est le type de mouvements?"); 
+			String type = sc.nextLine();
+			
+			System.out.println("quel est la zone de la ville?"); 
+			String zone = sc.nextLine();
+			
+	
+			obj.put("demandType",String.valueOf("filterVehicule"));
+			if(type.equals("Les deux")) {
+				type = "town";
 			}
-			else {
-				System.out.println(repServerUpdate);
+			if(zone.equals("toute la ville")) {
+				zone = "All";
 			}
-			client.stopConnection();
-
+			obj.put("type", String.valueOf(type));
+			obj.put("zone", String.valueOf(zone));
+			obj.put("dateDebut", String.valueOf(dateDebut));
+			obj.put("dateFin", String.valueOf(dateFin));
+			
+			System.out.println(obj);	
+			JSONObject reponseSearch = this.client.sendMessage(obj);
+			this.client.stopConnection(); 
 			break; 
 
-
 		}
+	}
 
 	}
-}
+
 
 }
 	
