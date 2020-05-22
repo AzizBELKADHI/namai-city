@@ -45,44 +45,44 @@ public class ControllerPollution implements ActionListener {
 			}
 			else if(!pcp.getjFrequence().getText().equals("") && !estUnEntier(pcp.getjFrequence().getText())) {
 				JOptionPane.showMessageDialog(null, "\r\n" + 
-						"The field reserved for the  frequency threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
+						"The field reserved for the  frequency  must be an integer", "writing error", JOptionPane.ERROR_MESSAGE);
 			} 
 			
 
 
 		if (pcp.getJtSeuil_CO2().getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "all values must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, " the CO2 threshold must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
 
 		}
 		else if(!pcp.getJtSeuil_CO2().getText().equals("") && !estUnEntier(pcp.getJtSeuil_CO2().getText())) {
 			JOptionPane.showMessageDialog(null, "\r\n" + 
-					"The field reserved for the max CO2 threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
+					"The field reserved for the  CO2 threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
 		} 
 
 
 		if(pcp.getJtSeuil_NO2().getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "all values must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "the NO2 threshold must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
 
 		}
 
 		else if(!pcp.getJtSeuil_NO2().getText().equals("") && !estUnEntier(pcp.getJtSeuil_NO2().getText())) {
 			JOptionPane.showMessageDialog(null, "\r\n" + 
-					"The field reserved for the max NO2 threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
+					"The field reserved for the  NO2 threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
 		}
 
 
 
 		if(pcp.getJtSeuil_PM().getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "all values must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "the PM threshold must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
 
 		}
 		else if(!pcp.getJtSeuil_PM().getText().equals("")&& !estUnEntier(pcp.getJtSeuil_PM().getText())) {
 			JOptionPane.showMessageDialog(null, "\r\n" + 
-					"The field reserved for the max PM threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
+					"The field reserved for the PM threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		if (pcp.getJtSeuil_Min_Tmp().getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "all values must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "the min temperature threshold must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
 
 		}
 
@@ -91,7 +91,7 @@ public class ControllerPollution implements ActionListener {
 					"The field reserved for the minimal temperature threshold is not an integer", "writing error", JOptionPane.ERROR_MESSAGE);
 		}
 		if(pcp.getJtSeuil_Max_Tmp().getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "all values must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "the max temperature threshold must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
 
 		}
 		else if(!pcp.getJtSeuil_Max_Tmp().getText().equals("") && !estUnEntier(pcp.getJtSeuil_Max_Tmp().getText())) {

@@ -253,6 +253,7 @@ public class ThreadServer extends Thread {
 					capteurPolluant.put("seuil_pf", rs2.getString("seuil_pf"));
 					capteurPolluant.put("seuil_min_tmp", rs2.getString("seuil_min_tmp"));
 					capteurPolluant.put("seuil_max_tmp", rs2.getString("seuil_max_tmp"));
+					capteurPolluant.put("frequence", rs2.getString("frequence"));
 					// adding each capteur to the list already created
 					listCapteurs.add(capteurPolluant);
 
