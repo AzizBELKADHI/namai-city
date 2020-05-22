@@ -38,7 +38,20 @@ public class ControllerPollution implements ActionListener {
 
 		if(e.getSource().equals(pcp.getSubmit())) {
 			
+			if(pcp.getJtLocalisation().getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "the localisation must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
 
+			}
+			
+			
+			if(e.getSource().equals(pcp.getSubmit())) {
+				
+				if(pcp.getJtAdresseIp().getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "the adresse ip file must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
+
+				}
+			
+			
 			if (pcp.getjFrequence().getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "the frequency value must be filled", "Insertion Error", JOptionPane.ERROR_MESSAGE);
 
@@ -115,7 +128,9 @@ public class ControllerPollution implements ActionListener {
 				(!pcp.getJtSeuil_Min_Tmp().getText().equals("")&& estUnEntier(pcp.getJtSeuil_Min_Tmp().getText()))&&
 				(!pcp.getJtSeuil_Max_Tmp().getText().equals("") && estUnEntier(pcp.getJtSeuil_Max_Tmp().getText()))&&
 				(!pcp.getjFrequence().getText().equals("")&& estUnEntier(pcp.getjFrequence().getText()))&&
-				(min<max)) {	
+				(min<max) && 
+				!pcp.getJtLocalisation().getText().equals("")&& 
+				!pcp.getJtAdresseIp().getText().equals("")) {	
 
 			CapteurPolluant cp = new CapteurPolluant();
 			cp.setAdresse_ip(pcp.getJtAdresseIp().getText());
@@ -140,8 +155,10 @@ public class ControllerPollution implements ActionListener {
 		}
 		if(e.getSource().equals(pcp.getList())) {
 			CapteurTableModel ct= new CapteurTableModel();
-			
 		}
+		
+		}
+		
 
 	}
 
