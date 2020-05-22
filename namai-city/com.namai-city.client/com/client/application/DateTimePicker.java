@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.awt.*;
 
+// class called in the Pannel search history cars to select a date and an hour in the GUI 
+
 public class DateTimePicker extends JXDatePicker {
     private JSpinner timeSpinner;
     private JPanel timePanel;
@@ -104,24 +106,4 @@ public class DateTimePicker extends JXDatePicker {
         this.timeFormat = timeFormat;
         updateTextFieldFormat();
     }
-
-  /*  public static void main(String[] args) {
-        Date date = new Date();
-        JFrame frame = new JFrame();
-        frame.setTitle("selectionner date et heure");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DateTimePicker dateTimePicker = new DateTimePicker();
-        dateTimePicker.setFormats( DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.MEDIUM ) );
-        dateTimePicker.setTimeFormat( DateFormat.getTimeInstance( DateFormat.MEDIUM ) );
-
-        dateTimePicker.setDate(date);
-        
-        System.out.println(dateTimePicker.getDate());
-        DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.mmm");
-        Date a = dateTimePicker.getDate();
-        System.out.println(f.format(a));
-        frame.getContentPane().add(dateTimePicker);
-        frame.pack();
-        frame.setVisible(true);
-    }*/
 }

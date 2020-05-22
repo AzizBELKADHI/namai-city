@@ -59,6 +59,11 @@ public class ThreadServer extends Thread {
 			JSONObject jsonObject = (JSONObject) obj;  
 			System.out.println("----bonjour je viens de parser le JSON");
 			System.out.println(resp);
+			
+			/*calls the bornesState method from Bornes to get the states and
+			 * send the result to the client in a JSON File using the socket if 
+			 * it gets a demand from the client
+			 */
 			if(jsonObject.get("demandType").equals("getInitialInfos")) {
 				new carsHistory(c);
 				System.out.println("nombre max de véhicules dans la ville: " + carsHistory.maxCars);
@@ -66,16 +71,28 @@ public class ThreadServer extends Thread {
 				outJson.println(obj1);
 			}
 			
+			/*calls the riseBornes method from Bornes to change the states of the bornes to 1
+			 * send the success or fail messsage to the client in a JSON File using the socket
+			 */
+			
 			if(jsonObject.get("demandType").equals("RiseBornes")) {
 				obj1 = bornes.riseBornes();
 				outJson.println(obj1); 
 			}
 			
+			
+			/*calls the LowerBornes method from Bornes to change the states of the bornes to 0
+			 * send the success or fail messsage to the client in a JSON File using the socket
+			 */
+			
 			if(jsonObject.get("demandType").equals("LowerBornes")) {
 				obj1 = bornes.lowerBornes();
 				outJson.println(obj1); 
 			}
-			
+
+			/*calls the updateMaxCars method from carsHistory to change the limit of cars in town
+			 * send the new limit to the client in a JSON File using the socket
+			 */	
 			if(jsonObject.get("demandType").equals("ChangeLimit")) {
 				long idcaste = Long.valueOf(jsonObject.get("maxCars").toString());
 				int idJson = (int) idcaste;
@@ -86,6 +103,11 @@ public class ThreadServer extends Thread {
 				outJson.println(obj1); 
 			}
 			
+			/* used to launch the thread that simulate the movements of cars in the town
+			 * by giving him the test file which represents the cars scanned by the sensors 
+			 * 
+			 */
+			
 			if(jsonObject.get("demandType").equals("launchSimulation")) {
 				JSONObject obja = new JSONObject();
 				obja.put("reponse", String.valueOf("la simulation a été lancé"));
@@ -93,6 +115,10 @@ public class ThreadServer extends Thread {
 				CarSensors test = new CarSensors(c, inputStream);
 				test.start();  
 			}
+			
+			/* used to get the data sent by the user and calling the method that returns 
+			 * the results in cars history and send them to the user using the socket 
+			 */
 			
 			if(jsonObject.get("demandType").equals("filterVehicule")) {
 				Object objSearch = new Object();

@@ -54,6 +54,8 @@ public class TestJson {
 		
 	}
 	
+	/* method called when the program starts it calls the server to get all the bornes states and
+	 * also the initial number of cars actually in town and the initial max in the server */
 	
 	public static JSONObject getBornes() throws SQLException, IOException,UnsupportedEncodingException {
 		SocketClient client = new SocketClient();
@@ -68,6 +70,9 @@ public class TestJson {
 		return reponseBornes; 
 		
 	}
+	
+	/* method that takes in parameter the new max vehicules authorised in town  and updates the 
+	 * the table with it by replacing the old one*/
 	
 	public static JSONObject changeMax(int max) throws SQLException, IOException,UnsupportedEncodingException {
 		SocketClient client = new SocketClient();
@@ -84,6 +89,9 @@ public class TestJson {
 		
 	}
 	
+	/* function used to launch the cars simulation when the server receive a launch simulation 
+	 demand it starts the thread that insert the cars in tables to increase or decrease cars in town  */
+	
 	public static JSONObject launchSimulation() throws SQLException, IOException,UnsupportedEncodingException {
 		System.out.println("je rentre deja dans la simulation");
 		SocketClient client = new SocketClient();
@@ -99,6 +107,8 @@ public class TestJson {
 		
 	}
 	
+	/*************************** static method that sends a demand via the socket to the server to 
+	rise the bornes by changing their state ***********************/	
 	
 	public static JSONObject riseBornes() throws SQLException, IOException,UnsupportedEncodingException {
 		System.out.println("l'état des bornes va etre modifié");
@@ -115,6 +125,9 @@ public class TestJson {
 		
 	}
 	
+	/*************************** static method that sends a demand via the socket to the server to 
+								lower the bornes by changeing their state ***********************/
+	
 	public static JSONObject LowerBornes() throws SQLException, IOException,UnsupportedEncodingException {
 		System.out.println("l'état des bornes va etre modifié");
 		SocketClient client = new SocketClient();
@@ -130,6 +143,9 @@ public class TestJson {
 		
 	}
 	
+	/* static method that takes in parameter the filters selected by the user and send them to the user
+	 * in order to get from the history table the cars corresponding to the criteria 
+	 */
 	
 	public static JSONObject searchVehicule(String dateDebut, String dateFin, String zone, String type) throws SQLException, IOException,UnsupportedEncodingException {
 		System.out.println("je rentre deja dans la recherche vehicules");

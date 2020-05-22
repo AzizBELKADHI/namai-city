@@ -1,6 +1,6 @@
-	package com.client.view;
+package com.client.view;
 	
-	import java.awt.BorderLayout;
+import java.awt.BorderLayout;
 	import java.awt.Button;
 	import java.awt.CardLayout;
 	import java.awt.Color;
@@ -32,200 +32,225 @@ import org.json.simple.JSONObject;
 	import com.client.application.DateTimePicker;
 	import com.client.application.TestJson;
 	
-	public class PanneauBorne extends JPanel implements ActionListener {
-		private JMenuItem historique,limiteVoitures; 
-		private JButton bouton;
-		private JLabel label;
-		private JTable tableau;
-		private JLabel labelNbCars; 
-		private ArrayList<JSONObject> allBornes;
-		private JComboBox liste1;
-		private JComboBox liste2;
-		private Object[][] data;
-		private JButton boutonFiltre;
-		private JPanel Panneau1;
-		private JPanel Panneau2;
-		private JPanel Panneau3;
-		private DateTimePicker dateTimePicker;
-		private DateTimePicker dateTimePickerFin;
-		private JScrollPane pane;
-		private Object[][] dataCars;
-		private String  title[];
-	    private JTable tableauCars;
-	    private JPanel panneauFiltre;
-	    private JLabel l1;
-		private JLabel l2;
-		private JTextField newNbMax;
-		private JButton submit;
-		private int maxCars;
-		private JLabel maxVehicule;
-	    private JLabel labelMaxCars;
-	    private int checkActualCars;
-
+public class PanneauBorne extends JPanel implements ActionListener {
+	private JMenuItem historique,limiteVoitures; 
+	private JButton bouton;
+	private JLabel label;
+	private JTable tableau;
+	private JLabel labelNbCars; 
+	private ArrayList<JSONObject> allBornes;
+	private JComboBox liste1;
+	private JComboBox liste2;
+	private Object[][] data;
+	private JButton boutonFiltre;
+	private JPanel Panneau1;
+	private JPanel Panneau2;
+	private JPanel Panneau3;
+	private DateTimePicker dateTimePicker;
+	private DateTimePicker dateTimePickerFin;
+	private JScrollPane pane;
+	private Object[][] dataCars;
+	private String  title[];
+    private JTable tableauCars;
+    private JPanel panneauFiltre;
+    private JLabel l1;
+	private JLabel l2;
+	private JTextField newNbMax;
+	private JButton submit;
+	private int maxCars;
+	private JLabel maxVehicule;
+    private JLabel labelMaxCars;
+    private int checkActualCars;
 		
 		
-		public PanneauBorne() {
-			revalidate();
-			repaint();
-		}
+	public PanneauBorne() {
+			//refresh the Pannel to be able to see the lastest data
+		revalidate();
+		repaint();
+	}
 		
+		//method that is launch to get the bornes and their states and calling functions to retreive data 
+		// and launch simulations
 		
+	public void init() throws UnsupportedEncodingException, SQLException, IOException {  
+		// creation of tabs one for each different functionnality of the UC
+		JTabbedPane selection = new JTabbedPane();
+		this.setLayout(new CardLayout());
+		this.add(selection);
+		System.out.println("je rentre dans le PanneauBorne()");
 		
-		public void init() throws UnsupportedEncodingException, SQLException, IOException {  
-	
-			JTabbedPane selection = new JTabbedPane();
-			this.setLayout(new CardLayout());
-			this.add(selection);
-			System.out.println("je rentre dans le PanneauBorne()");
-			JSONObject bornes = TestJson.getBornes();     
+		//calling static method from testJson to get bornes state
+		JSONObject bornes = TestJson.getBornes();     
 	  
-			label = new JLabel();
-			label.setText("changement");
-			this.allBornes = (ArrayList<JSONObject>) bornes.get("bornes");
-			this.data = new Object[allBornes.size()][3];
-			for(int i = 0; i<allBornes.size(); i++) {
+		label = new JLabel();
+		label.setText("changement");
+			// treatment of the data received from the server and processing them and put
+			// in data object[][] to build the table 
+		this.allBornes = (ArrayList<JSONObject>) bornes.get("bornes");
+		this.data = new Object[allBornes.size()][3];
+		for(int i = 0; i<allBornes.size(); i++) {
 			
-					data[i][0] = allBornes.get(i).get("Id_borne");
-					data[i][1] = allBornes.get(i).get("position");
-					if(allBornes.get(i).get("state").equals("0")) {
-						data[i][2] = "baissé";
-					}
-					else {
-						data[i][2] = "relevé";
-					}
-			
-			}
+				data[i][0] = allBornes.get(i).get("Id_borne");
+				data[i][1] = allBornes.get(i).get("position");
+				if(allBornes.get(i).get("state").equals("0")) {
+					data[i][2] = "baissé";
+				}
+				else {
+					data[i][2] = "relevé";
+				}
+						}
 			  
-			    //Les titres des colonnes
-			    String  title[] = {"borne", "position", "état"};
-			    tableau = new JTable(data, title);
-			    JPanel panneauBornesOrigine = new JPanel();
-			    JPanel panneauBornes = new JPanel();
-			    maxCars = Integer.valueOf((String) bornes.get("maxCars"));
-			    checkActualCars = Integer.valueOf(bornes.get("actualCars").toString());
-			    labelNbCars = new JLabel("nombre de voitures actuellement :" + bornes.get("actualCars"));
-			    labelMaxCars = new JLabel("nombre de voitures maximum :" + maxCars);
-			    panneauBornesOrigine.add(labelNbCars);
-			    panneauBornesOrigine.add(labelMaxCars);
-			    panneauBornes.add(new JScrollPane(tableau));
-			    labelNbCars.setFont(new Font("Dialog", Font.BOLD, 14));
-			    labelMaxCars.setFont(new Font("Dialog", Font.BOLD, 14));
-			    Border border = BorderFactory.createLineBorder(Color.black, 2);
-			    labelNbCars.setBorder(border);
-			    labelMaxCars.setBorder(border);
-	
-			    Dimension d = new Dimension( 400, 200 );
-			    tableau.setPreferredScrollableViewportSize( d );
-			    Panneau1 = new JPanel();
-			    Panneau1.setLayout(new BoxLayout(Panneau1, BoxLayout.Y_AXIS));
-			    Panneau2 = new JPanel();
-			    Panneau2.setLayout(new BorderLayout());
-			    panneauFiltre = new JPanel();
-			    JLabel dateDebut = new JLabel("date debut :");
-			    JLabel dateFin = new JLabel("date fin :");
-			    JLabel zone = new JLabel("zone :");
-			    JLabel type = new JLabel("type :");
-			    Date date = new Date();
-			    dateTimePicker = new DateTimePicker();
-		        dateTimePicker.setFormats( DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.MEDIUM ) );
-		        dateTimePicker.setTimeFormat( DateFormat.getTimeInstance( DateFormat.MEDIUM ) );
-		        dateTimePicker.setDate(date);
+			  //creating titles of the table  
+		    String  title[] = {"borne", "position", "état"};
+		    tableau = new JTable(data, title);
+		    
+		  //creating Jpanels one that will contain the table with bornes infos and another 
+		  // Panel that will contain the informations about cars in town   
+		    JPanel panneauBornesOrigine = new JPanel();
+		    JPanel panneauBornes = new JPanel();
+		  // initialise variables to store maxCars and actual cars in town
+		  // the JSON that contains bornes state also contains initial infos about cars in town
+		    maxCars = Integer.valueOf((String) bornes.get("maxCars"));
+		    checkActualCars = Integer.valueOf(bornes.get("actualCars").toString());
+		    
+		    labelNbCars = new JLabel("nombre de voitures actuellement :" + bornes.get("actualCars"));
+		    labelMaxCars = new JLabel("nombre de voitures maximum :" + maxCars);
+		    
+		    panneauBornesOrigine.add(labelNbCars);
+		    panneauBornesOrigine.add(labelMaxCars);
+		    panneauBornes.add(new JScrollPane(tableau));
+		    labelNbCars.setFont(new Font("Dialog", Font.BOLD, 14));
+		    labelMaxCars.setFont(new Font("Dialog", Font.BOLD, 14));
+		    Border border = BorderFactory.createLineBorder(Color.black, 2);
+		    labelNbCars.setBorder(border);
+		    labelMaxCars.setBorder(border);
+			    
+			    //creating the table and adding infos to the different pannels 
+		    Dimension d = new Dimension( 400, 200 );
+		    tableau.setPreferredScrollableViewportSize( d );
+		    Panneau1 = new JPanel();
+		    Panneau1.setLayout(new BoxLayout(Panneau1, BoxLayout.Y_AXIS));
+		    
+		    //adding filters selection to search in cars history 
+		    Panneau2 = new JPanel();
+		    Panneau2.setLayout(new BorderLayout());
+		    panneauFiltre = new JPanel();
+		    JLabel dateDebut = new JLabel("date debut :");
+		    JLabel dateFin = new JLabel("date fin :");
+		    JLabel zone = new JLabel("zone :");
+		    JLabel type = new JLabel("type :");
+			    
+			    //crating instances of dateTimePicker to select the wanted date and time 
+		    Date date = new Date();
+		    dateTimePicker = new DateTimePicker();
+	        dateTimePicker.setFormats( DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.MEDIUM ) );
+	        dateTimePicker.setTimeFormat( DateFormat.getTimeInstance( DateFormat.MEDIUM ) );
+		    dateTimePicker.setDate(date);
 		        
-		        Date dateFinAff = new Date();
-		        dateTimePickerFin = new DateTimePicker();
-		        dateTimePickerFin.setFormats( DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.MEDIUM ) );
-		        dateTimePickerFin.setTimeFormat( DateFormat.getTimeInstance( DateFormat.MEDIUM ) );
-		        dateTimePickerFin.setDate(dateFinAff);
-		        panneauFiltre.add(dateDebut);
-		        panneauFiltre.add(dateTimePicker);
-		        panneauFiltre.add(dateFin);
-		        panneauFiltre.add(dateTimePickerFin);
-		        boutonFiltre = new JButton("recherche");
-		        Object[] elements = new Object[]{"Entree", "Sortie", "Les deux"};
-				liste1 = new JComboBox(elements);
-				liste1.setBackground(Color.white);
-
-		        Object[] elements2 = new Object[]{"Nord", "Sud", "Est", "Ouest","toute la ville"};
-				liste2 = new JComboBox(elements2);
-				liste2.setBackground(Color.white);
+		    Date dateFinAff = new Date();
+		    dateTimePickerFin = new DateTimePicker();
+            dateTimePickerFin.setFormats( DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.MEDIUM ) );
+	        dateTimePickerFin.setTimeFormat( DateFormat.getTimeInstance( DateFormat.MEDIUM ) );
+		    dateTimePickerFin.setDate(dateFinAff);
 		        
-				panneauFiltre.add(type);
-				panneauFiltre.add(liste1);
-				
-				panneauFiltre.add(zone);
-				panneauFiltre.add(liste2);
-				panneauFiltre.add(boutonFiltre);
-				boutonFiltre.addActionListener(this);
-				
-			    bouton = new JButton("lancer simulation");
-			    bouton.addActionListener(this);
-			    
-			    Panneau3 = new JPanel();
-			    Panneau3.setForeground(Couleur.getBgApp());
-				Panneau3.setFont(new Font("Arial", Font.BOLD, 14) );
-				Panneau3.setBorder(new LineBorder(Couleur.getBgTitle()));
-				l1 = new JLabel("vehicules max actuelles");
-				l2 = new JLabel("nouveau max vehicules");
-				maxVehicule = new JLabel("  "+ maxCars);
-				newNbMax = new JTextField();
-				submit = new JButton("Valider");
-				submit.addActionListener(this);
-				GridBagLayout a  = new GridBagLayout();
-				GridBagConstraints c = new GridBagConstraints();
-				
-				Panneau3.setLayout(a);
-				
-				c.gridx = 0;
-				c.gridy = 0;
-				Panneau3.add(l1,c);
-				
-				c.gridx = 1;
-				c.gridy = 0;
-				Panneau3.add(l2,c);
-				
-				c.gridx = 0;
-				c.gridy = 1;
-				c.weightx = 0.3;
-				maxVehicule.setPreferredSize(new Dimension(150,25));
-				Panneau3.add(maxVehicule,c);
-				
-				
-				c.gridx = 1;
-				c.gridy = 1;
-				c.weightx = 0.3;
-				newNbMax.setPreferredSize(new Dimension(150,25));
-				Panneau3.add(newNbMax,c);
-				
-				
-				c.gridx = 2;
-				c.gridy = 1;
-				c.weightx = 0.2;
-				c.insets = new Insets(30,30,30,30);
-				submit.setPreferredSize(new Dimension(100,25));
-				Panneau3.add(submit,c);	
+		        //adding the filters to the search history pannel
+		    panneauFiltre.add(dateDebut);
+		    panneauFiltre.add(dateTimePicker);
+		    panneauFiltre.add(dateFin);
+	        panneauFiltre.add(dateTimePickerFin);
+		    boutonFiltre = new JButton("recherche");
+	        Object[] elements = new Object[]{"Entree", "Sortie", "Les deux"};
+			liste1 = new JComboBox(elements);
+			liste1.setBackground(Color.white);
 
-				panneauBornesOrigine.add(bouton);
-			    Panneau1.add(panneauBornes);
-			    Panneau1.add(panneauBornesOrigine);
+		    Object[] elements2 = new Object[]{"Nord", "Sud", "Est", "Ouest","toute la ville"};
+			liste2 = new JComboBox(elements2);
+			liste2.setBackground(Color.white);
+		        
+			panneauFiltre.add(type);
+			panneauFiltre.add(liste1);
+			panneauFiltre.add(zone);
+			panneauFiltre.add(liste2);
+			panneauFiltre.add(boutonFiltre);
+			boutonFiltre.addActionListener(this);
+				
+				//creating the button to launch the cars simulation
+			bouton = new JButton("lancer simulation");
+			bouton.addActionListener(this);
 			    
-			    Panneau2.add(panneauFiltre, BorderLayout.NORTH);
-			    selection.addTab("Infos bornes", Panneau1);
-			    selection.addTab("Historique", Panneau2);
-			    selection.addTab("changer Seuil Vehicules", Panneau3);
+			    //creating the third panel that is used to change the max cars allowed in town 
+			Panneau3 = new JPanel();
+			Panneau3.setForeground(Couleur.getBgApp());
+			Panneau3.setFont(new Font("Arial", Font.BOLD, 14) );
+			Panneau3.setBorder(new LineBorder(Couleur.getBgTitle()));
+			l1 = new JLabel("vehicules max actuelles");
+			l2 = new JLabel("nouveau max vehicules");
+			maxVehicule = new JLabel("  "+ maxCars);
+			newNbMax = new JTextField();
+			submit = new JButton("Valider");
+			submit.addActionListener(this);
+			GridBagLayout a  = new GridBagLayout();
+			GridBagConstraints c = new GridBagConstraints();
+				
+			Panneau3.setLayout(a);
+				
+			c.gridx = 0;
+			c.gridy = 0;
+			Panneau3.add(l1,c);
+				
+			c.gridx = 1;
+			c.gridy = 0;
+			Panneau3.add(l2,c);
+				
+			c.gridx = 0;
+			c.gridy = 1;
+			c.weightx = 0.3;
+			maxVehicule.setPreferredSize(new Dimension(150,25));
+			Panneau3.add(maxVehicule,c);
+				
+				
+			c.gridx = 1;
+			c.gridy = 1;
+			c.weightx = 0.3;
+			newNbMax.setPreferredSize(new Dimension(150,25));
+			Panneau3.add(newNbMax,c);
+				
+				
+			c.gridx = 2;
+			c.gridy = 1;
+			c.weightx = 0.2;
+			c.insets = new Insets(30,30,30,30);
+			submit.setPreferredSize(new Dimension(100,25));
+			Panneau3.add(submit,c);	
+				
+				//adding pannels to the different tabs and adding all these infos these tabs
+			panneauBornesOrigine.add(bouton);
+			Panneau1.add(panneauBornes);
+			Panneau1.add(panneauBornesOrigine);
+			    
+			Panneau2.add(panneauFiltre, BorderLayout.NORTH);
+			    
+			selection.addTab("Infos bornes", Panneau1);
+			selection.addTab("Historique", Panneau2);
+			selection.addTab("changer Seuil Vehicules", Panneau3);
 			    
 			    
-			}     
+			}
+		
+//*********************************** actions on the change cars limit tab *********************		
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 		
 				if(e.getSource() == submit) {	
-					
 					try {
 						System.out.println(newNbMax.getText());
 						int a = Integer.valueOf(newNbMax.getText());
 						JSONObject rep = TestJson.changeMax(a);
 						System.out.println(rep);
 						System.out.println("nombre de vehicules actuellement: " + checkActualCars);
+			//when the user submit the new max cars limit compare it to the actual number of cars
+			// in the town and rise or lower the bornes depending of the new number submitted
+			//refresh the data on the screen
 						if(checkActualCars > a) {
 							for(int i = 0; i<allBornes.size(); i++) {
 								data[i][2] = "relevé";						
@@ -252,8 +277,11 @@ import org.json.simple.JSONObject;
 						e1.printStackTrace();
 					}
 
-				}    
+				}   
 				
+				
+			//getting the data chosen by the user and sending them to the server using search vehicule 
+			//method and printing on the screen the data received in response 	
 				if(e.getSource() == boutonFiltre) {
 					 pane =new JScrollPane();
 					 DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.mmm");
@@ -263,6 +291,7 @@ import org.json.simple.JSONObject;
 				     String y = String.valueOf(liste2.getSelectedItem());
 				     System.out.println(x + " " + y);
 				     try {
+				//calling the method to get history cars using the filters of the user and displaying the results    	 
 						JSONObject rep = TestJson.searchVehicule(f.format(a), f.format(b), y, x);
 						ArrayList<JSONObject> allCars = (ArrayList<JSONObject>) rep.get("voitures");
 						dataCars = new Object[allCars.size()][4];
@@ -279,8 +308,6 @@ import org.json.simple.JSONObject;
 								}
 						
 						}
-						  
-						    //Les titres des colonnes
 						    String title[] = {"vehicule", "date et heure", "position", "type"};
 						    tableauCars = new JTable(dataCars, title);
 						    Panneau2.removeAll();			
@@ -299,7 +326,10 @@ import org.json.simple.JSONObject;
 
 				}     
 				
-				
+		//the button used to launch simulation added for the tests but not present on the application
+		// it is used to show on the demonstration how the cars enter and leave the town and the evolution 
+		//a new thread is created that exclusivly communicate with the server and receives the number 
+		//of cars in town. 		
 				if(e.getSource() == bouton) {	  
 					try {
 						System.out.println("je suis ici je vais lancer la simulation");
@@ -314,6 +344,9 @@ import org.json.simple.JSONObject;
 									String rep = dis.readUTF();
 									JSONParser parser = new JSONParser(); 
 									JSONObject json;
+							
+		//the JSON used to receive the number of cars in town also contains an alert message
+		//if the number of vehicules reachs the nb max to notify the client to change the bornes 
 									try {
 										json = (JSONObject) parser.parse(rep);
 										if(json.containsKey("etat")) { 

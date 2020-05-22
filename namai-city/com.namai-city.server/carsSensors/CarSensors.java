@@ -27,7 +27,11 @@ public class CarSensors extends Thread {
 		this.c = c;
 		this.inputStream = inputStream;
 	}
-	
+	/*the class CarSensors gets the data used for the simulation and analyze these data and
+	 * proceed to the count and the insertion to the vehicules history by using methods from
+	 * carsHistory class. every object of the inputed file pass throgh tests
+	 * 
+	 */
 	public void run() {
 		
 			try {
@@ -73,7 +77,9 @@ public class CarSensors extends Thread {
 		JSONParser parser = new JSONParser(); 
 		JSONArray json;
 		json = (JSONArray) parser.parse(myjsonstring);
-		 
+		/* the simulation file is parsed and transformed to a json file in order to be analyzed 
+		 * in the steps above
+		 */
 		System.out.println(json);
 		int flag;
 		if(carsHistory.totalCars >= carsHistory.maxCars) {
