@@ -249,6 +249,15 @@ public class NetworkCard extends JFrame{
     repaint();
    
   }
+  
+      
+	  
+ 
+  
+  
+  
+  
+ 
 
 
 
