@@ -30,8 +30,17 @@ public class SocketClient {
 		outJson = new PrintWriter(socketClient.getOutputStream(), true);
 		inJson = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
 	}
+	
+		public static JSONObject sendMessage(JSONObject JsonMsg) throws IOException {
+			outJson.println(JsonMsg);
+			String resp = inJson.readLine();
+			Object obj=JSONValue.parse(resp); 
+			JSONObject jsonObject = (JSONObject) obj;  
+			return jsonObject;
+		}
+		
 
-	public static JSONObject sendMessage(JSONObject JsonMsg) {
+	public static JSONObject sendMessage2(JSONObject JsonMsg) {
 		JSONObject jsonObject = new JSONObject(); 
 		try {
 			System.out.println(JsonMsg); 

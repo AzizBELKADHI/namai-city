@@ -16,7 +16,7 @@ public class Car {
 		if (JsonRecu.get("demandType").equals("CAR_INDICATOR")) {
 
 			try {
-				PreparedStatement stmt1 = c.prepareStatement("select nb_voitures,date from frequentation_voiture group by (date,nb_voitures);"); 
+				PreparedStatement stmt1 = c.prepareStatement("select * from frequentation_voiture;"); 
 
 				System.out.println("execution de la requête");
 				ResultSet rs2 = stmt1.executeQuery();

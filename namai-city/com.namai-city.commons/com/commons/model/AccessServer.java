@@ -20,7 +20,7 @@ public class AccessServer {
 			
 			try {
 				
-				input = new FileInputStream("./ressources/client.properties");
+				input = getClass().getClassLoader().getResourceAsStream("client.properties");
 
 				// load a properties file
 				prop.load(input);

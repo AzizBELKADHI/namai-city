@@ -14,6 +14,10 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 
 import com.connectionPool.DataSource;
+
+import bornes.Borne;
+import carsHistory.carsHistory;
+import carsSensors.CarSensors;
 import controller.DBConnectController;
 import entities.AlertePolluant;
 import entities.CapteurPolluant;

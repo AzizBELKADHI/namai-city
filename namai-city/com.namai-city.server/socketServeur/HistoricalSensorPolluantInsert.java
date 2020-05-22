@@ -25,7 +25,7 @@ public class HistoricalSensorPolluantInsert {
 		StringBuffer sb = new StringBuffer();
 
 		// lecture du JSON afin de mettre chaque ligne en chaîne de caractère
-		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("historicalSensorPolluant.json"); 
+		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("HistoricalSensorPolluant.json"); 
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
 		try {
 			String temp; 
@@ -48,27 +48,26 @@ public class HistoricalSensorPolluantInsert {
 
 		for (int i = 0; i < json.size(); i++) {
 			JSONObject jsonObject = (JSONObject) json.get(i);
-			Time hour = Time.valueOf((String) jsonObject.get("start_heure")); 
-			Date date =  Date.valueOf((String) jsonObject.get("start_date")); 
 			String co2 =  String.valueOf(jsonObject.get("val_co2")); 
 			String no2 =  String.valueOf(jsonObject.get("val_no2"));
 			String pf =  String.valueOf(jsonObject.get("val_pf"));
 			String tmp =  String.valueOf(jsonObject.get("val_tmp"));
 			Long id = (Long) (jsonObject.get("fk_id_capteur"));
 			int foreignId = id.intValue(); 
+			Timestamp date = Timestamp.valueOf((String) jsonObject.get("start_date")); 
+			
 			
 			 
 			System.out.println("Parcours de la liste des capteurs " + date ); 
 		
-			PreparedStatement stmt3 = c.prepareStatement("insert into historique_capteurpol (start_heure,start_date,val_co2,val_no2,val_pf,val_tmp,fk_id_capteur) values (?,?,?,?,?,?,?);");
+			PreparedStatement stmt3 = c.prepareStatement("insert into historique_capteurpol (val_co2,val_no2,val_pf,val_tmp,fk_id_capteur,start_date) values (?,?,?,?,?,?);");
 			// the request takes name and first name already retrieved 
-			stmt3.setTime(1,hour);
-			stmt3.setDate(2,date);
-			stmt3.setString(3, co2);
-			stmt3.setString(4, no2);
-			stmt3.setString(5, pf);
-			stmt3.setString(6, tmp);
-			stmt3.setInt(7, foreignId);
+			stmt3.setString(1, co2);
+			stmt3.setString(2, no2);
+			stmt3.setString(3, pf);
+			stmt3.setString(4, tmp);
+			stmt3.setInt(5, foreignId);
+			stmt3.setTimestamp(6, date); 
 			// query execution 
 			
 			System.out.println("recupération des données"); 
@@ -79,13 +78,12 @@ public class HistoricalSensorPolluantInsert {
 			// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
 			if(stmt3.executeUpdate()>=1) {
 				obj.put("reponse",String.valueOf("insertion reussi"));
-				obj.put("start_heure", hour);
-				obj.put("start_date",date);
 				obj.put("val_co2",co2);
 				obj.put("val_no2",no2);
 				obj.put("val_pf",pf);
 				obj.put("val_tmp",tmp);
 				obj.put("fk_id_capteur",foreignId);
+				obj.put("start_date",date);
 				
 				System.out.println("Insertion des lignes en base faite"); 
 			}

@@ -15,7 +15,7 @@ public class SensorPolluant {
 
 		if (JsonRecu.get("demandType").equals("SENSOR_POLLUANT_INDICATOR")) {
 			try {
-				PreparedStatement stmt1 = c.prepareStatement("select count(*) as nb_alerte,start_date,localisation,val_co2,val_pf, val_no2, val_tmp from historique_capteurpol, capteur_polluant where historique_capteurpol.fk_id_capteur = capteur_polluant.id group by (localisation,start_date, val_co2,val_no2,val_pf,val_tmp);");
+				PreparedStatement stmt1 = c.prepareStatement("select count(*) as nb_alerte, localisation from historique_capteurpol, capteur_polluant where historique_capteurpol.fk_id_capteur = capteur_polluant.id group by (localisation);");
 				ResultSet rs2 = stmt1.executeQuery();
 
 
@@ -23,7 +23,7 @@ public class SensorPolluant {
 				ArrayList<JSONObject> listSensorPolluant = new ArrayList<JSONObject>();
 
 				while (rs2.next()) {
-					SensorPolluantIndicator sensor = new SensorPolluantIndicator(0,null, rs2.getString("localisation"), rs2.getInt("nb_alerte"), rs2.getString("val_co2"),rs2.getString("val_pf"),rs2.getString("val_no2"),rs2.getString("val_tmp")); 
+					SensorPolluantIndicator sensor = new SensorPolluantIndicator(0,null, rs2.getString("localisation"), rs2.getInt("nb_alerte"),null,null,null,null); 
 					//System.out.println("récuperation des résultats du select"); 
 					JSONObject sensorJSON = sensor.convertToJSON();
 
@@ -269,7 +269,7 @@ public class SensorPolluant {
 
 				ArrayList<JSONObject> listPolluantAlerte = new ArrayList<JSONObject>();
 				while (rs2.next()) {
-					SensorPolluantIndicator sensor = new SensorPolluantIndicator(0,null, rs2.getString("val_co2"),rs2.getString("val_no2"),rs2.getString("val_pf"),rs2.getString("val_tmp"), rs2.getInt("fk_id_capteur")); 
+					SensorPolluantIndicator sensor = new SensorPolluantIndicator(0,rs2.getTimestamp("start_date"), rs2.getString("val_co2"),rs2.getString("val_no2"),rs2.getString("val_pf"),rs2.getString("val_tmp"), rs2.getInt("fk_id_capteur")); 
 					//System.out.println("récuperation des résultats du select"); 
 					JSONObject sensorJSON = sensor.convertToJSON();
 
@@ -297,6 +297,8 @@ public class SensorPolluant {
 
 		return obj;
 	}
+	
+	
 }
 
 

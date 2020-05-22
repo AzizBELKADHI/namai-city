@@ -1,21 +1,21 @@
 [
 
 	{
-"id_borne" : 7,
-"position" : "Est",
+"id_borne" : 10,
+"position" : "Ouest",
 "state" : 0
 
 },
 	{
-"id_borne" : 8,
-"position" : "Est",
+"id_borne" : 11,
+"position" : "Ouest",
 "state" : 0
 
 },
 
 	{
-"id_borne" : 9,
-"position" : "Est",
+"id_borne" : 12,
+"position" : "Ouest",
 "state" : 0
 
 }

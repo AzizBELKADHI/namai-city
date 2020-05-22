@@ -1,0 +1,41 @@
+[
+
+	{
+"val_co2" : "500",
+"val_no2" : "200",
+"val_pf" : "150",
+"val_tmp" : "38",
+"fk_id_capteur" : 3,
+"start_date" : "2020-05-21 10:20:41"
+
+	}, 
+	{
+"val_co2" : "450",
+"val_no2" : "460",
+"val_pf" : "100",
+"val_tmp" : "-38",
+"fk_id_capteur" : 2,
+"start_date" : "2020-05-20 12:45:10"
+
+	}, 
+	
+	{
+"val_co2" : "300",
+"val_no2" : "250",
+"val_pf" : "120",
+"val_tmp" : "49",
+"fk_id_capteur" : 2,
+"start_date" : "2020-05-17 14:38:20"
+
+	}, 
+	{
+"val_co2" : "300",
+"val_no2" : "250",
+"val_pf" : "120",
+"val_tmp" : "-25",
+"fk_id_capteur" : 3,
+"start_date" : "2020-05-22 07:20:40"
+
+	}
+	
+]

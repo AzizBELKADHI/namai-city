@@ -2,6 +2,8 @@ package com.client.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -18,6 +20,7 @@ public class ApplicationController implements ActionListener {
 	private MenuApplication ma;
 	private ConnectionNamaiCity cn;
 	private PanneaApplication pa;
+	private int i = 0;
 	
 	public ApplicationController(ConnectionNamaiCity cn) {
 		this.ma=ma;
@@ -53,9 +56,25 @@ public class ApplicationController implements ActionListener {
 			}
 			
 			else if(choix.equals("empreinteCarbone")) {
-				cn.getPa().getPuc().setCard("panneauEmpreinte");
+				cn.getPa().getPuc().setCard("panneauEmpreinteX");
+				
+				
 			}
 			else if(choix.equals("configBorne")) {
+				System.out.println("j'appui sur ce panneau bornes");
+				try {
+					if(i == 0) {
+					cn.getPa().getPuc().getBorne().init();
+					i = 1;
+					}
+					else {
+					cn.revalidate();
+					cn.repaint();
+					}
+				} catch (SQLException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				cn.getPa().getPuc().setCard("panneauBorne");
 			}
 			else if(choix.equals("analyse")) {

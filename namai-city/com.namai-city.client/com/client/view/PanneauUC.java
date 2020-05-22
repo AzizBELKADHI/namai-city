@@ -9,8 +9,8 @@ public class PanneauUC extends JPanel {
 	private PanneauBorne borne;
 	private PanneauConfigurationPollution pollution;
 	private PanneauDetecteur detecteur;
-	private PanneauEmpreinte empreinte;
-	private PanneauIndicateur indicateur;
+	private PanneauDetecteur empreinte;
+	private PanneauIndicator indicateur;
 	private MenuApplication ma;
 	private CardLayout cl;
 	private PanneauBienvenueNamaiCity bienvenue;
@@ -21,8 +21,8 @@ public class PanneauUC extends JPanel {
 		borne = new PanneauBorne();
 		pollution = new PanneauConfigurationPollution();
 		detecteur = new PanneauDetecteur();
-		empreinte = new PanneauEmpreinte();
-		indicateur = new PanneauIndicateur();
+		empreinte = new PanneauDetecteur();
+		indicateur = new PanneauIndicator();
 		bienvenue = new PanneauBienvenueNamaiCity();
 		ma = new MenuApplication();
 		//pollution.setBackground(Color.BLUE);
@@ -33,7 +33,7 @@ public class PanneauUC extends JPanel {
 		this.add("panneauBorne", borne);
 		this.add("panneauPollution", pollution);
 		this.add("panneauDetecteur", detecteur);
-		this.add("panneauEmpreinte", empreinte);
+		this.add("panneauDetecteur", detecteur);
 		this.add("panneauIndicateur", indicateur);
 		//cl.show(bienvenue, "panneauBienvenue");
 	}
@@ -49,10 +49,10 @@ public class PanneauUC extends JPanel {
 	public PanneauDetecteur getDetecteur() {
 		return detecteur;
 	}
-	public PanneauEmpreinte getEmpreinte() {
+	public PanneauDetecteur getEmpreinte() {
 		return empreinte;
 	}
-	public PanneauIndicateur getIndicateur() {
+	public PanneauIndicator getIndicateur() {
 		return indicateur;
 	}
 	public CardLayout getCl() {
