@@ -95,6 +95,15 @@ public class CarSensors extends Thread {
 			double taille = Double.parseDouble(String.valueOf(jsonObject.get("taille")));
 			String objet =  String.valueOf(jsonObject.get("objet")); 
 			JSONObject rep = new JSONObject();
+			
+			/*this function is implemented but not used because there is no data for tests 
+			 * JSONObject alert = carsHistory.PollutionAlert()
+			 * if((alert.get("alerte_pollution").toString()).equals("declanche"){
+			 * 		bornes.riseBornes();
+			 * }
+			 * 
+			 */
+			
 			if(objet.equals("ambulance")) {
 				carsSimulation.addCarToHistory(objet, "vehicule prioritaire", id_sensor);
 				rep.put("special", "vehicule prioritaire");
@@ -104,7 +113,7 @@ public class CarSensors extends Thread {
 			
 			if(taille >=2.50 && taille <12) {
 				try {
-					if(carsHistory.totalCars < carsHistory.maxCars || id_sensor == 2 || id_sensor == 4 || id_sensor == 6 ||id_sensor == 8 ) { 
+					if(carsHistory.totalCars < carsHistory.maxCars /*&& !bornes.forbiddenPassage() */ || id_sensor == 2 || id_sensor == 4 || id_sensor == 6 ||id_sensor == 8 ) { 
 						carsSimulation.addCarToHistory(objet, "voiture", id_sensor);
 						sleep(2000);
 						}
@@ -119,7 +128,7 @@ public class CarSensors extends Thread {
 			
 			if(taille >=12) {
 				try {
-					if(carsHistory.totalCars < carsHistory.maxCars || id_sensor == 2 || id_sensor == 4) { 
+					if(carsHistory.totalCars < carsHistory.maxCars /*&& !bornes.forbiddenPassage() */ || id_sensor == 2 || id_sensor == 4) { 
 					carsSimulation.addCarToHistory(objet, "poids-lourd", id_sensor);
 					sleep(2000);
 					}
@@ -145,7 +154,11 @@ public class CarSensors extends Thread {
 					flag = 1;
 					}
 			}
-			if(carsHistory.totalCars < carsHistory.maxCars) {
+			
+			/* check if there is not a lot of cars to lower bornes; it also checks if there is no 
+			 * active pollution alert in order to do that
+			 */
+			if(carsHistory.totalCars < carsHistory.maxCars /* && alert.get("alerte_pollution").toString()).equals("normale") */) {
 				if(flag == 1) {
 					bornes.lowerBornes();
 					rep.put("etat",String.valueOf("normal"));

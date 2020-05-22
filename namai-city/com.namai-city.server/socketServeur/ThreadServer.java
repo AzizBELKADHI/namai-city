@@ -43,7 +43,7 @@ public class ThreadServer extends Thread {
 	public void run()  {
 
 		try {
-			
+			// get the file used for tests simulation
 			InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream("simulation.json"); 
 			// processing part of Json 
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);

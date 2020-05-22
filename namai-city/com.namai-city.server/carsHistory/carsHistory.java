@@ -32,7 +32,9 @@ public class carsHistory {
 		}
 	}
 	
-	
+	/* method to get the actual number of cars in town it used in the beginning and the data are
+	 * used by the Thread server and sent to the Client
+	 */
 	public int getCars() throws SQLException, InterruptedException {
 		PreparedStatement stmtJson = c.prepareStatement("SELECT nb_voitures FROM frequentation_voiture ORDER BY date DESC LIMIT 1");
 		ResultSet response = stmtJson.executeQuery();
@@ -40,7 +42,7 @@ public class carsHistory {
 		int voitures = 0;
 
 		while (response.next())  {
-			//recovery of the data of the user in question 
+			//recovery of the data of the the table in question 
 			cpt++;
 			voitures = response.getInt("nb_voitures");
 		}
@@ -52,6 +54,10 @@ public class carsHistory {
 		// displaying the json 
 		return voitures; 
 	}
+	
+	/* method to get the max number of cars in town it used in the beginning and the data are
+	 * used by the Thread server and sent to the Client
+	 */
 	
 	public int carsLimit() throws SQLException, InterruptedException {
 		PreparedStatement stmtJson = c.prepareStatement("SELECT max_voitures FROM voitures_limit");
@@ -72,6 +78,9 @@ public class carsHistory {
 		return maxVoitures; 
 	}
 	
+	/* method used to update the max cars in town
+	 * 
+	 */
 	
 	public JSONObject updateMaxCars(int maxCars) throws SQLException {
 		System.out.println(maxCars);
@@ -234,6 +243,29 @@ public class carsHistory {
 		}
 		obj.put("voitures", listvoitures);
 		return obj; 
+	}
+	
+	//function used to get the pollution alert if it is raised or not
+	
+	public Object PollutionAlert() throws SQLException, InterruptedException {
+		
+		PreparedStatement stmt1 = c.prepareStatement("select alerte_etat from historique_alerte ORDER BY date_debut DESC LIMIT 1;");
+		ResultSet rs2 = stmt1.executeQuery();
+		int i = 0;
+		// creation of users list 
+		JSONObject alertePollution=new JSONObject();
+		while (rs2.next()) {
+			i++;
+			alertePollution.put("alertePollution", rs2.getString("alerte_etat"));
+			System.out.println("les bornes sont actuellement levé: " + alertePollution);
+		}
+		if(i == 0) {
+			alertePollution.put("alertePollution", String.valueOf("impossible de recuperer les donnees") );
+			return alertePollution;
+		}
+		else {
+			return alertePollution;
+		}
 	}
 	
 }
