@@ -21,16 +21,18 @@ import entities.HistoriqueCapteurPolluant;
 public class ThreadCapteurPolluant implements Runnable {
 	private SocketClient client;
 	private CapteurPolluant capteurPolluant;
+	private String frequence;
 	private Random rd;
 	private Map<String, String> mapHistoriques = new HashMap<String, String>();
 	private List<HistoriqueCapteurPolluant> listScenarios = new ArrayList<>();
 
 	public ThreadCapteurPolluant(CapteurPolluant capteurPolluant2, SocketClient client2,
-			Map<String, String> mapHistoriques) {
+			Map<String, String> mapHistoriques,String frequence) {
 		this.client = client2;
 		this.capteurPolluant = capteurPolluant2;
 		rd = new Random();
 		this.mapHistoriques = mapHistoriques;
+		//this.frequence = capteurPolluant2.getFrequence();
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class ThreadCapteurPolluant implements Runnable {
 					//récupération de la dernière temperature
 					tmp = Integer.parseInt(h.getVal_tmp());
 					
-					Thread.sleep(2000);
+					Thread.sleep(3000);
 				}
 				
 
@@ -124,7 +126,7 @@ public class ThreadCapteurPolluant implements Runnable {
 
 					reponseServ = sendPllutionHistorical(hRandom);
 					System.out.println("Capteur: "+this.capteurPolluant.getId()+"-Reponse Serveur: "+reponseServ);
-					Thread.sleep(2000); 
+					Thread.sleep(3000); 
 
 
 				} catch (IOException | InterruptedException e) {

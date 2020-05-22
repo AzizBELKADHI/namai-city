@@ -43,41 +43,41 @@ public class ThreadServer extends Thread {
 	}
 
 	public void run()  {
-
 		try {
 			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
-			inJson  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
-
-
-			// processing part of Json 
-
-			outJson = new PrintWriter(clientSocket.getOutputStream(), true);
 			inJson = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			String resp = inJson.readLine();
-			System.out.println("----bonjour je viens de récuperer le JSON");
-			System.out.println(resp);
 
-			Object obj=JSONValue.parse(resp); 
-			System.out.println("----bonjour je parse le JSON");
-			System.out.println(resp);
-			JSONObject jsonObject = (JSONObject) obj;  
-			System.out.println("----bonjour je viens de parser le JSON");
-			System.out.println(resp);
+			do {
+				String resp = inJson.readLine();
+				System.out.println("----bonjour je viens de récuperer le JSON");
+				System.out.println(resp);
+				Object obj=JSONValue.parse(resp); 
+				System.out.println("----bonjour je parse le JSON");
+				System.out.println(resp);
+				JSONObject jsonObject = (JSONObject) obj;  
+				System.out.println("----bonjour je viens de parser le JSON");
+				System.out.println(resp);
+				obj = crud(jsonObject); 
+				// Once the Json had been processed, closing the socket and releasing the connection
 
-			JSONObject objResponse = crud(jsonObject); 
-			// Once the Json had been processed, closing the socket and releasing the connection
-			String respToSend = objResponse.toString();
-			outJson.println(respToSend);
-			DataSource.releaseConnection(c); 
-			inJson.close();
-			outJson.close();
-			clientSocket.close();
-		} catch (Exception e) {
+				outJson.println(obj);
+
+				/*
+				 * DataSource.releaseConnection(c); inJson.close(); outJson.close();
+				 * clientSocket.close();
+				 */
+			}while(!clientSocket.isClosed());
+
+		}catch (Exception e) {
 			System.out.println("--------Un client s'est déconnecté de manière précipitée !-------");
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
+
+
+
 		DBConnectController.clientsState(false);
 	}
+
 
 
 	// crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
@@ -175,54 +175,64 @@ public class ThreadServer extends Thread {
 				return obj; 
 			}
 			
+			
 			if(JsonRecu.get("demandType").equals("INSERT_CAPTEUR_POLLUANT")) {
 				System.out.println("Je suis rentré dans la requête INSERT"); 
 				// recovery of data that the client had completed (name / first name
-				String insertAdresse_Ip =(String) JsonRecu.get("Adresse_Ip");
-				String insertlocalisation =(String) JsonRecu.get("localisation");
-				String iseuil_co2 =(String) JsonRecu.get("Seuil_CO2");
-				String iseuil_no2 =(String) JsonRecu.get("Seuil_NO2");
-				String iseuil_pm =(String) JsonRecu.get("Seuil_PM");
-				String iseuil_min_tmp =(String) JsonRecu.get("Seuil_Min_Tmp");
-				String iseuil_max_tmp =(String) JsonRecu.get("Seuil_Max_Tmp");
+				String adresse_ip = (String) JsonRecu.get("adresse_ip");
+				String localisation =(String) JsonRecu.get("localisation");
+				String seuil_co2 =(String) JsonRecu.get("seuil_co2");
+				String seuil_no2 =(String) JsonRecu.get("seuil_no2");
+				String seuil_pf =(String) JsonRecu.get("seuil_pf");
+				String seuil_min_tmp =(String) JsonRecu.get("seuil_min_tmp");
+				String seuil_max_tmp =(String) JsonRecu.get("seuil_max_tmp");
+				String frequence = (String)JsonRecu.get("frequence");
 				System.out.println("bonjour voici les donnees recu apres traitement");
-			System.out.println(insertAdresse_Ip +  " " + insertlocalisation + " " + iseuil_co2 + " " 
-									+ iseuil_no2 + " " + iseuil_pm + " " + iseuil_min_tmp + " " + iseuil_max_tmp);
-				String adresse_ip = String.valueOf(insertAdresse_Ip);
-				String localisation = String.valueOf(insertlocalisation);
-				String seuil_co2 = String.valueOf(iseuil_co2);
-				String seuil_no2 = String.valueOf(iseuil_no2);
-				String seuil_pf = String.valueOf(iseuil_pm);
-				String seuil_min_tmp = String.valueOf(iseuil_min_tmp);
-				String seuil_max_tmp = String.valueOf(iseuil_max_tmp);
-				PreparedStatement stmt = c.prepareStatement("insert into capteur_polluant (adresse_ip,localisation,seuil_co2,seuil_no2,seuil_pf,seuil_min_tmp, seuil_max_tmp) values (?,?,?,?,?,?,?);");
+			System.out.println(adresse_ip +  " " + localisation + " " + seuil_co2 + " " 
+									+ seuil_no2 + " " + seuil_pf + " " + seuil_min_tmp + " " + seuil_max_tmp + frequence+"");
+				/*
+				 * String adresse_ip = String.valueOf(adresse_ip); String localisation =
+				 * String.valueOf(insertlocalisation); String seuil_co2 =
+				 * String.valueOf(iseuil_co2); String seuil_no2 = String.valueOf(iseuil_no2);
+				 * String seuil_pf = String.valueOf(iseuil_pm); String seuil_min_tmp =
+				 * String.valueOf(iseuil_min_tmp); String seuil_max_tmp =
+				 * String.valueOf(iseuil_max_tmp);
+				 */
+				PreparedStatement stmt = c.prepareStatement("update capteur_polluant set adresse_ip = ?,seuil_co2 =?,seuil_no2=?,seuil_pf=?,seuil_min_tmp=?, seuil_max_tmp=?,frequence =? where localisation=?;");
 				// the request takes name and first name already retrieved 
 				stmt.setString(1,adresse_ip);
-				stmt.setString(2,localisation);
-				stmt.setString(3,seuil_co2);
-				stmt.setString(4,seuil_no2);
-				stmt.setString(5,seuil_pf);
-				stmt.setString(6,seuil_min_tmp);
-				stmt.setString(7,seuil_max_tmp);
+				stmt.setString(2,seuil_co2);
+				stmt.setString(3,seuil_no2);
+				stmt.setString(4,seuil_pf);
+				stmt.setString(5,seuil_min_tmp);
+				stmt.setString(6,seuil_max_tmp);
+				stmt.setString(7,frequence);
+				stmt.setString(8, localisation);
 				// query execution 
-				stmt.execute();
-
+				
 				JSONObject obj=new JSONObject(); 
+				if(stmt.executeUpdate()>=1) {
+					obj.put("reponse",String.valueOf("mise à jour réussi réussi"));
+					obj.put("Adresse_ip",adresse_ip);
+					obj.put("localisation",localisation);
+					obj.put("Seuil_CO2",seuil_co2);
+					obj.put("Seuil_NO2",seuil_no2);
+					obj.put("Seuil_PM",seuil_pf);
+					obj.put("Seuil_Min_Tmp",seuil_min_tmp);
+					obj.put("Seuil_Max_Tmp",seuil_max_tmp);
+					System.out.println(obj);
+					return obj; 
+				}
+				else {
+					obj.put("reponse",String.valueOf("erreur lors de la mise a jour verifier l'id"));
+				}
 
 				// if (insertion bien passé) => executer les lignes suivantes sinon dire erreur
-				obj.put("reponse",String.valueOf("insertion réussi"));
-				obj.put("Adresse_ip",adresse_ip);
-				obj.put("localisation",localisation);
-				obj.put("Seuil_CO2",seuil_co2);
-				obj.put("Seuil_NO2",seuil_no2);
-				obj.put("Seuil_PM",seuil_pf);
-				obj.put("Seuil_Min_Tmp",seuil_min_tmp);
-				obj.put("Seuil_Max_Tmp",seuil_max_tmp);
-				System.out.println(obj);
-				return obj; 
+				
 				
 				
 			}
+			
 			if(JsonRecu.get("demandType").equals("SELECT_ALL_CAPTEUR_POLLUANT")) {
 
 				PreparedStatement stmt1 = c.prepareStatement("select * from capteur_polluant;");

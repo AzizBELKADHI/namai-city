@@ -23,6 +23,7 @@ public class PanneauConfigurationPollution extends JPanel {
 	private JLabel a1;
 	private JLabel a2;
 	private JLabel a3;
+	private JLabel fre;
 	private JTextField jtLocalisation;
 	private JTextField jtAdresseIp;
 	private JTextField jtSeuil_CO2;
@@ -30,7 +31,9 @@ public class PanneauConfigurationPollution extends JPanel {
 	private JTextField jtSeuil_PM;
 	private JTextField jtSeuil_Min_Tmp;
 	private JTextField jtSeuil_Max_Tmp;
+	private JTextField jFrequence ;
 	private JButton submit;
+	private JButton list;
 	public PanneauConfigurationPollution() {
 		//this.setBackground(Couleur.getBgThem());
 		this.setForeground(Couleur.getBgApp());
@@ -43,6 +46,7 @@ public class PanneauConfigurationPollution extends JPanel {
 		m2 = new JLabel("Seuil_Max_Tmp");
 		m3 = new JLabel("Seuil_NO2");
 		a2 = new JLabel("Seuil_PM");
+		fre = new JLabel("Frequence");
 		
 		jtSeuil_Min_Tmp = new JTextField();
 		jtLocalisation = new JTextField();
@@ -51,8 +55,11 @@ public class PanneauConfigurationPollution extends JPanel {
 		jtSeuil_NO2 = new JTextField();
 		jtSeuil_PM = new JTextField();
 		jtSeuil_Max_Tmp = new JTextField();
+		jFrequence = new  JTextField();
 		
 		submit = new JButton("SUBMIT"); 
+		list = new JButton("ListCapteur");
+		
 		GridBagLayout a  = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -74,7 +81,7 @@ public class PanneauConfigurationPollution extends JPanel {
 		
 		c.gridx = 1;
 		c.gridy = 1;
-		c.weightx = 0.3;
+		c.weightx = 0.5;
 		jtLocalisation.setPreferredSize(new Dimension(150,25));
 		this.add(jtLocalisation,c);
 		
@@ -85,7 +92,7 @@ public class PanneauConfigurationPollution extends JPanel {
 		
 		c.gridx = 0;
 		c.gridy = 3;
-		c.weightx = 0.3;
+		c.weightx = 0.2;
 		jtSeuil_CO2.setPreferredSize(new Dimension(150,25));
 		this.add(jtSeuil_CO2,c);
 		
@@ -95,7 +102,7 @@ public class PanneauConfigurationPollution extends JPanel {
 		
 		c.gridx = 1;
 		c.gridy = 3;
-		c.weightx = 0.3;
+		c.weightx = 0.2;
 		jtSeuil_NO2.setPreferredSize(new Dimension(150,25));
 		this.add(jtSeuil_NO2,c);
 		
@@ -105,7 +112,7 @@ public class PanneauConfigurationPollution extends JPanel {
 		
 		c.gridx = 2;
 		c.gridy = 3;
-		c.weightx = 0.3;
+		c.weightx = 0.5;
 		jtSeuil_PM.setPreferredSize(new Dimension(150,25));
 		this.add(jtSeuil_PM,c);
 		
@@ -115,7 +122,7 @@ public class PanneauConfigurationPollution extends JPanel {
 		
 		c.gridx = 0;
 		c.gridy = 5;
-		c.weightx = 0.3;
+		c.weightx = 0.5;
 		jtSeuil_Min_Tmp.setPreferredSize(new Dimension(150,25));
 		this.add(jtSeuil_Min_Tmp,c);
 		
@@ -125,7 +132,7 @@ public class PanneauConfigurationPollution extends JPanel {
 		
 		c.gridx = 1;
 		c.gridy = 5;
-		c.weightx = 0.3;
+		c.weightx = 0.5;
 		jtSeuil_Max_Tmp.setPreferredSize(new Dimension(150,25));
 		this.add(jtSeuil_Max_Tmp,c);
 		
@@ -134,8 +141,35 @@ public class PanneauConfigurationPollution extends JPanel {
 		c.gridy = 4;
 		c.weightx = 0.5;
 		c.insets = new Insets(25,25,25,25);
+		fre.setPreferredSize(new Dimension(100,25));
+		this.add(fre,c);
+		c.gridx =2;
+		c.gridy = 5;
+		c.weightx = 0.5;
+		c.insets = new Insets(25,25,25,25);
+		jFrequence.setPreferredSize(new Dimension(100,25));
+		this.add(jFrequence,c);	
+		
+		/*
+		 * c.gridx =3; c.gridy = 4; c.weightx = 0.5; c.insets = new Insets(25,25,25,25);
+		 * list.setPreferredSize(new Dimension(100,25)); this.add(list,c)
+		 */;
+		
+		c.gridx = 3;
+		c.gridy = 2;
+		c.weightx = 0.3;
+		this.add(list,c);
+		
+		c.gridx =3;
+		c.gridy = 3;
+		c.weightx = 0.5;
+		c.insets = new Insets(25,25,25,25);
 		submit.setPreferredSize(new Dimension(100,25));
 		this.add(submit,c);	
+		
+		
+		
+		
 		System.out.println("cool");
 		
 		
@@ -190,6 +224,18 @@ public class PanneauConfigurationPollution extends JPanel {
 	}
 	public JButton getSubmit() {
 		return submit;
+	}
+	public JButton getList() {
+		return list;
+	}
+	public void setList(JButton list) {
+		this.list = list;
+	}
+	public JTextField getjFrequence() {
+		return jFrequence;
+	}
+	public void setjFrequence(JTextField jFrequence) {
+		this.jFrequence = jFrequence;
 	}
 	
 }

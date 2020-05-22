@@ -75,7 +75,7 @@ public class MockPolluantController {
 				Map<String, String> mapHistoriques = new HashMap<String, String>();
 				mapHistoriques = this.scenarios.get(String.valueOf(capteurPolluant.getId()));
 					
-				Thread thread = new Thread(new ThreadCapteurPolluant(capteurPolluant, client, mapHistoriques));
+				Thread thread = new Thread(new ThreadCapteurPolluant(capteurPolluant, client, mapHistoriques,capteurPolluant.getFrequence()));
 				thread.start();
 			}
 			
@@ -89,14 +89,15 @@ public class MockPolluantController {
 	private ArrayList<CapteurPolluant> selectAllCapteurPolluant() throws IOException {
 		JSONObject obj=new JSONObject();
 		obj.put("demandType",String.valueOf("SELECT_ALL_CAPTEUR_POLLUANT"));
-		System.out.println(obj);
+		System.out.println(obj.toString());
 		JSONObject reponse; 
 		ArrayList<CapteurPolluant> listCapteurs = new ArrayList<CapteurPolluant>();
 		reponse = SocketClient.sendMessage(obj);
 		ArrayList<JSONObject> listRepServeur= (ArrayList<JSONObject>) reponse.get("listCapteurs");
-		//System.out.println( listRepServeur.toString()+"\n"); // Display data
+		System.out.println( listRepServeur.toString()+"\n"); // Display data
 
 		for (JSONObject repServeur : listRepServeur) {
+			String frequence = (String)repServeur.get("frequence");
 			Long id = (Long) repServeur.get("id");
 			String adresse_ip = (String)repServeur.get("adresse_ip");
 			String localisation = (String)repServeur.get("localisation");
@@ -105,8 +106,9 @@ public class MockPolluantController {
 			String seuil_pf = (String)repServeur.get("seuil_pf");
 			String seuil_min_tmp = (String)repServeur.get("seuil_min_tmp");
 			String seuil_max_tmp = (String)repServeur.get("seuil_max_tmp");
-
-			listCapteurs.add(new CapteurPolluant(id, adresse_ip, localisation, seuil_co2, seuil_no2, seuil_pf, seuil_min_tmp, seuil_max_tmp));
+			
+			
+					listCapteurs.add(new CapteurPolluant(id, adresse_ip, localisation, seuil_co2, seuil_no2, seuil_pf, seuil_min_tmp, seuil_max_tmp,frequence));
 		}
 
 		return listCapteurs;

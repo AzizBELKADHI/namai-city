@@ -10,6 +10,7 @@ public class CapteurPolluant {
 	private String seuil_pf;
 	private String seuil_min_tmp;
 	private String seuil_max_tmp;
+	private String frequence;
 	
 	public CapteurPolluant() {
 		
@@ -20,7 +21,7 @@ public class CapteurPolluant {
 	
 	
 	public CapteurPolluant(Long id, String adresse_ip, String localisation, String seuil_co2, String seuil_no2,
-			String seuil_pf, String seuil_min_tmp, String seuil_max_tmp) {
+			String seuil_pf, String seuil_min_tmp, String seuil_max_tmp,String frequence) {
 		super();
 		this.id = id;
 		this.adresse_ip = adresse_ip;
@@ -30,6 +31,7 @@ public class CapteurPolluant {
 		this.seuil_pf = seuil_pf;
 		this.seuil_min_tmp = seuil_min_tmp;
 		this.seuil_max_tmp = seuil_max_tmp;
+		this.frequence = frequence;
 	}
 
 
@@ -112,6 +114,20 @@ public class CapteurPolluant {
 		return "CapteurPolluant [id=" + id + ", adresse_ip=" + adresse_ip + ", localisation=" + localisation
 				+ ", seuil_co2=" + seuil_co2 + ", seuil_no2=" + seuil_no2 + ", seuil_pf=" + seuil_pf
 				+ ", seuil_min_tmp=" + seuil_min_tmp + ", seuil_max_tmp=" + seuil_max_tmp + "]";
+	}
+
+
+
+
+	public String getFrequence() {
+		return frequence;
+	}
+
+
+
+
+	public void setFrequence(String frequence) {
+		this.frequence = frequence;
 	}
 	
 	
