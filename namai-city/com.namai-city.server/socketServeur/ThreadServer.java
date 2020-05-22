@@ -26,8 +26,6 @@ import indicator.Car;
 import indicator.Sensor;
 import indicator.SensorPolluant;
 import indicator.Tram;
-import indicator.Warning;
-import indicator.WarningIndicator;
 
 import java.io.*; 
 import java.net.*;
@@ -101,8 +99,6 @@ public class ThreadServer extends Thread {
 					obj1 = bornes.lowerBornes();
 					outJson.println(obj1); 
 				}
-
-<<<<<<< HEAD
 				/*calls the updateMaxCars method from carsHistory to change the limit of cars in town
 				 * send the new limit to the client in a JSON File using the socket
 				 */	
@@ -157,31 +153,23 @@ public class ThreadServer extends Thread {
 			}while(!clientSocket.isClosed());
 
 		}catch (Exception e) {
-=======
 			//IF CASE : INSTANCE REALDATA ET LANCEMENT METHODE footprint OUTJSON
 			
-			outJson.println(obj);
-			DataSource.releaseConnection(c); 
+			//outJson.println(obj);
+			/*DataSource.releaseConnection(c); 
 			inJson.close();
 			outJson.close();
-			clientSocket.close();
-		} catch (Exception e) {
->>>>>>> refs/remotes/origin/AbdelkaderBenSalem
+			clientSocket.close();*/
+
 			System.out.println("--------Un client s'est déconnecté de manière précipitée !-------");
 			System.out.println(e.getMessage());
-		}
+		} 
 
 
 
 		DBConnectController.clientsState(false);
 	}
-<<<<<<< HEAD
-
-
-
-=======
 	
->>>>>>> refs/remotes/origin/AbdelkaderBenSalem
 	// crud method allowing to according to customer's choice (select / insert/ update / delete) to do the request
 	private JSONObject crud(JSONObject JsonRecu)  {
 
@@ -471,11 +459,11 @@ public class ThreadServer extends Thread {
 			}
 
 			// MOCK TEST 
-			if (JsonRecu.get("demandType").equals("MOCK_SENSOR_INSERT")) {
+			/*if (JsonRecu.get("demandType").equals("MOCK_SENSOR_INSERT")) {
 				System.out.println("CAPTEUR");
 				SensorInsert sensorInsert = new SensorInsert(); 
 				sensorInsert.insertSensor(JsonRecu, c); 
-			}
+			}*/
 
 			if (JsonRecu.get("demandType").equals("MOCK_CAR_INSERT")) {
 				System.out.println("FREQUENTATION-VOITURE");
@@ -488,12 +476,12 @@ public class ThreadServer extends Thread {
 				StationTramInsert stationInsert = new StationTramInsert(); 
 				stationInsert.insertStation(JsonRecu, c); 
 			}
-
+/*
 			if (JsonRecu.get("demandType").equals("MOCK_PERS_STATION_INSERT")) {
 				System.out.println("FREQUENTATION PERSONNE STATION ");
 				StationTramInsert stationInsert = new StationTramInsert(); 
 				stationInsert.insertPersStation(JsonRecu, c); 
-			}
+			} */
 
 			if (JsonRecu.get("demandType").equals("MOCK_SENSOR_POLLUANT_INSERT")) {
 				System.out.println(" CAPTEUR POLLUANT"); 
@@ -512,120 +500,108 @@ public class ThreadServer extends Thread {
 				bornesInsert.insertBorne(JsonRecu,c); 
 			}
 			
-			
+			if (JsonRecu.get("demandType").equals("MOCK_SENSOR_CAR_INSERT")) {
+				System.out.println("Sensor car"); 
+				SensorCarInsert sensorCarInsert = new SensorCarInsert(); 
+				sensorCarInsert.insertSensorCar(JsonRecu,c); 
+			}
 			// FIN MOCK TEST 
 			
-			// BEGIN TEST REQUESTS
+						// BEGIN TEST REQUESTS
 
-			if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR")) {
+						if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR2")) {
 
-				System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
-				Sensor sensor = new Sensor(); 
-				System.out.println("initialisation de la classe Sensor");
-				JSONObject obj = sensor.getIndicator(JsonRecu,c);
-				return obj; 
+							System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
+							Sensor sensor = new Sensor(); 
+							System.out.println("initialisation de la classe Sensor");
+							JSONObject obj = sensor.getIndicatorBorne(JsonRecu,c);
+							return obj; 
 
-			}
-			
-			if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR2")) {
+						}
+						if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR3")) {
 
-				System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
-				Sensor sensor = new Sensor(); 
-				System.out.println("initialisation de la classe Sensor");
-				JSONObject obj = sensor.getIndicatorBorne(JsonRecu,c);
-				return obj; 
+							System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
+							Sensor sensor = new Sensor(); 
+							System.out.println("initialisation de la classe Sensor");
+							JSONObject obj = sensor.getIndicatorSensorPolluant(JsonRecu,c);
+							return obj; 
 
-			}
-			if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR3")) {
+						}
+						if (JsonRecu.get("demandType").equals("SENSOR_INDICATOR4")) {
 
-				System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
-				Sensor sensor = new Sensor(); 
-				System.out.println("initialisation de la classe Sensor");
-				JSONObject obj = sensor.getIndicatorSensorPolluant(JsonRecu,c);
-				return obj; 
+							System.out.println("le nombre de capteurs par zone selon la date et le type (qualité de l'air, borne...."); 
+							Sensor sensor = new Sensor(); 
+							System.out.println("initialisation de la classe Sensor");
+							JSONObject obj = sensor.getIndicatorSensorCar(JsonRecu,c);
+							return obj; 
 
-			}
-			if (JsonRecu.get("demandType").equals("STATION_INDICATOR")) {
+						}
+						
+						if (JsonRecu.get("demandType").equals("STATION_INDICATOR")) {
 
-				System.out.println("le nombre de station par zone dans la ville: "); 
-				Tram tram = new Tram(); 
-				System.out.println("initialisation de la classe tram");
-				JSONObject obj = tram.stationDAO(JsonRecu,c); 
-				return obj; 
+							System.out.println("le nombre de station par zone dans la ville: "); 
+							Tram tram = new Tram(); 
+							System.out.println("initialisation de la classe tram");
+							JSONObject obj = tram.stationDAO(JsonRecu,c); 
+							return obj; 
 
-			}
+						}
 
-			if (JsonRecu.get("demandType").equals("PERSON_STATION_INDICATOR")) {
+						if (JsonRecu.get("demandType").equals("CAR_INDICATOR")) {
 
-				System.out.println("le nombre de personnes par zone dans la ville: "); 
-				Tram tram = new Tram(); 
-				System.out.println("initialisation de la classe tram"); 
-				JSONObject obj = tram.personStationDAO(JsonRecu,c);
-				return obj; 
-			}
-			if (JsonRecu.get("demandType").equals("CAR_INDICATOR")) {
+							System.out.println("le nombre de voitures par date dans la ville : "); 
+							Car car = new Car(); 
+							System.out.println("initialisation de la classe Car"); 
+							JSONObject obj = car.carDAO(JsonRecu,c);
+							return obj; 
+					
 
-				System.out.println("le nombre de voitures par date dans la ville : "); 
-				Car car = new Car(); 
-				System.out.println("initialisation de la classe Car"); 
-				JSONObject obj = car.carDAO(JsonRecu,c);
-				return obj; 
-		
+						}
+						if (JsonRecu.get("demandType").equals("SENSOR_POLLUANT_INDICATOR")) {
 
-			}
-			if (JsonRecu.get("demandType").equals("WARMING_INDICATOR")) {
+							System.out.println("le nombre d'alerte par date dans la ville : "); 
+							SensorPolluant warning = new SensorPolluant(); 
+							System.out.println("initialisation de la classe sensorPolluant"); 
+							JSONObject obj = warning.getIndicator(JsonRecu,c);
+							return obj;
 
-				System.out.println("le nombre d'alerte par date dans la ville : "); 
-				Warning  warning = new Warning(); 
-				System.out.println("initialisation de la classe WarningIndicator"); 
-				//return warning.warmingDAO(JsonRecu,c); 
+						}
+						if (JsonRecu.get("demandType").equals("getIdSensorPolluant")) {
 
-			}
-			if (JsonRecu.get("demandType").equals("SENSOR_POLLUANT_INDICATOR")) {
+							System.out.println("affichage de tous les id des capteurs polluant: "); 
+							SensorPolluant id = new SensorPolluant(); 
+							System.out.println("initialisation de la classe sensorPolluant"); 
+							JSONObject obj = id.getIdSensorPolluant(JsonRecu,c);
+							return obj;
 
-				System.out.println("le nombre d'alerte par date dans la ville : "); 
-				SensorPolluant warning = new SensorPolluant(); 
-				System.out.println("initialisation de la classe sensorPolluant"); 
-				JSONObject obj = warning.getIndicator(JsonRecu,c);
-				return obj;
+						}
+						if (JsonRecu.get("demandType").equals("getThresholdSensorPolluant")) {
 
-			}
-			if (JsonRecu.get("demandType").equals("getIdSensorPolluant")) {
+							System.out.println("Consultation des polluants"); 
+							SensorPolluant polluant = new SensorPolluant(); 
+							System.out.println("initialisation de la classe sensorPolluant"); 
+							JSONObject obj = polluant.getThreshold(JsonRecu,c);
+							return obj;
 
-				System.out.println("affichage de tous les id des capteurs polluant: "); 
-				SensorPolluant id = new SensorPolluant(); 
-				System.out.println("initialisation de la classe sensorPolluant"); 
-				JSONObject obj = id.getIdSensorPolluant(JsonRecu,c);
-				return obj;
+						}
+						
+						if (JsonRecu.get("demandType").equals("getWarningPolluant")) {
 
-			}
-			if (JsonRecu.get("demandType").equals("getThresholdSensorPolluant")) {
-
-				System.out.println("Consultation des polluants"); 
-				SensorPolluant polluant = new SensorPolluant(); 
-				System.out.println("initialisation de la classe sensorPolluant"); 
-				JSONObject obj = polluant.getThreshold(JsonRecu,c);
-				return obj;
-
-			}
-			
-			if (JsonRecu.get("demandType").equals("getWarningPolluant")) {
-
-				System.out.println("Consultation des polluants"); 
-				SensorPolluant polluant = new SensorPolluant(); 
-				System.out.println("initialisation de la classe sensorPolluant"); 
-				JSONObject obj = polluant.getWarning(JsonRecu,c);
-				return obj;
-			}
-			
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		// Case where no if is checked 
-		return new JSONObject();
-	}
+							System.out.println("Consultation des polluants"); 
+							SensorPolluant polluant = new SensorPolluant(); 
+							System.out.println("initialisation de la classe sensorPolluant"); 
+							JSONObject obj = polluant.getWarning(JsonRecu,c);
+							return obj;
+						}
+						
+						
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
+					// Case where no if is checked 
+					return new JSONObject();
+				}
 	private void detection_alerte_pollution(HistoriqueCapteurPolluant h) throws SQLException {
 		// récupration du capteur
 		CapteurPolluant cp =  this.selectCapteurPolluant(h);

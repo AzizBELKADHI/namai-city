@@ -24,19 +24,24 @@ public class ApplicationController implements ActionListener {
 	private int i = 0;
 	
 	public ApplicationController(ConnectionNamaiCity cn) {
-		this.ma=ma;
-		pa = new PanneaApplication();
-		 ma = new MenuApplication();
-		this.cn = cn;
-		puc = new PanneauUC();
-		cn.getPa().getMa().getIndicateur().addActionListener(this);
-		cn.getPa().getMa().getPollution().addActionListener(this);
-		cn.getPa().getMa().getBorne().addActionListener(this);
-		cn.getPa().getMa().getDetecteur().addActionListener(this);
-		cn.getPa().getMa().getEmpreinte().addActionListener(this);
-		cn.getPa().getMa().getAccueil().addActionListener(this);
-		//pa.getMa().getMen().addActionListener(this);
-		 System.out.println("bonsoir");
+		try {
+			this.ma=ma;
+			pa = new PanneaApplication();
+			 ma = new MenuApplication();
+			this.cn = cn;
+			puc = new PanneauUC();
+			cn.getPa().getMa().getIndicateur().addActionListener(this);
+			cn.getPa().getMa().getPollution().addActionListener(this);
+			cn.getPa().getMa().getBorne().addActionListener(this);
+			cn.getPa().getMa().getDetecteur().addActionListener(this);
+			cn.getPa().getMa().getEmpreinte().addActionListener(this);
+			cn.getPa().getMa().getAccueil().addActionListener(this);
+			//pa.getMa().getMen().addActionListener(this);
+			 System.out.println("bonsoir");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
 		
 	}

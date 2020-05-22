@@ -16,10 +16,9 @@ import com.client.controller.SocketClient;
 import com.commons.model.AccessServer;
 
 import indicator.CarIndicator;
-import indicator.PersonStationIndicator;
 import indicator.SensorIndicator;
 import indicator.StationIndicator;
-import indicator.WarningIndicator;
+
 
 public class TestCLI {
 	private SocketClient client = new SocketClient();

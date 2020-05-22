@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Random;
 
-import test.NetworkCard;
+//import test.NetworkCard;
 
 public class ConnexionServer implements Runnable{
 
@@ -48,8 +48,8 @@ public class ConnexionServer implements Runnable{
             
             //On envoie la commande au serveur
             
-        	 NetworkCard window = new NetworkCard();
-            String commande = window.getChosenShape();
+        	 //NetworkCard window = new NetworkCard();
+            String commande = "";
             
             writer.write(commande);
             //TOUJOURS UTILISER flush() POUR ENVOYER RÉELLEMENT DES INFOS AU SERVEUR
@@ -63,7 +63,7 @@ public class ConnexionServer implements Runnable{
             
            //////////////////////////////////////////////
             
-         String commande2 = window.getChosenWidth();
+         String commande2 = "";//window.getChosenWidth();
          
          writer.write(commande2);
          //TOUJOURS UTILISER flush() POUR ENVOYER RÉELLEMENT DES INFOS AU SERVEUR
@@ -77,7 +77,7 @@ public class ConnexionServer implements Runnable{
             
             ///////////////////////////////////////////
             
-         String commande3 = window.getChosenLength();
+         String commande3 ="";// window.getChosenLength();
          
          writer.write(commande3);
          //TOUJOURS UTILISER flush() POUR ENVOYER RÉELLEMENT DES INFOS AU SERVEUR
@@ -91,7 +91,7 @@ public class ConnexionServer implements Runnable{
           
          ///////////////////////////////////////////
             
-         String commande4 = window.getChosenPoints();
+         String commande4 = "";//window.getChosenPoints();
          
          writer.write(commande4);
          //TOUJOURS UTILISER flush() POUR ENVOYER RÉELLEMENT DES INFOS AU SERVEUR

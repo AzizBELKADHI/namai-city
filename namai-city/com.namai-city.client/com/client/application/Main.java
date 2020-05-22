@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/*
 package com.client.application;
 
 import com.client.controller.ApplicationController;
@@ -30,7 +30,7 @@ private static ConnectionNamaiCity test = new ConnectionNamaiCity();
 	}
 
 }
-=======
+*/
 package com.client.application;
 
 import java.io.IOException;
@@ -56,4 +56,3 @@ private static ConnectionNamaiCity test = new ConnectionNamaiCity();
 	}
 
 }
->>>>>>> refs/remotes/origin/IdirHamdis
