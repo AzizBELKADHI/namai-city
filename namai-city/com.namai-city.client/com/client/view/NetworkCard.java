@@ -1,400 +1,451 @@
 package com.client.view;
 
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
+import javax.swing.JViewport;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
+ ////////////////////////////// 
 
+public class NetworkCard extends javax.swing.JFrame {
 
-//	public void DrawLines(ArrayList<Point2D.Double> graph,Graphics2D g,Color c) {
-//		for (int i = 0; i < graph.size(); i++) {
-//			g.setColor(c);
+    
+    Graphics graphics;
+    boolean firstRun = false;
+    String s = "";
+    int x = 300;
+    int y = 200;
+    int sWidth = 0;
+    int sLength = 0;
+    int pWidth = 0;
+    int pHeigth = 0;
+    int oldWidth = 0;
+    int oldPoint=0;
+    int oldHeigth = 0;
+    String oldShape = "";
+    int point = 0;
 
-//		for (int j = i + 1; j < graph.size(); j++) {
+    JViewport viewport;
+    int xscroll = 0;
+    int yscroll = 0;
+  private final double ENERGY_PRICE = 0.15; // (euro)       0.15€
+    private final double AVERAGE_SPEED = 19.6; // (km/h)  //Vitesse d'un tram est de 19,6 km/h
+    private final double AVERAGE_CONSUMPTION = 120; // (kw/h)  Un tram comsomme 120kw/h
 
-//				double x1 = graph.get(i).x;
-//				double y1 = graph.get(i).y;
-//				double x2 = graph.get(i+1).x;
-//				double y2 = graph.get(i+1).y;
-//				g.draw(new Line2D.Double(x1,y2,x1;y2));
-//			}
+    private double cost = 0;
+    private Random r;  //points//
+    private List<Integer> listOfPoints;
+    public NetworkCard() {
+        initComponents();
+        jScrollPane2.getViewport().addChangeListener(new ListenAdditionsScrolled());
 
-//	}
-
-
-class Surface extends JPanel implements ActionListener {
-
-  private final int DELAY = 150000;
-  private final double ENERGY_PRICE = 0.15; //(euro)
-  private final double AVERAGE_SPEED = 19.6; // (km/h)
-  private final double AVERAGE_CONSUMPTION = 120; //(kw/h)
-  private Timer timer;
-  private String point;
-  private String width;
-  private String height;
-  private double cost = 0;
-
-  private Graphics p;
-  public Surface(String width,String height, String point, Graphics p) {
-    this.width=width;
-    this.height=height;
-    this.point=point;
-    this.p=p;
-    initTimer();
-  }
-
-  private void initTimer() {
-
-    timer = new Timer(DELAY, this);
-    timer.start();
-  }
-
-  public Timer getTimer() {
-
-    return timer;
-  }
-
-  public double calculateDistanceBetweenPoints(
-          int x1,
-          int y1,
-          int x2,
-          int y2) {
-    return Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
-  }
-
-  public boolean notInList(int e, List<Integer> list) {
-    for (int i = 0; i < list.size(); i++) {
-      if (list.get(i) == e) {
-        return  false;
-      }
-    }
-    return true;
-  }
-
-  public int getMinimumDistanceAbscissaIndex(int x, int y, List<Integer> listOfPoints, List<Integer> alreadyFlagged) {
-    int minIndex = 0;
-    double minDistance = Double.MAX_VALUE;
-    for (int i = 0; i < listOfPoints.size(); i+=2) {
-      if (calculateDistanceBetweenPoints(x, y, listOfPoints.get(i), listOfPoints.get(i+1)) < minDistance
-      && (listOfPoints.get(i) != x && listOfPoints.get(i+1) != y) && notInList(i, alreadyFlagged)) {
-        minDistance = calculateDistanceBetweenPoints(x, y, listOfPoints.get(i), listOfPoints.get(i+1));
-        minIndex = i;
-      }
-    }
-    return minIndex;
-  }
-
-
-  public void drawing() {
-
-
-    System.out.println(p);
-    Graphics2D g2d = (Graphics2D) p;
-
-    g2d.setPaint(Color.red);
-
-    g2d.translate(400, 200);
-
-    int w = Integer.parseInt(width);
-    int h = Integer.parseInt(height);
-
-
-    Random r = new Random();
-
-    List<Integer> listOfPoints = new ArrayList<>();
-    int size =  Integer.parseInt(point);
-    for (int i = 0; i < size; i++) {
-
-      int x = Math.abs(r.nextInt(w*10)) % w;
-      int y = Math.abs(r.nextInt(h*10)) % h;
-
-      g2d.drawLine(x, y, x, y);
-      listOfPoints.add(x);
-      listOfPoints.add(y);
     }
 
-    int currentIndex = 0;
-    int closestIndex = 0;
-    double sumDistance = 0;
-    List<Integer> alreadyFlagged = new ArrayList<>();
-    for (int i = 0; i <listOfPoints.size()/2 - 1; i++) {
-      closestIndex = getMinimumDistanceAbscissaIndex(listOfPoints.get(currentIndex), listOfPoints.get(currentIndex + 1), listOfPoints, alreadyFlagged);
-      g2d.drawLine(listOfPoints.get(currentIndex), listOfPoints.get(currentIndex + 1), listOfPoints.get(closestIndex), listOfPoints.get(closestIndex + 1));
-      sumDistance+=calculateDistanceBetweenPoints(listOfPoints.get(currentIndex), listOfPoints.get(currentIndex + 1), listOfPoints.get(closestIndex), listOfPoints.get(closestIndex + 1));
-      alreadyFlagged.add(currentIndex);
-      currentIndex = closestIndex;
+    
+    //  This method is called from within the constructor to initialize the form ///
+     
+    private void initComponents() {
+
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        comboBoxForme = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        textFieldLength = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        textFieldWidth = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        textFieldPoint = new javax.swing.JTextField();
+        btnNewButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        jScrollPane2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jScrollPane2ComponentResized(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+        jLabel1.setText("Shape"); // forme ok
+
+        comboBoxForme.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+        comboBoxForme.setForeground(new java.awt.Color(153, 0, 0));
+        comboBoxForme.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ellipse", "Square", "Rectangle" }));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel2.setText("Length"); // longueur de la forme //
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+        jLabel3.setText("Width"); //largeur de la forme //
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel4.setText("Points"); // means la nombre de station//
+
+        btnNewButton.setBackground(new java.awt.Color(255, 204, 204));
+        btnNewButton.setFont(new java.awt.Font("Tahoma", 1, 12)); 
+        btnNewButton.setForeground(new java.awt.Color(0, 0, 204));
+        btnNewButton.setText("Validate");
+        btnNewButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNewButton.setOpaque(false);
+        btnNewButton.addActionListener(new java.awt.event.ActionListener() {
+        	
+        	////////// 
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setBackground(new java.awt.Color(204, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("Discover the best map network card option for your city");
+        jLabel5.setOpaque(true);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxForme, javax.swing.GroupLayout.Alignment.LEADING, 0, 113, Short.MAX_VALUE)
+                    .addComponent(textFieldLength, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textFieldWidth, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textFieldPoint, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(467, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(comboBoxForme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(textFieldLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(textFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(textFieldPoint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(btnNewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(267, Short.MAX_VALUE))
+        );
+//// SCROLLPANE  ///// for bigger numbers ///
+        jScrollPane2.setViewportView(jPanel1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+        );
+
+        pack();
     }
-    // Coût
-    double cost = ENERGY_PRICE * ((sumDistance * AVERAGE_CONSUMPTION)/AVERAGE_SPEED);
-    this.cost = cost;
-    g2d.drawString((int) cost + "€", 10, 10);
 
-  }
+    ///// MESSAGES D'ERREUR ////
+    
+    private void btnNewButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
-  @Override
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    drawing();
-  }
-
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    repaint();
-  }
-}
-
-
-
-public class NetworkCard extends JFrame{
-  private int nbPoints;
-  private int budget;
-  private int taille;
-  private String forme;
-
-  private JFrame frame;
-  private JTextField textFieldWidth;
-  private JTextField textFieldLength;
-  private JTextField textFieldPoint;
-  private JTextField textField_3;
-
-
-  private JComboBox comboBoxForme;
-
-  int x,y;
-  int ax,by;
-  String s ="";
-
-  static Graphics g ;
-
-
-
-  /**
-   * Launch the application.
-   */
-  public static void main(String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
-          NetworkCard window = new NetworkCard();
-          window.frame.setVisible(true);
-        } catch (Exception e) {
-          e.printStackTrace();
+        if( textFieldLength.getText().length() == 0 || textFieldWidth.getText().length() == 0 || textFieldPoint.getText().length() == 0) {
+    		  JOptionPane.showMessageDialog(null, "You must fill all the fields to continue", "Warning : Empty parameter(s)", JOptionPane.WARNING_MESSAGE);
+    	  }else {
+    		 
+        	  try {
+        sWidth = Integer.parseInt(textFieldWidth.getText());
+        sLength = Integer.parseInt(textFieldLength.getText());
+        point = Integer.parseInt(textFieldPoint.getText());
+        s = (String) comboBoxForme.getItemAt(comboBoxForme.getSelectedIndex());
+        if((sWidth!=oldWidth || sLength!=oldHeigth || point!=oldPoint || s!=oldShape))
+        {
+        firstRun = true;
+        prepare();
+                 
+                 
+            drawing(s);
+        setVisible(true);
+        
         }
-      }
-    });
-  }
-
-  /**
-   * Create the application.
-   */
-  public NetworkCard() {
-    x = 400; //x=200;
-    y = 200;
-    initialize();
-
-  }
-
-
-  public void test(Graphics g) {
-    g.setColor(Color.BLACK);
-    //g.drawString("Design by ", 1200, 400);
-    //g.drawString("NAMAI", 1200, 420);
-    //g.drawString("Y", 610, 70);
-    //g.drawString("Y'", 610, 800);
-    //g.drawString("X", 190, 600);
-    //g.drawString("X'", 1000, 600);
-    System.out.println("x " +x);
-    if(x==300&&y==3000){
-      g.drawString("Origin(0,0)", 310, 314);
-    }
-    //g.drawLine(600, 70, 600, 800);
-    //g.drawLine(200,600,1000,600);
-    if(x>600||y<600){
-      //g.drawString((String) cb.getSelectedItem(), 200, 200);
-      //s= (String) cb.getSelectedItem();
-      //se = (String) cb1.getSelectedItem();
-
-
-      //System.out.println((String)comboBoxForm.getItemAt(0));
-      s= (String) comboBoxForme.getItemAt(comboBoxForme.getSelectedIndex());
-      //s= "Ellipse";
-      // String s = (String) comboBoxForme.getSelectedItem();
-
-
-
+                   }catch(NumberFormatException exc) {
+          		  JOptionPane.showMessageDialog(null, "You must enter valid parameters (number) to continue", "Warning : wrong parameter(s) type", JOptionPane.WARNING_MESSAGE);
+          	  } }
     }
 
-    if(s.equals("Square")){
-      g.setColor(Color.GREEN);
-      g.drawRect(x, y, Integer.parseInt(this.textFieldWidth.getText()), Integer.parseInt(this.textFieldLength.getText()));
-    }
+    public class ListenAdditionsScrolled implements ChangeListener {
 
-
-    else if(s.equals("Rectangle")){
-      g.setColor(Color.RED);
-      g.drawRect(x, y, Integer.parseInt(this.textFieldWidth.getText()), Integer.parseInt(this.textFieldLength.getText()));
-    }
-
-    else if(s.equals("Ellipse")){
-      g.setColor(Color.BLACK);
-      System.out.println(x+" "+y);
-      g.drawOval(x, y, Integer.parseInt(this.textFieldWidth.getText()), Integer.parseInt(this.textFieldLength.getText()));
-    }
-
-    repaint();
-   
-  }
-  
       
-	  
- 
-  
-  
-  
-  
- 
+        public void stateChanged(ChangeEvent e) {
 
+            if (firstRun != false) {
+             //   System.out.println("stateChanged"); // changement de variables/// test
+                prepare();
+                drawing(s);
+            }
 
+        }
 
-// récupérer ce que L'Utilisateur a choisi dans la COMBOBOX !!!!!!!
-
-  private String comboBoxForme() {
-    if (s.equals("Rectangle")) {
-      System.out.println("");
-      return s= "Rectangle";
-    }else if (s.equals("Square")) {
-      return s= ("Square");
     }
-    return s= "Ellipse";
-  }
-
-  /**
-   * Initialize the contents of the frame.
-   */
-  private void initialize() {
-
-    frame = new JFrame();
-    frame.getContentPane().setBackground(Color.LIGHT_GRAY);
-    frame.getContentPane().setForeground(new Color(128, 128, 128));
-    frame.setBounds(100, 100, 978, 570);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(null);
-
-    JPanel panel_3 = new JPanel();
-    panel_3.setBounds(-2, 0, 141, 542);
-    panel_3.setBackground(new Color(51, 204, 204));
-    frame.getContentPane().add(panel_3);
-    panel_3.setLayout(null);
-
-    JLabel lblNewLabel_5 = new JLabel("Length");
-    lblNewLabel_5.setFont(new Font("Avenir", Font.PLAIN, 13));
-    lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-    lblNewLabel_5.setBounds(6, 204, 135, 16);
-    panel_3.add(lblNewLabel_5);
-
-    textFieldLength = new JTextField();
-    textFieldLength.setBounds(5, 225, 136, 19);
-    panel_3.add(textFieldLength);
-    textFieldLength.setEditable(true);
-    textFieldLength.setColumns(10);
-
-    JLabel lblNewLabel_6 = new JLabel("Width");
-    lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-    lblNewLabel_6.setFont(new Font("Avenir", Font.PLAIN, 13));
-    lblNewLabel_6.setBounds(5, 260, 129, 16);
-    panel_3.add(lblNewLabel_6);
-
-    textFieldWidth = new JTextField();
-    textFieldWidth.setBounds(4, 280, 137, 19);
-    textFieldWidth.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-      }
-    });
-    textFieldWidth.setEditable(true);
-    panel_3.add(textFieldWidth);
-    textFieldWidth.setColumns(10);
 
 
-    JLabel lblNewLabel_2 = new JLabel("Points");
-    lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-    lblNewLabel_2.setFont(new Font("Avenir", Font.PLAIN, 13));
-    lblNewLabel_2.setBounds(5, 316, 130, 16);
-    panel_3.add(lblNewLabel_2);
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {
 
-    textFieldPoint = new JTextField();
-    textFieldPoint.setBounds(4, 336, 137, 19);
-    textFieldPoint.setColumns(10);
-    panel_3.add(textFieldPoint);
+        if (firstRun != false) {
+       //     System.out.println("formWindowActivated");  ////// test
+            prepare();
+            drawing(s);
+        }
+    }
 
-    JButton btnNewButton = new JButton("Validate");
-    btnNewButton.setBounds(21, 424, 99, 29);
-    btnNewButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+    private void jScrollPane2ComponentResized(java.awt.event.ComponentEvent evt) {
+
+        if (firstRun != false) {
+          //  System.out.println("jScrollPane2ComponentResized"); // test du scrollpane //
+            prepare();
+            drawing(s);
+        }
+    }
+
+    public void prepare() {
+        graphics = jPanel1.getGraphics();
+        pWidth = jPanel1.getWidth();
+        pHeigth = jPanel1.getHeight();
+        viewport = jScrollPane2.getViewport();
+        xscroll = viewport.getViewPosition().x;
+        yscroll = viewport.getViewPosition().y;
+        graphics.clearRect(x - xscroll, y - yscroll, pWidth, pHeigth);
+        graphics.setColor(new Color(255, 255, 204));
+        graphics.fillRect(x - xscroll, y - yscroll, pWidth, pHeigth);
+        jPanel1.setPreferredSize(new Dimension(sWidth + 320, sLength + 220));
+        jScrollPane2.setPreferredSize(new Dimension(sWidth + 320, sLength + 220));
+        setVisible(true);
+
+        draw(sWidth, sLength);
+    }
+
+    public void draw(int width, int length) {
+
+        // graphics.setColor(new Color(255, 255, 204));
+        if (s.equals("Square")) {
+
+            graphics.setColor(Color.GREEN);
+            graphics.drawRect(x, y, width, length);
+
+        } else if (s.equals("Rectangle")) {
+
+            graphics.setColor(Color.DARK_GRAY);
+            graphics.drawRect(x, y, width, length);
+
+        } else if (s.equals("Ellipse")) {
+         //   System.err.println("drawoVal:  " + width + "      " + length + "      " + x + "          " + y); // test
+
+            graphics.setColor(Color.BLACK);
+            graphics.drawOval(x, y, width, length);
+
+        }
         
-    	  String length = textFieldLength.getText();
-        String width = textFieldWidth.getText();
-        String point = textFieldPoint.getText();
-        g = frame.getGraphics();
-        test(g);
-        System.out.println(g);
-        Surface surface = new Surface(width, length, point, g);
-        surface.drawing();
+      
+        oldWidth = sWidth;
+        oldHeigth = sLength;
+        oldPoint = point;
+        oldShape = s;
+
+    }
+
+    // calcul de la distance entre les stations
+    
+     public double calculateDistanceBetweenPoints(int x1, int y1, int x2, int y2) {
+        return Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+    }
+
+    public boolean notInList(int e, List<Integer> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // ALGO 
+    
+    public int getMinimumDistanceAbscissaIndex(int x, int y, List<Integer> listOfPoints, List<Integer> alreadyFlagged) {
+        int minIndex = 0;
+        double minDistance = Double.MAX_VALUE;
+        for (int i = 0; i < listOfPoints.size(); i += 2) {
+            if (calculateDistanceBetweenPoints(x, y, listOfPoints.get(i), listOfPoints.get(i + 1)) < minDistance
+                    && (listOfPoints.get(i) != x && listOfPoints.get(i + 1) != y) && notInList(i, alreadyFlagged)) {
+                minDistance = calculateDistanceBetweenPoints(x, y, listOfPoints.get(i), listOfPoints.get(i + 1));
+                minIndex = i;
+            }
+        }
+        return minIndex;
+    }
+
+    public void drawing(String s) {
+
         
-      }
-    });
+        Graphics2D g2d = (Graphics2D) graphics;
+
+        g2d.setPaint(Color.red);
+
+        g2d.translate(x, y);
+
+        int w = sWidth;
+        int h = sLength;
 
 
+        int size = point;
+        int xPos = x;
+        int yPos = y;
+        int h2 = Math.max(h, w);
+        int w2 = Math.min(h, w);
+        double tester = 0;
+        r = new Random(2);
+         listOfPoints = new ArrayList<>();
+        if (s.equals("Ellipse")) {
+            for (int i = 0; i < size; i++) {
+                do {
+                    xPos = Math.abs(r.nextInt(w * 10)) % w;
+                    yPos = Math.abs(r.nextInt(h * 10)) % h;
+                    if (w >= h) {
+                        tester = (Math.pow(xPos - h2 / 2, 2) / Math.pow(w / 2, 2)
+                                + Math.pow(yPos - w2 / 2, 2) / Math.pow(h / 2, 2));
+                    } else {
+                        tester = (Math.pow(xPos - w2 / 2, 2) / Math.pow(w / 2, 2)
+                                + Math.pow(yPos - h2 / 2, 2) / Math.pow(h / 2, 2));
+                    }
+                } while (tester > 1);
+                // System.out.println(xc + " " + yc);
+                // System.out.println(w + " " + h);
+                
+                for(int l=1; l<=6; l+=1) {
+                	g2d.drawOval(xPos, yPos, l, l);	
+                }
+                
+                //g2d.drawLine(x, y, x, y);
+                listOfPoints.add(xPos);
+                listOfPoints.add(yPos);
+            }
 
+        } else {
+            for (int i = 0; i < size; i++) {
+                xPos = Math.abs(r.nextInt(w * 10)) % w;
+                yPos = Math.abs(r.nextInt(h * 10)) % h;
+                
+                for(int l=1; l<=6; l+=1) {
+                	g2d.drawOval(xPos, yPos, l, l);	
+                }
+                //g2d.drawLine(x, y, x, y);
+                listOfPoints.add(xPos);
+                listOfPoints.add(yPos);
+            }
 
-    btnNewButton.setForeground(new Color(128, 128, 128));
-    btnNewButton.setBackground(new Color(34, 139, 34));
-    panel_3.add(btnNewButton);
-    btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+        }
 
+        int currentIndex = 0;
+        int closestIndex = 0;
+        double sumDistance = 0;
+        List<Integer> alreadyFlagged = new ArrayList<>();
+        for (int i = 0; i < listOfPoints.size() / 2 - 1; i++) {
+            closestIndex = getMinimumDistanceAbscissaIndex(listOfPoints.get(currentIndex),
+                    listOfPoints.get(currentIndex + 1), listOfPoints, alreadyFlagged);
+            g2d.drawLine(listOfPoints.get(currentIndex), listOfPoints.get(currentIndex + 1),
+                    listOfPoints.get(closestIndex), listOfPoints.get(closestIndex + 1));
+            sumDistance += calculateDistanceBetweenPoints(listOfPoints.get(currentIndex),
+                    listOfPoints.get(currentIndex + 1), listOfPoints.get(closestIndex),
+                    listOfPoints.get(closestIndex + 1));
+            alreadyFlagged.add(currentIndex);
+            currentIndex = closestIndex;
+        }
+        // Cost
+        double cost = ENERGY_PRICE * ((sumDistance * AVERAGE_CONSUMPTION) / AVERAGE_SPEED); 
+        this.cost = cost;
+        g2d.drawString((int) cost + "€", 10, 10);
 
-    JLabel lblNewLabel = new JLabel("Shape");
-    lblNewLabel.setFont(new Font("Avenir", Font.PLAIN, 13));
-    lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    lblNewLabel.setBounds(41, 96, 61, 16);
-    panel_3.add(lblNewLabel);
+    }
+    
+   /* public static void main(String args[]) {
+      
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(NetworkCard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(NetworkCard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(NetworkCard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(NetworkCard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+       
 
-
-    String state[] = {"Ellipse", "Square", "Rectangle"};
-    comboBoxForme = new JComboBox(state);
-    comboBoxForme.setBounds(17, 126, 117, 27);
-    panel_3.add(comboBoxForme);
-
-
-
-  
-
-    JLabel lblNewLabel_1 = new JLabel("Discover the best map network card option for your city");
-    lblNewLabel_1.setBounds(142, 0, 465, 24);
-    frame.getContentPane().add(lblNewLabel_1);
-    lblNewLabel_1.setToolTipText("");
-    lblNewLabel_1.setForeground(new Color(0, 0, 0));
-    lblNewLabel_1.setBackground(new Color(255, 255, 102));
-    lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-
-
-    JPanel panel = new JPanel();
-    panel.setBounds(139, 0, 511, 29);
-    frame.getContentPane().add(panel);
-    panel.setBackground(new Color(255, 204, 51));
-    panel.setForeground(Color.BLACK);
-    panel.setLayout(null);
-
-  }
-
-
-  // algo de création de points //
-
-
+        // Create and display the form 
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new NetworkCard().setVisible(true);
+            }
+        });
+    }*/
+    // Variables declaration 
+    private javax.swing.JButton btnNewButton;
+    private javax.swing.JComboBox comboBoxForme;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField textFieldLength;
+    private javax.swing.JTextField textFieldPoint;
+    private javax.swing.JTextField textFieldWidth;
+    
 }
