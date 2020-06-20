@@ -1,6 +1,7 @@
 package com.client.view;
 
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -445,14 +446,11 @@ public class NetworkCard extends javax.swing.JFrame {
         double cost = ENERGY_PRICE * ((sumDistance * AVERAGE_CONSUMPTION) / AVERAGE_SPEED);
         this.cost = cost;
         g2d.drawString((int) cost + "€", 10, 10);
-        
-    
-    
 
     
 
 
-  /*  public static void main(String args[]) {
+   /* public static void main(String args[]) {
        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -470,8 +468,8 @@ public class NetworkCard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(NetworkCard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
         */
+        
 
         // Create and display the form //
         java.awt.EventQueue.invokeLater(new Runnable() {
