@@ -1,7 +1,6 @@
 package com.client.view;
 
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,17 +9,15 @@ import javax.swing.JViewport;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.util.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
- ////////////////////////////// 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+//////////////////////////////////////////////////////////////////////////
 public class NetworkCard extends javax.swing.JFrame {
 
-    
     Graphics graphics;
     boolean firstRun = false;
     String s = "";
@@ -31,7 +28,7 @@ public class NetworkCard extends javax.swing.JFrame {
     int pWidth = 0;
     int pHeigth = 0;
     int oldWidth = 0;
-    int oldPoint=0;
+    int oldPoint = 0;
     int oldHeigth = 0;
     String oldShape = "";
     int point = 0;
@@ -39,25 +36,55 @@ public class NetworkCard extends javax.swing.JFrame {
     JViewport viewport;
     int xscroll = 0;
     int yscroll = 0;
-  private final double ENERGY_PRICE = 0.15; // (euro)       0.15€
-    private final double AVERAGE_SPEED = 19.6; // (km/h)  //Vitesse d'un tram est de 19,6 km/h
-    private final double AVERAGE_CONSUMPTION = 120; // (kw/h)  Un tram comsomme 120kw/h
+    private final double ENERGY_PRICE = 0.15; // (euro) 0,15€
+    private final double AVERAGE_SPEED = 19.6; // (km/h)  La Vitesse d'un tram est de 19,6 km/h
+    private final double AVERAGE_CONSUMPTION = 120; // (kw/h) Un tram consomme 120kw/h
 
     private double cost = 0;
-    private Random r;  //points//
+    private Random r; // points
     private List<Integer> listOfPoints;
+
+    //Initialisation de la classe //
+    
     public NetworkCard() {
         initComponents();
         jScrollPane2.getViewport().addChangeListener(new ListenAdditionsScrolled());
+        SwingUtilities.getRootPane(btnNewButton).setDefaultButton(btnNewButton);
+
+        // Listener sur le textField pour changer la valeur de la longueur suite à la valeur de la hauteur dans le cas du "Square" //
+        
+        textFieldLength.getDocument().addDocumentListener(new DocumentListener() {
+
+            
+            public void insertUpdate(DocumentEvent e) {
+                if (s.equals("Square")) {
+                    textFieldWidth.setText(textFieldLength.getText());
+                }
+            }
+
+        
+            public void removeUpdate(DocumentEvent e) {
+                if (s.equals("Square")) {
+                    textFieldWidth.setText(textFieldLength.getText());
+                }
+            }
+
+           
+            public void changedUpdate(DocumentEvent e) {
+                if (s.equals("Square")) {
+                    textFieldWidth.setText(textFieldLength.getText());
+                }
+            }
+        });
 
     }
 
     
-    //  This method is called from within the constructor to initialize the form ///
-     
+     // This method is called from within the constructor to initialize la forme  //
+    
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane(); //
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         comboBoxForme = new javax.swing.JComboBox();
@@ -86,37 +113,42 @@ public class NetworkCard extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 204));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); 
-        jLabel1.setText("Shape"); // forme ok
+        jLabel1.setText("Shape");
 
-        comboBoxForme.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+        comboBoxForme.setFont(new java.awt.Font("Tahoma", 1, 11));
         comboBoxForme.setForeground(new java.awt.Color(153, 0, 0));
         comboBoxForme.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ellipse", "Square", "Rectangle" }));
+        comboBoxForme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxFormeActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel2.setText("Length"); // longueur de la forme //
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+        jLabel2.setText("Length");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); 
-        jLabel3.setText("Width"); //largeur de la forme //
+        jLabel3.setText("Width");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel4.setText("Points"); // means la nombre de station//
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+        jLabel4.setText("Points");
 
         btnNewButton.setBackground(new java.awt.Color(255, 204, 204));
         btnNewButton.setFont(new java.awt.Font("Tahoma", 1, 12)); 
         btnNewButton.setForeground(new java.awt.Color(0, 0, 204));
-        btnNewButton.setText("Validate");
+        btnNewButton.setText("Valider");
         btnNewButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewButton.setOpaque(false);
         btnNewButton.addActionListener(new java.awt.event.ActionListener() {
         	
-        	////////// 
+        	/////////////
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewButtonActionPerformed(evt);
             }
         });
 
         jLabel5.setBackground(new java.awt.Color(204, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); 
         jLabel5.setText("Discover the best map network card option for your city");
         jLabel5.setOpaque(true);
 
@@ -168,7 +200,7 @@ public class NetworkCard extends javax.swing.JFrame {
                 .addComponent(btnNewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(267, Short.MAX_VALUE))
         );
-//// SCROLLPANE  ///// for bigger numbers ///
+
         jScrollPane2.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -185,41 +217,42 @@ public class NetworkCard extends javax.swing.JFrame {
         pack();
     }
 
-    ///// MESSAGES D'ERREUR ////
+    // Action du boutton Validate ////
     
-    private void btnNewButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    // Messages d'erreur //
 
-        if( textFieldLength.getText().length() == 0 || textFieldWidth.getText().length() == 0 || textFieldPoint.getText().length() == 0) {
-    		  JOptionPane.showMessageDialog(null, "You must fill all the fields to continue", "Warning : Empty parameter(s)", JOptionPane.WARNING_MESSAGE);
-    	  }else {
-    		 
-        	  try {
-        sWidth = Integer.parseInt(textFieldWidth.getText());
-        sLength = Integer.parseInt(textFieldLength.getText());
-        point = Integer.parseInt(textFieldPoint.getText());
+    private void btnNewButtonActionPerformed(java.awt.event.ActionEvent evt) {
         s = (String) comboBoxForme.getItemAt(comboBoxForme.getSelectedIndex());
-        if((sWidth!=oldWidth || sLength!=oldHeigth || point!=oldPoint || s!=oldShape))
-        {
-        firstRun = true;
-        prepare();
-                 
-                 
-            drawing(s);
-        setVisible(true);
-        
+        if (textFieldLength.getText().length() == 0 || textFieldWidth.getText().length() == 0 || textFieldPoint.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "You must fill all the fields to continue", "Warning : Empty parameter(s)", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            try {
+                sWidth = Integer.parseInt(textFieldWidth.getText());
+                sLength = Integer.parseInt(textFieldLength.getText());
+                point = Integer.parseInt(textFieldPoint.getText());
+
+                // Condition pour vérifier si les valeurs sont changés
+                if ((sWidth != oldWidth || sLength != oldHeigth || point != oldPoint || !s.equals(oldShape))) {
+                    firstRun = true;
+                    prepare();
+
+                    drawing(s);
+                    setVisible(true);
+
+                }
+            } catch (NumberFormatException exc) {
+                JOptionPane.showMessageDialog(null, "You must enter valid parameters (number) to continue", "Warning : wrong parameter(s) type", JOptionPane.WARNING_MESSAGE);
+            }
         }
-                   }catch(NumberFormatException exc) {
-          		  JOptionPane.showMessageDialog(null, "You must enter valid parameters (number) to continue", "Warning : wrong parameter(s) type", JOptionPane.WARNING_MESSAGE);
-          	  } }
     }
 
+    // Listener du scrollPane pour reproduire le drawing dans chaque changement de position du scrollbar //
     public class ListenAdditionsScrolled implements ChangeListener {
 
-      
+       
         public void stateChanged(ChangeEvent e) {
-
             if (firstRun != false) {
-             //   System.out.println("stateChanged"); // changement de variables/// test
                 prepare();
                 drawing(s);
             }
@@ -228,25 +261,42 @@ public class NetworkCard extends javax.swing.JFrame {
 
     }
 
-
+    // Listener de la JFrame pour reproduire le drawing lors de réduire/réstaurer la page //
+    
+    
     private void formWindowActivated(java.awt.event.WindowEvent evt) {
 
         if (firstRun != false) {
-       //     System.out.println("formWindowActivated");  ////// test
             prepare();
             drawing(s);
         }
     }
 
+    // Changement de la taille de la page , le drawing doit rester //
     private void jScrollPane2ComponentResized(java.awt.event.ComponentEvent evt) {
 
         if (firstRun != false) {
-          //  System.out.println("jScrollPane2ComponentResized"); // test du scrollpane //
             prepare();
             drawing(s);
         }
     }
-
+    // Listener sur le comboBox pour changer la valeur de la longueur suite à la valeur de la hauteur dans le cas du "Square" // 
+      // width = length//
+    
+    private void comboBoxFormeActionPerformed(java.awt.event.ActionEvent evt) {
+        s = (String) comboBoxForme.getItemAt(comboBoxForme.getSelectedIndex());
+        if (s.equals("Square")) {
+            textFieldWidth.setEnabled(false);
+            textFieldWidth.setText(textFieldLength.getText());
+        } else {
+            textFieldWidth.setEnabled(true);
+        }
+    }
+    /* préparer les variables; effacer l'ancien drawing relativement à la position actuelle du scrollBar récupérée avec le viewport;
+     * and aussi 
+     changer la taille du JPanel et jScrollPane suite à la hauteur et la largeur saisie par l'utilisateur
+     Le clear genre  */
+    
     public void prepare() {
         graphics = jPanel1.getGraphics();
         pWidth = jPanel1.getWidth();
@@ -264,9 +314,9 @@ public class NetworkCard extends javax.swing.JFrame {
         draw(sWidth, sLength);
     }
 
+    // Let's draw the card  //
     public void draw(int width, int length) {
 
-        // graphics.setColor(new Color(255, 255, 204));
         if (s.equals("Square")) {
 
             graphics.setColor(Color.GREEN);
@@ -278,14 +328,12 @@ public class NetworkCard extends javax.swing.JFrame {
             graphics.drawRect(x, y, width, length);
 
         } else if (s.equals("Ellipse")) {
-         //   System.err.println("drawoVal:  " + width + "      " + length + "      " + x + "          " + y); // test
 
             graphics.setColor(Color.BLACK);
             graphics.drawOval(x, y, width, length);
 
         }
-        
-      
+
         oldWidth = sWidth;
         oldHeigth = sLength;
         oldPoint = point;
@@ -293,9 +341,9 @@ public class NetworkCard extends javax.swing.JFrame {
 
     }
 
-    // calcul de la distance entre les stations
+    // Algo calcul de la distance entre les points créés , les stations  //
     
-     public double calculateDistanceBetweenPoints(int x1, int y1, int x2, int y2) {
+    public double calculateDistanceBetweenPoints(int x1, int y1, int x2, int y2) {
         return Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
     }
 
@@ -308,8 +356,6 @@ public class NetworkCard extends javax.swing.JFrame {
         return true;
     }
 
-    // ALGO 
-    
     public int getMinimumDistanceAbscissaIndex(int x, int y, List<Integer> listOfPoints, List<Integer> alreadyFlagged) {
         int minIndex = 0;
         double minDistance = Double.MAX_VALUE;
@@ -325,7 +371,6 @@ public class NetworkCard extends javax.swing.JFrame {
 
     public void drawing(String s) {
 
-        
         Graphics2D g2d = (Graphics2D) graphics;
 
         g2d.setPaint(Color.red);
@@ -335,7 +380,6 @@ public class NetworkCard extends javax.swing.JFrame {
         int w = sWidth;
         int h = sLength;
 
-
         int size = point;
         int xPos = x;
         int yPos = y;
@@ -343,7 +387,7 @@ public class NetworkCard extends javax.swing.JFrame {
         int w2 = Math.min(h, w);
         double tester = 0;
         r = new Random(2);
-         listOfPoints = new ArrayList<>();
+        listOfPoints = new ArrayList<>();
         if (s.equals("Ellipse")) {
             for (int i = 0; i < size; i++) {
                 do {
@@ -357,14 +401,11 @@ public class NetworkCard extends javax.swing.JFrame {
                                 + Math.pow(yPos - h2 / 2, 2) / Math.pow(h / 2, 2));
                     }
                 } while (tester > 1);
-                // System.out.println(xc + " " + yc);
-                // System.out.println(w + " " + h);
-                
-                for(int l=1; l<=6; l+=1) {
-                	g2d.drawOval(xPos, yPos, l, l);	
+
+                for (int l = 1; l <= 6; l += 1) {
+                    g2d.drawOval(xPos, yPos, l, l);
                 }
-                
-                //g2d.drawLine(x, y, x, y);
+
                 listOfPoints.add(xPos);
                 listOfPoints.add(yPos);
             }
@@ -373,9 +414,9 @@ public class NetworkCard extends javax.swing.JFrame {
             for (int i = 0; i < size; i++) {
                 xPos = Math.abs(r.nextInt(w * 10)) % w;
                 yPos = Math.abs(r.nextInt(h * 10)) % h;
-                
-                for(int l=1; l<=6; l+=1) {
-                	g2d.drawOval(xPos, yPos, l, l);	
+
+                for (int l = 1; l <= 6; l += 1) {
+                    g2d.drawOval(xPos, yPos, l, l);
                 }
                 //g2d.drawLine(x, y, x, y);
                 listOfPoints.add(xPos);
@@ -399,15 +440,20 @@ public class NetworkCard extends javax.swing.JFrame {
             alreadyFlagged.add(currentIndex);
             currentIndex = closestIndex;
         }
-        // Cost
-        double cost = ENERGY_PRICE * ((sumDistance * AVERAGE_CONSUMPTION) / AVERAGE_SPEED); 
+        // Cost //
+        
+        double cost = ENERGY_PRICE * ((sumDistance * AVERAGE_CONSUMPTION) / AVERAGE_SPEED);
         this.cost = cost;
         g2d.drawString((int) cost + "€", 10, 10);
-
-    }
+        
     
-   /* public static void main(String args[]) {
-      
+    
+
+    
+
+
+  /*  public static void main(String args[]) {
+       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -424,17 +470,17 @@ public class NetworkCard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(NetworkCard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-       
-
-        // Create and display the form 
         
+        */
+
+        // Create and display the form //
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new NetworkCard().setVisible(true);
             }
         });
-    }*/
-    // Variables declaration 
+    }
+    // Variables declaration
     private javax.swing.JButton btnNewButton;
     private javax.swing.JComboBox comboBoxForme;
     private javax.swing.JLabel jLabel1;
