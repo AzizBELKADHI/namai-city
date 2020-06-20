@@ -450,7 +450,7 @@ public class NetworkCard extends javax.swing.JFrame {
     
 
 
-   /* public static void main(String args[]) {
+   /*  public static void main(String args[]) {
        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
