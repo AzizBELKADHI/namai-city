@@ -447,10 +447,10 @@ public class NetworkCard extends javax.swing.JFrame {
         this.cost = cost;
         g2d.drawString((int) cost + "€", 10, 10);
 
-    
+    }
 
 
-   /*  public static void main(String args[]) {
+    public static void main(String args[]) {
        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -468,7 +468,6 @@ public class NetworkCard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(NetworkCard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        */
         
 
         // Create and display the form //
