@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class PanneauUC extends JPanel {
 	private PanneauBorne borne;
 	private PanneauConfigurationPollution pollution;
-	private PanneauDetecteur detecteur;
+	private NetworkCard carteReseau;
 	private PanneauEmpreinteX empreinte;
 	private PanneauIndicator indicateur;
 	private MenuApplication ma;
@@ -23,7 +23,7 @@ public class PanneauUC extends JPanel {
 		
 		pollution = new PanneauConfigurationPollution();
 		borne = new PanneauBorne();
-		detecteur = new PanneauDetecteur();
+		carteReseau = new NetworkCard();
 		empreinte = new PanneauEmpreinteX();
 		indicateur = new PanneauIndicator();
 		bienvenue = new PanneauBienvenueNamaiCity();
@@ -36,7 +36,7 @@ public class PanneauUC extends JPanel {
 		this.add("panneauBienvenue", bienvenue);
 		this.add("panneauPollution", pollution);
 		this.add("panneauBorne", borne);
-		this.add("panneauDetecteur", detecteur);
+		this.add("networkCard", carteReseau);
 		this.add("panneauEmpreinte", empreinte);
 		this.add("panneauIndicateur", indicateur);
 		//cl.show(bienvenue, "panneauBienvenue");
@@ -50,8 +50,8 @@ public class PanneauUC extends JPanel {
 	public PanneauConfigurationPollution getPollution() {
 		return pollution;
 	}
-	public PanneauDetecteur getDetecteur() {
-		return detecteur;
+	public NetworkCard getCarteReseau() {
+		return carteReseau;
 	}
 	public PanneauEmpreinteX getEmpreinte() {
 		return empreinte;

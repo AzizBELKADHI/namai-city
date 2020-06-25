@@ -17,7 +17,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 //////////////////////////////////////////////////////////////////////////
-public class NetworkCard extends javax.swing.JFrame {
+public class NetworkCard extends JPanel {
 
     Graphics graphics;
     boolean firstRun = false;
@@ -50,7 +50,7 @@ public class NetworkCard extends javax.swing.JFrame {
     public NetworkCard() {
         initComponents();
         jScrollPane2.getViewport().addChangeListener(new ListenAdditionsScrolled());
-        SwingUtilities.getRootPane(btnNewButton).setDefaultButton(btnNewButton);
+        //SwingUtilities.getRootPane(btnNewButton).setDefaultButton(btnNewButton);
 
         // Listener sur le textField pour changer la valeur de la longueur suite à la valeur de la hauteur dans le cas du "Square" //
         
@@ -98,12 +98,12 @@ public class NetworkCard extends javax.swing.JFrame {
         btnNewButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
-            }
-        });
+       // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+//        addWindowListener(new java.awt.event.WindowAdapter() {
+//            public void windowActivated(java.awt.event.WindowEvent evt) {
+//                formWindowActivated(evt);
+//            }
+//        });
 
         jScrollPane2.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -204,8 +204,8 @@ public class NetworkCard extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jPanel1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -215,7 +215,7 @@ public class NetworkCard extends javax.swing.JFrame {
             .addComponent(jScrollPane2)
         );
 
-        pack();
+        //pack();
     }
 
     // Action du boutton Validate ////

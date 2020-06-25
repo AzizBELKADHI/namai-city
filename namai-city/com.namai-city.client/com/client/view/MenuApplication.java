@@ -30,7 +30,7 @@ public class MenuApplication extends JPanel {
 	private JButton pollution; 
 	private JButton borne; 
 	private JButton indicateur;
-	private JButton detecteur;
+	private JButton carte;
 	private JButton accueil;
 	
 	
@@ -41,12 +41,12 @@ public class MenuApplication extends JPanel {
 		pollution = new JButton("configPollution");
 		borne = new JButton("configBorne");
 		indicateur = new JButton("analyse");
-		detecteur = new JButton("configdetecteur");
+		carte = new JButton("CarteReseau");
 		accueil = new JButton("Accueil");
 		pollution.setPreferredSize(new Dimension(75,75));
 		this.setLayout(new GridLayout(6,1));
 		this.add(borne);
-		this.add(detecteur);
+		this.add(carte);
 		this.add(empreinte);
 		this.add(indicateur);
 		this.add(pollution);
@@ -59,10 +59,10 @@ public class MenuApplication extends JPanel {
 		accueil.setForeground(Couleur.getBgApp());
 		accueil.setFont(new Font("Arial", Font.BOLD, 14) );
 		accueil.setBorder(new LineBorder(Couleur.getBgTitle()));
-		detecteur.setBackground(Couleur.getBgThem());
-		detecteur.setForeground(Couleur.getBgApp());
-		detecteur.setFont(new Font("Arial", Font.BOLD, 14) );
-		detecteur.setBorder(new LineBorder(Couleur.getBgTitle()));
+		carte.setBackground(Couleur.getBgThem());
+		carte.setForeground(Couleur.getBgApp());
+		carte.setFont(new Font("Arial", Font.BOLD, 14) );
+		carte.setBorder(new LineBorder(Couleur.getBgTitle()));
 		indicateur.setBackground(Couleur.getBgThem());
 		indicateur.setForeground(Couleur.getBgApp());
 		indicateur.setFont(new Font("Arial", Font.BOLD, 14) );
@@ -111,8 +111,8 @@ public class MenuApplication extends JPanel {
 
 
 
-	public JButton getDetecteur() {
-		return detecteur;
+	public JButton getCarte() {
+		return carte;
 	}
 
 

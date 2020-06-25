@@ -33,7 +33,7 @@ public class ApplicationController implements ActionListener {
 			cn.getPa().getMa().getIndicateur().addActionListener(this);
 			cn.getPa().getMa().getPollution().addActionListener(this);
 			cn.getPa().getMa().getBorne().addActionListener(this);
-			cn.getPa().getMa().getDetecteur().addActionListener(this);
+			cn.getPa().getMa().getCarte().addActionListener(this);
 			cn.getPa().getMa().getEmpreinte().addActionListener(this);
 			cn.getPa().getMa().getAccueil().addActionListener(this);
 			//pa.getMa().getMen().addActionListener(this);
@@ -84,8 +84,8 @@ public class ApplicationController implements ActionListener {
 			else if(choix.equals("analyse")) {
 				cn.getPa().getPuc().setCard("panneauIndicateur");
 			}
-			else if(choix.equals("configdetecteur")) {
-				cn.getPa().getPuc().setCard("panneauDetecteur");
+			else if(choix.equals("CarteReseau")) {
+				cn.getPa().getPuc().setCard("networkCard");
 			}
 			
 			
