@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="namai-city/com.namai-city.client"/>
 	<classpathentry kind="src" path="namai-city/com.namai-city.commons"/>
 	<classpathentry kind="src" path="namai-city/com.namai-city.server"/>
 	<classpathentry kind="lib" path="librairies/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="librairies/postgresql-42.2.2.jre7.jar"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/hamcrest-core-1.3.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/jcommon-1.0.23.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/jfreechart-1.0.19-experimental.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/jfreechart-1.0.19-swt.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/jfreechart-1.0.19.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/jfreesvg-2.0.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/json-simple-1.1.1.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/junit-4.11.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/orsoncharts-1.4-eval-nofx.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/orsonpdf-1.6-eval.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/postgresql-42.2.2.jre7.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/servlet.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/swingx-1.6.1.zip"/>
+	<classpathentry kind="lib" path="/Users/aya/Desktop/Jar/swtgraphics2d.zip"/>
 	<classpathentry kind="output" path="namai-city/bin"/>
 </classpath>

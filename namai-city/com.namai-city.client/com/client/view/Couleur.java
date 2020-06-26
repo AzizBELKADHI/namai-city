@@ -10,7 +10,7 @@ public class Couleur {
 	private static int MENU_WIDTH =200 ;
 	private static Color bgThem = Color.decode("#5b9bd5");
 	private static Color bgTitle = Color.decode("#1f4e79");
-	private static Color bgApp = Color.WHITE;
+	private static Color bgApp = Color.BLACK;
 	
 	
 	public Couleur() {

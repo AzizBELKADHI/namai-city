@@ -3,6 +3,7 @@
 	<name>namai-city</name>
 	<comment></comment>
 	<projects>
+		<project>namai-city-client</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
