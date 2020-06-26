@@ -15,6 +15,7 @@ import org.json.simple.parser.ParseException;
 
 import com.connectionPool.DataSource;
 
+import BornesAndSensorsTests.AllTests;
 import bornes.Borne;
 import carsHistory.carsHistory;
 import carsSensors.CarSensors;
@@ -141,6 +142,19 @@ public class ThreadServer extends Thread {
 					System.out.println(objSearch);
 					outJson.println(objSearch); 
 				}
+		/*******************************************************************************************
+		 * 		This part is used for performing tests on functionalities of UC : Bornes and Sensors
+		 *******************************************************************************************/
+				AllTests testTechniques = new AllTests(c);
+				if(jsonObject.get("demandType").equals("ChangeLimitTest")) {
+					Object maxtests = new Object();
+					maxtests = testTechniques.testChangingMax();
+					outJson.println(maxtests); 
+				}
+		/*******************************************************************************************
+		* 		END of the part used for performing tests on functionalities of UC : Bornes and Sensors
+		*******************************************************************************************/
+
 				obj = crud(jsonObject); 
 				// Once the Json had been processed, closing the socket and releasing the connection
 
