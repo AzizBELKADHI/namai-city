@@ -73,7 +73,6 @@ public class carsHistory {
 		if(cpt == 0) {
 			System.out.println("erreur lors de la recuperation du maxVehicules");
 		}
-		System.out.println("nombre max de vehicules autorisé: " + cpt);
 		// displaying the json 
 		return maxVoitures; 
 	}

@@ -40,14 +40,34 @@ public class TestCLI {
 	
 	public static void main(String [] args) throws SQLException, IOException {
 		TestCLI t = new TestCLI();
-		t.testCLI();
+		t.technicalTests();
+	//	t.testCLI();
 		
-		PagePrincipale page = new PagePrincipale();
-		page.setVisible(true);
+		
+	//	PagePrincipale page = new PagePrincipale();
+	//	page.setVisible(true);
 	
 		
 	}
 	
+	public void technicalTests() throws IOException {
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		JSONObject obj=new JSONObject();  //JSONObject creation
+		obj.put("demandType",String.valueOf("ChangeLimitTest")); 
+		System.out.println(obj);	
+		JSONObject ChangeLimitTest = client.sendMessage(obj);
+		System.out.println("voici les resultats des tests :" + ChangeLimitTest);
+		
+		ArrayList<JSONObject> allValues = new ArrayList<JSONObject>();// Creation d'un tableau de type SensorIndicator
+		allValues = (ArrayList<JSONObject>) ChangeLimitTest.get("testsResults");
+		for(int i = 0; i<allValues.size();i++) { // Creating a loop to display all sensors in the table sensors
+			System.out.println("reponse: "+allValues.get(i).get("reponse")+
+					" | max voitures: "+allValues.get(i).get("max voitures: ")); 
+			
+		}	
+		//client.stopConnection(); 
+	}
+	/*
 	public void testCLI() throws IOException{
 	Scanner sc = new Scanner(System.in);
 	while(true) { // Menu display
@@ -64,7 +84,7 @@ public class TestCLI {
 		
 
 		switch (rep) {
-		
+			
 		case "1":
 			try {
 				client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
@@ -163,7 +183,7 @@ public class TestCLI {
 	}
 
 	}
-
+*/
 
 }
 	
