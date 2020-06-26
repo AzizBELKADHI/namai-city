@@ -151,6 +151,19 @@ public class ThreadServer extends Thread {
 					maxtests = testTechniques.testChangingMax();
 					outJson.println(maxtests); 
 				}
+				
+				if(jsonObject.get("demandType").equals("selectHistoryTest")) {
+					Object filterCars = new Object();
+					filterCars = testTechniques.SelectOnCarsHistory();
+					System.out.println("Voici les resultats a envoyer au client" + filterCars);
+					outJson.println(filterCars); 
+				}
+				
+				if(jsonObject.get("demandType").equals("insertCarsAndActualNb")) {
+					Object filterCars = new Object();
+					filterCars = testTechniques.InsertCarAndAdjustActualNb();
+					outJson.println(filterCars); 
+				}
 		/*******************************************************************************************
 		* 		END of the part used for performing tests on functionalities of UC : Bornes and Sensors
 		*******************************************************************************************/

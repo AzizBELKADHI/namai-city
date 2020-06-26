@@ -53,6 +53,7 @@ public class TestCLI {
 	public void technicalTests() throws IOException {
 		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
 		JSONObject obj=new JSONObject();  //JSONObject creation
+		System.out.println("***************** TEST 1 : Insertion nouveaux max voitures + affichage*********************");
 		obj.put("demandType",String.valueOf("ChangeLimitTest")); 
 		System.out.println(obj);	
 		JSONObject ChangeLimitTest = client.sendMessage(obj);
@@ -64,127 +65,56 @@ public class TestCLI {
 			System.out.println("reponse: "+allValues.get(i).get("reponse")+
 					" | max voitures: "+allValues.get(i).get("max voitures: ")); 
 			
-		}	
-		//client.stopConnection(); 
-	}
-	/*
-	public void testCLI() throws IOException{
-	Scanner sc = new Scanner(System.in);
-	while(true) { // Menu display
-		System.out.println("########################### Menu Namai-city-client #########################");
-		System.out.println("1: Afficher Bornes");
-		System.out.println("2: lever Bornes");
-		System.out.println("3: baisser bornes");
-		System.out.println("4: Supprimer");
-		System.out.println("########################### Menu Namai-city-client #########################");
+		}
+		client.stopConnection(); 
 		
 		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
-		JSONObject obj=new JSONObject();  //JSONObject creation
-		String rep = sc.nextLine();
-		
-
-		switch (rep) {
-			
-		case "1":
-			try {
-				client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		obj=new JSONObject();
+		System.out.println("***************** TEST 2 : Test rechreche et affichage vehicules selon filtres*********************");
+		obj.put("demandType",String.valueOf("selectHistoryTest")); 
+		System.out.println(obj);	
+		JSONObject selectInHistorytest = client.sendMessage(obj);
+		System.out.println("voici les resultats des tests :" + selectInHistorytest);
+		allValues = (ArrayList<JSONObject>) selectInHistorytest.get("testsResults");
+		for(int i = 0; i<allValues.size();i++) { // Creating a loop to display all sensors in the table sensors 
+			System.out.println("************** rechreche  " + i + " *********************");
+			ArrayList<JSONObject> allCars = (ArrayList<JSONObject>) allValues.get(i).get("voitures");
+			if(allCars.size() == 0) {
+				System.out.println("la rechreche ne retourne pas de resultats");
 			}
-			obj.put("demandType",String.valueOf("getInitialInfos")); 
-			System.out.println(obj);	
-			JSONObject reponseBornes = client.sendMessage(obj);
+			for(int j = 0; j<allCars.size(); j++) {
+					
+					System.out.println("voiture: " + allCars.get(j).get("vehicule") +
+										" | date: "   + allCars.get(j).get("date") +
+										" | type: "   + allCars.get(j).get("type") +
+										" | position: " + allCars.get(j).get("position"));
 			
-			System.out.println("voici les bornes récupéré" + reponseBornes);
-			client.stopConnection(); 
-				break;
-
-
-		case "2":
-				
-				System.out.println("l'état des bornes va etre modifié");
-				client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
-				obj=new JSONObject();  //JSONObject creation
-				obj.put("demandType",String.valueOf("RiseBornes")); 
-				System.out.println(obj);	
-				JSONObject reponseSimulation = client.sendMessage(obj);
-				System.out.println("reponse levée des bornes :" + reponseSimulation);
-				client.stopConnection(); 
-				break;
-
-		case "3":
-			// requete insertion dans table utilisateur
-			System.out.println("l'état des bornes va etre modifié");
-			SocketClient client = new SocketClient();
-			client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
-			obj=new JSONObject();  //JSONObject creation
-			obj.put("demandType",String.valueOf("LowerBornes")); 
-			System.out.println(obj);	
-			reponseSimulation = client.sendMessage(obj);
-			System.out.println(reponseSimulation);
-			client.stopConnection();   
-			break; 
-
-		case "4": 
-			
-			this.client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
-			obj=new JSONObject();  //JSONObject creation
-			
-			System.out.println("quel est le noouveau max vehicules?"); 
-			String id_update = sc.nextLine();
-			Integer id_user_update = Integer.parseInt(id_update);
-			obj.put("demandType",String.valueOf("ChangeLimit")); 
-			obj.put("maxCars",Integer.valueOf(id_user_update)); 
-			System.out.println(obj);	
-			JSONObject reponseMaxVehicules = this.client.sendMessage(obj);
-			System.out.println(reponseMaxVehicules);
-			this.client.stopConnection(); 
-			break; 
-			
-		
-		case "5": 
-			
-			System.out.println("je rentre deja dans la recherche vehicules");
-			this.client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
-			obj=new JSONObject();  //JSONObject creation
-			
-			System.out.println("quel est la date de depart ?"); 
-			String dateDebut = sc.nextLine();
-			
-			System.out.println("quel est la date de fin ?"); 
-			String dateFin = sc.nextLine();
-			
-			System.out.println("quel est le type de mouvements?"); 
-			String type = sc.nextLine();
-			
-			System.out.println("quel est la zone de la ville?"); 
-			String zone = sc.nextLine();
-			
-	
-			obj.put("demandType",String.valueOf("filterVehicule"));
-			if(type.equals("Les deux")) {
-				type = "town";
 			}
-			if(zone.equals("toute la ville")) {
-				zone = "All";
-			}
-			obj.put("type", String.valueOf(type));
-			obj.put("zone", String.valueOf(zone));
-			obj.put("dateDebut", String.valueOf(dateDebut));
-			obj.put("dateFin", String.valueOf(dateFin));
-			
-			System.out.println(obj);	
-			JSONObject reponseSearch = this.client.sendMessage(obj);
-			this.client.stopConnection(); 
-			break; 
 
 		}
+		client.stopConnection(); 
+		
+		client.startConnection(AccessServer.getSERVER(), AccessServer.getPORT_SERVER());
+		obj=new JSONObject();
+		System.out.println("***************** TEST 3 : insertion voitures et insertion nouveau nb vehicules*********************");
+		obj.put("demandType",String.valueOf("insertCarsAndActualNb")); 
+		System.out.println(obj);	
+		JSONObject InsertCarsAndNbVoitures = client.sendMessage(obj);
+		System.out.println("voici les resultats des tests :" + InsertCarsAndNbVoitures);
+		
+		ArrayList<JSONObject> InsertedCars = (ArrayList<JSONObject>) InsertCarsAndNbVoitures.get("testsResults");
+		for(int j = 0; j<InsertedCars.size(); j++) {
+				
+				System.out.println("reponse: " + InsertedCars.get(j).get("reponse") +
+									" | nombre de vehicules: "   + InsertedCars.get(j).get("NbVoitures") +
+									" | vehicule: "   + InsertedCars.get(j).get("vehicule") +
+									" | type: "   + InsertedCars.get(j).get("type"));
+		
+		}
+		client.stopConnection(); 
 	}
-
-	}
-*/
-
+	
+	
 }
 	
 

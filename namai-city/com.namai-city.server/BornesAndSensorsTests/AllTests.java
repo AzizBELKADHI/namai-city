@@ -32,9 +32,8 @@ public class AllTests {
 		InputStream inputStream = FileReader.class.getClassLoader().getSystemResourceAsStream(fileName);
 		StringBuffer sb = new StringBuffer();
 			
-		System.out.println("je recupere les donnees de tests pour la fonctionnalite a partir du fichier JSON ");
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
-		System.out.println("j'ai recuperer le fichier.JSON pour les tests");
+
 		try {
 			String temp; 
 			while ((temp = bufferedReader.readLine()) != null) 
@@ -58,7 +57,7 @@ public class AllTests {
 		/* the test file is parsed and transformed to a json file in order to be analyzed 
 		 * in the steps above
 		 */
-		System.out.println("voici les donnees contenu dans le fichier de tests : \n" + json);
+		
 		return json;
 	}
 	
@@ -85,6 +84,59 @@ public class AllTests {
 		System.out.println(maxLimitsTest);
 		obj.put("testsResults", maxLimitsTest);
 		System.out.println(obj);
+		
+		return obj;
+		
+	}
+	
+	public Object SelectOnCarsHistory() throws UnsupportedEncodingException, ParseException, SQLException, InterruptedException {
+		JSONArray testFile = getDataForTests("filterCarsTest.json");
+		carsHistory cars = new carsHistory(this.c); 
+		JSONObject obj=new JSONObject();
+		
+		ArrayList<JSONObject> carsList = new ArrayList<JSONObject>();
+		
+		for (int i = 0; i < testFile.size(); i++) {
+			Object carsFilter = new Object();
+			JSONObject jsonObject = (JSONObject) testFile.get(i);
+			System.out.println("filtres pour recherche test : " + jsonObject);
+			
+			String dateDebut = String.valueOf(jsonObject.get("date_debut"));
+			String dateFin = String.valueOf(jsonObject.get("date_fin"));
+			String type = String.valueOf(jsonObject.get("type"));
+			String zone = String.valueOf(jsonObject.get("zone"));
+			carsFilter = cars.SearchCars(dateDebut, dateFin, zone, type);
+			System.out.println("voici la liste des voitures retrouvé: ");
+			System.out.println(carsFilter);
+			carsList.add((JSONObject) carsFilter);
+			}
+		System.out.println(carsList);
+		obj.put("testsResults", carsList);
+		System.out.println(obj);
+		
+		return obj;
+		
+	}
+	
+	public Object InsertCarAndAdjustActualNb() throws SQLException, InterruptedException, UnsupportedEncodingException, ParseException {
+		JSONArray testFile = getDataForTests("carsAndActualNbInsert.json");
+		carsHistory cars = new carsHistory(this.c); 
+		JSONObject obj=new JSONObject();
+		
+		ArrayList<JSONObject> InsertionTest = new ArrayList<JSONObject>();
+		
+		for (int i = 0; i < testFile.size(); i++) {
+			Object insertCars = new Object();
+			JSONObject jsonObject = (JSONObject) testFile.get(i);
+			System.out.println("voitures a inserer : " + jsonObject);
+			int id_sensor = Integer.parseInt(String.valueOf(jsonObject.get("id_sensor"))) ;  
+			String type =  String.valueOf(jsonObject.get("type")); 
+			String objet =  String.valueOf(jsonObject.get("objet")); 
+			insertCars = cars.addCarToHistory(objet, type, id_sensor);
+			((JSONObject) insertCars).put("NbVoitures", cars.getCars());
+			InsertionTest.add((JSONObject) insertCars);
+			}
+		obj.put("testsResults", InsertionTest);
 		
 		return obj;
 		
