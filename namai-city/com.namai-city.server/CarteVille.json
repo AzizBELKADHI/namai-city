@@ -1,1 +1,11 @@
-[]
+
+   {
+    "libelle" : "Paris",
+    "shape" : "square",
+    "length" : 400.0,
+    "width" : 400.0,
+    "nb_points" : 7,
+    "cost" : 3010.0
+   } 
+  
+    

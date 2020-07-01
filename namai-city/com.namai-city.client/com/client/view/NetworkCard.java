@@ -7,6 +7,7 @@ import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JViewport;
 import javax.swing.border.MatteBorder;
@@ -25,8 +26,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
+
 import net.proteanit.sql.DbUtils;
+import NetworkCard.NetworkInsertSelect;
 public class NetworkCard extends javax.swing.JLabel {
 
     Graphics graphics;
@@ -34,16 +42,17 @@ public class NetworkCard extends javax.swing.JLabel {
     String s = "";
     int x = 300;
     int y = 420;
-    int sWidth = 0;
-    int sLength = 0;
-    int pWidth = 0;
-    int pHeigth = 0;
-    int oldWidth = 0;
-    int oldPoint = 0;
-    int oldHeigth = 0;
+    double sWidth = 0;
+    double sLength = 0;
+    double pWidth = 0;
+    double pHeigth = 0;
+    double oldWidth = 0;
+    double oldPoint = 0;
+    double oldHeigth = 0;
     String oldShape = "";
     int point = 0;
-
+String ville="";
+String oldVille="";
     JViewport viewport;
     int xscroll = 0;
     int yscroll = 0;
@@ -301,7 +310,12 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
         jButton1.setText("Save");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+					jButton1ActionPerformed(evt);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jButton2.setBackground(new java.awt.Color(255, 204, 204));
@@ -345,11 +359,11 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
         tableRech.setForeground(Color.BLACK);
         tableRech.setShowGrid(true);
         jScrollPane1.setViewportView(tableRech);
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); 
         jLabel6.setText("Chercher Par Ville :");
         jLabel6.setToolTipText("");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); 
         jLabel7.setText("Ville");
         jLabel7.setToolTipText("");
 
@@ -442,6 +456,7 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
 
     private void btnNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewButtonActionPerformed
         s = (String) comboBoxForme.getItemAt(comboBoxForme.getSelectedIndex());
+        ville=textFieldVille.getText();
         if (textFieldLength.getText().length() == 0 || textFieldWidth.getText().length() == 0 || textFieldPoint.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "You must fill all the fields to continue", "Warning : Empty parameter(s)", JOptionPane.WARNING_MESSAGE);
             System.out.println("Vous devez remplir tous les champs de saisie pour continuer");
@@ -449,8 +464,8 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
         } else {
 
             try {
-                sWidth = Integer.parseInt(textFieldWidth.getText());
-                sLength = Integer.parseInt(textFieldLength.getText());
+                sWidth = Double.parseDouble(textFieldWidth.getText());
+                sLength = Double.parseDouble(textFieldLength.getText());
                 point = Integer.parseInt(textFieldPoint.getText());
 
                 // Condition pour vérifier si les valeurs sont changées
@@ -522,11 +537,45 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
         }
     }//GEN-LAST:event_comboBoxFormeActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws JSONException {//GEN-FIRST:event_jButton1ActionPerformed
+    	JSONObject obj=new JSONObject(); 
+	
+
+		
+			obj.put("demandType",String.valueOf("demande insertion"));
+			obj.put("shape",String.valueOf(s));
+			obj.put("libelle",ville);
+			obj.put("length", Double.valueOf(sLength));
+			obj.put("width", Double.valueOf(sWidth));
+			obj.put("nb_points", Integer.valueOf(point));
+			obj.put("cost", Double.valueOf(cost));
+			JSONObject reponse= new JSONObject();
+			NetworkInsertSelect networkInsertSelect=new NetworkInsertSelect();
+			try {
+				reponse=networkInsertSelect.insertNetwork(obj,c);
+				if(reponse.get("reponse").equals("false")) {
+					JOptionPane.showMessageDialog(null, "Ces informations existent déjà dans la table", "Warning : Duplicate record", JOptionPane.WARNING_MESSAGE);
+	                System.out.println("Vous devez saisir des valeurs");
+				}else {
+				jButton1.setVisible(false);
+		        jButton2.setVisible(false);
+		        enables(true);
+		        System.out.println("Récupération des données après insertion");
+				System.out.println(reponse);
+				
+				System.out.println("affichage des informations de la carte générée dans la table");
+				DefaultTableModel model = (DefaultTableModel) tableRech.getModel();
+				model.addRow(new Object[]{reponse.get("libelle"), reponse.get("shape"), reponse.get("length"),reponse.get("width"),reponse.get("nb_points"),reponse.get("cost")});
+				}
+				} catch (UnsupportedEncodingException | ParseException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     }//GEN-LAST:event_jButton1ActionPerformed
     
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+   
+
+	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     	jButton1.setVisible(false);
         jButton2.setVisible(false);
         enables(true);  
@@ -544,11 +593,11 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
        
 
             try {
-            	sLength = (int) model.getValueAt(index, 2);
+            	sLength = Integer.parseInt(model.getValueAt(index, 2).toString());
             	 System.out.println("Vous avez recupere la longueur voulue");
-                sWidth = (int) model.getValueAt(index, 3);
+                sWidth = Integer.parseInt(model.getValueAt(index, 3).toString());
                 System.out.println("Vous avez recupere la largeur voulue");
-                point = (int) model.getValueAt(index, 4);
+                point = Integer.parseInt(model.getValueAt(index, 4).toString());
                 System.out.println("Vous avez recupere le nombre de stations voulues");
                
                     firstRun = true;
@@ -556,11 +605,13 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
 
                     drawing(s);
                     setVisible(true);
-
+    
+                    System.out.println("it's working");
+                    
               
             } catch (NumberFormatException exc) {
-                JOptionPane.showMessageDialog(null, "You must enter valid parameters (number) to continue", "Warning : wrong parameter(s) type", JOptionPane.WARNING_MESSAGE);
-                System.out.println("Vous devez saisir des entiers pour continuer");
+              //  JOptionPane.showMessageDialog(null, "You must enter valid parameters (number) to continue", "Warning : wrong parameter(s) type", JOptionPane.WARNING_MESSAGE);
+              //  System.out.println("Vous devez saisir des entiers pour continuer");
             }
         
         
@@ -575,14 +626,14 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
         viewport = jScrollPane2.getViewport();
         xscroll = viewport.getViewPosition().x;
         yscroll = viewport.getViewPosition().y;
-        graphics.clearRect(x - xscroll - 1, y - yscroll - 20, pWidth, pHeigth);
+        graphics.clearRect(x - xscroll - 1, y - yscroll - 20, (int) Math.round(pWidth), (int) Math.round(pHeigth));
         graphics.setColor(new Color(255, 255, 204));
-        graphics.fillRect(x - xscroll-1, y - yscroll-20, pWidth, pHeigth);
-        jPanel1.setPreferredSize(new Dimension(sWidth + 320, sLength + 440));
-        jScrollPane2.setPreferredSize(new Dimension(sWidth + 320, sLength + 440));
+        graphics.fillRect(x - xscroll-1, y - yscroll-20, (int) Math.round(pWidth), (int) Math.round(pHeigth));
+        jPanel1.setPreferredSize(new Dimension((int) Math.round(sWidth) + 320, (int) Math.round(sLength) + 440));
+        jScrollPane2.setPreferredSize(new Dimension((int) Math.round(pWidth) + 320, (int) Math.round(sLength) + 440));
         setVisible(true);
 
-        draw(sWidth, sLength);
+        draw((int) Math.round(sWidth) , (int) Math.round(sLength) );
     }
 
     public void draw(int width, int length) {
@@ -646,9 +697,8 @@ tableRech.setModel(DbUtils.resultSetToTableModel(rs));
         g2d.setPaint(Color.red);
 
         g2d.translate(x, y);
-
-        int w = sWidth;
-        int h = sLength;
+        int w = (int) Math.round(sWidth);
+        int h = (int) Math.round(sLength) ;
 
         int size = point;
         int xPos = x;

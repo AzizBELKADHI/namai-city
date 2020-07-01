@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="librairies/swingx-1.6.1.jar"/>
 	<classpathentry kind="lib" path="librairies/swtgraphics2d (1).jar"/>
 	<classpathentry kind="lib" path="librairies/rs2xml.jar"/>
+	<classpathentry kind="lib" path="librairies/org.json.jar"/>
 	<classpathentry kind="output" path="namai-city/bin"/>
 </classpath>
