@@ -20,6 +20,7 @@ public class CityCard {
 		this.nb_points = nb_points;
 		this.cost = cost;
 	}
+	
 
 	public String getLibelle() {
 		return libelle;
